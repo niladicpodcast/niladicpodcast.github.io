@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>How to Setup Let&#39;s Encrypt and nginx — Niladic Podcast</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../static/css/clean-blog.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Niladic Podcast</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    
+                    
+                    <li>
+                        <a href="../../blog/">Blog</a>
+                    </li>
+                    
+                </ul>
+            
+              
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header" style="background-image: url('../../static/img/home-bg.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>Niladic Podcast</h1>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                
+  <div class="blog-post">
+    
+      <h3>How to Setup Let&#39;s Encrypt and nginx</h3>
+    
+    <p>This is a guide to setting up Let's Encrypt when using nginx as a reverse proxy.</p>
+<p>Let's say you have a service running on localhost on port other than port 80 (ex. 8080).</p>
+<p>Nginx will listen on port 80 and transfer traffic to the service or services only available internal to the server.</p>
+<p>If you would like to use a domain or a subdomain to access the service then add a DNS record for the server's IP address.</p>
+<p>To get a certificate first use this nginx config.
+Replace <code>domain.com</code> with your domain or subdomain.</p>
+<pre><code>server {
+  listen 80;
+  server_name domain.com;
+  location /.well-known/acme-challenge {
+    root /var/www/letsencrypt;
+  }
+}
+</code></pre>
+<p>Create the web root</p>
+<pre><code class="lang-shell">sudo mkdir -p /var/www/letsencrypt
+</code></pre>
+<p>Install Let's Encrypt</p>
+<pre><code class="lang-shell">git clone https://github.com/letsencrypt/letsencrypt
+cd letsencrypt
+./letsencrypt-auto certonly -a webroot --webroot-path /var/www/letsencrypt --agree-tos --expand --text --email cody@perspexis.com -d domain.com -d sub1.domain.com -d sub2.domain.com
+</code></pre>
+<p>You can add additional <code>-d</code> options.</p>
+<p>To renew the certs you can run.</p>
+<pre><code class="lang-shell">/path/to/letsencrypt/letsencrypt-auto renew --renew-hook=&quot;systemctl reload nginx&quot;
+</code></pre>
+<p>This will reload nginx if the cert is renewed.</p>
+<p>To automatically renew
+Make sure this is in the root crontab.</p>
+<pre><code># Renew Let's Encrypt cert if required
+4 4 * * * /path/to/letsencrypt/letsencrypt-auto renew --renew-hook="systemctl reload nginx"
+</code></pre>
+<p>So now you have certificates for the services. Time to use them!</p>
+<p>nginx will handle the <code>HTTPS</code> traffic and send <code>HTTP</code> to the internal service.</p>
+<pre><code># Redirect HTTP to HTTPS
+server {
+  listen 80 default;
+  server_name domain.com;
+  return 301 https://$server_name$request_uri;
+}
+
+server {
+  # Listen on HTTPS
+  listen 443 default ssl;
+  server_name localhost domain.com;
+
+  # Certificate
+  ssl_certificate   /etc/letsencrypt/live/files.perspexis.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/files.perspexis.com/privkey.pem;
+  ssl_trusted_certificate /etc/letsencrypt/live/files.perspexis.com/fullchain.pem;
+
+  # For Let's Encrypt renewal
+  location /.well-known/acme-challenge {
+    root /var/www/letsencrypt;
+  }
+
+  # Redirect to service running on localhost
+  location / {
+    proxy_pass http://localhost:8080;
+  }
+}
+</code></pre>
+
+    
+  </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                        <li>
+                            <a href="https://twitter.com/Siecje" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/Siecje/" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <p class="text-center"><a href="http://startbootstrap.com/template-overviews/clean-blog/" target="_blank">Clean Blog theme</a> by <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a>. License <a href="https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE" target="_blank">MIT</a></p>
+                    <p class="text-center">Cover image from <a href="https://unsplash.com/" target="_blank">Unsplash</a>, <a href="https://unsplash.com/license" target="_blank">license</a>.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/clean-blog.min.js"></script>
+
+</body>
+
+</html>

@@ -89,9 +89,9 @@
     
       <h3>What&#39;s the deal with Ctrl+Left and Ctrl+Right?</h3>
     
-    <p>What is with the behaviour of Ctrl+Left and Ctrl+Right? Each editor does it differently.</p>
+    <p>What is with the behaviour of <code>Ctrl+Left</code> and <code>Ctrl+Right</code>? Almost every editor behaves differently.</p>
 <p>The different behaviour makes it hard to use efficiently.</p>
-<p>Use this text as an example and put your cursor at the beginning and press Ctrl+Right until you reach the end.</p>
+<p>Use this text as an example and put your cursor at the beginning and press <code>Ctrl+Right</code> until you reach the end.</p>
 <pre><code>simple sentence with words.
 under_scores
 hyphed-words
@@ -112,7 +112,7 @@ hyphed|-|words|
 <p>This behaviour isn't in the preferences for editors and you wouldn't want the behaviour to be different in different editors.</p>
 <p>Some of you might be thinking, just use <code>vim</code> or <code>emacs</code> and you don't have to worry about using <code>Ctrl+Left</code> and <code>Ctrl+Right</code> because there are better ways of navigation. But you are not always in <code>vim</code> or <code>emacs</code>, sometimes you are in a browser or an IDE.</p>
 <p>Another strange thing is going backwards from the end of the text. With the cursor at the end of the text if I repeatedly press <code>Ctrl+Left</code> in Atom I stop at the beginning of words like in Notepad++.</p>
-<p>I end up just using <code>Ctrl+End</code> or <code>Ctlr + Home</code> because I know what it is going to do and for the most part I don't want to stop after each symbol. If I wanted to do that I would just use <code>Right</code> or <code>Left</code>.</p>
+<p>I end up just using <code>Ctrl+End</code> or <code>Ctrl + Home</code> because I know what it is going to do and for the most part I don't want to stop after each symbol. If I wanted to do that I would just use <code>Right</code> or <code>Left</code>.</p>
 <p>For example:</p>
 <pre><code>test(False)
 </code></pre>
@@ -126,7 +126,7 @@ I want to go the next whitespace, unless it is a hyphen or an underscore.</p>
 </code></pre>
 <p>But if you are inside the parenthesis I would want to stop before the closing parenthesis.
 If the cursor is at the first <code>|</code> then I want to go to the second one and delete the second parameter.</p>
-<p>So maybe this isn't the correct solution, maybe a key that does the equivalent of double clicking the mouse where the cursor is currently is actually what I want.</p>
+<p>So maybe this isn't the correct solution, maybe a key that does the equivalent of double clicking the mouse is actually what I want.</p>
 <p>I guess this is why people end up writing their own version of existing software. Maybe I should write my own editor, or at least try and then realize why what I want is not possible.</p>
 <p>So really there are two problems, why isn't the <code>Ctrl+Left</code> and <code>Ctrl+Right</code> behaviour the same everywhere, and when we make it consistent can we make it good?</p>
 <p>I'll just leave this here <a href="https://xkcd.com/927/">https://xkcd.com/927/</a>.</p>

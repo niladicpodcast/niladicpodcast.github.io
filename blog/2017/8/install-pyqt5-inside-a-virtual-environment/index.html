@@ -7,13 +7,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Blog — Niladic Podcast</title>
+    <title>Install PyQt5 Inside a Virtual Environment — Niladic Podcast</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../../static/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../static/css/clean-blog.min.css" rel="stylesheet">
+    <link href="../../../../static/css/clean-blog.min.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -51,7 +51,7 @@
                     
                     
                     <li>
-                        <a href="../blog/">Blog</a>
+                        <a href="../../../../blog/">Blog</a>
                     </li>
                     
                 </ul>
@@ -65,7 +65,7 @@
 
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url('../static/img/home-bg.jpg')">
+    <header class="intro-header" style="background-image: url('../../../../static/img/home-bg.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -80,64 +80,93 @@
 
     <!-- Main Content -->
     
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
+                
+  <div class="blog-post">
+    
+      <h3>Install PyQt5 Inside a Virtual Environment</h3>
+    
+    <p>A <a href="https://docs.python.org/3/library/venv.html" target="_blank">virtual environment</a>
+allows you to install specific versions of Python distribution packages in a contained environment without contaminating the system Python.
+This allows you to have multiple versions of PyQt5 installed on the same system
+so you can work on different projects that use different versions of PyQt5.</p>
+<p>Download the open source online installer from <a href="https://www.qt.io/">https://www.qt.io/</a></p>
+<pre><code class="lang-shell">wget http://mirror.csclub.uwaterloo.ca/qtproject/archive/online_installers/3.0/qt-unified-linux-x64-3.0.0-online.run
+chmod u+x qt-unified-linux-x64-3.0.0-online.run
+./qt-unified-linux-x64-3.0.0-online.run
+</code></pre>
+<p>Navigate the installation wizard. Skip the sign up and install version Qt 5.9.1.</p>
+<p>Download SIP source code</p>
+<p><a href="https://www.riverbankcomputing.com/software/sip/download">https://www.riverbankcomputing.com/software/sip/download</a></p>
+<p>Download PyQt5 source code</p>
+<p><a href="https://www.riverbankcomputing.com/software/pyqt/download5">https://www.riverbankcomputing.com/software/pyqt/download5</a></p>
+<p>Create a virtualenv to install PyQt5 into</p>
+<pre><code class="lang-shell">python3 -m venv ~/.virtualenvs/pyqt5
+</code></pre>
+<p>Install sip</p>
+<pre><code>cd ~/Downloads/sip-4.19.4.dev1708131720/
+~/.virtualenvs/pyqt5/bin/python configure.py
+make
+make install
+</code></pre>
+<p>Now sip is installed in that virtualenv.</p>
+<p>Install PyQt5</p>
+<p>In order to build <code>QML</code> support I had to install <code>libgl1-mesa-dev</code> on Ubuntu 16.04.
+See Bonus #2 for how I figured out which package to install.</p>
+<pre><code class="lang-shell">sudo apt-get install libgl1-mesa-dev
+</code></pre>
+<pre><code>cd ~/Downloads/PyQt5_gpl-5.9.1.dev1707250927/
+~/.virtualenvs/pyqt5/bin/python configure.py --qmake ~/Qt/5.9.1/gcc_64/bin/qmake --sip ~/.virtualenvs/pyqt5/bin/sip
+make
+make install
+</code></pre>
+<h2>Bonus #1 Add to pip freeze</h2>
+<p>If you pip freeze you won't see <code>sip</code> and <code>PyQt5</code> because they don't have a <code>.dist_info</code> directory.</p>
+<pre><code>~/.virtualenvs/pyqt5/bin/pip freeze
+pkg-resources==0.0.0
+</code></pre>
+<p>You can however manually create them.</p>
+<pre><code class="lang-shell">mkdir ~/.virtualenvs/pyqt5/lib/python3.5/site-packages/sip-4.19.4.dev1708131720.dist-info
+touch ~/.virtualenvs/pyqt5/lib/python3.5/site-packages/sip-4.19.4.dev1708131720.dist-info/INSTALLER
+siecje@kde ~&gt; mkdir ~/.virtualenvs/pyqt5/lib/python3.5/site-packages/PyQt5-5.9.1.dev1707250927.dist-info
+siecje@kde ~&gt; touch ~/.virtualenvs/pyqt5/lib/python3.5/site-packages/PyQt5-5.9.1.dev1707250927.dist-info/INSTALLER
+~/.virtualenvs/pyqt5/bin/pip freeze
+pkg-resources==0.0.0
+PyQt5==5.9.1.dev1707250927
+sip==4.19.4.dev1708131720
+</code></pre>
+<h2>Bonus #2 How I figured out I needed that Ubuntu package</h2>
+<p>When I first ran <code>configure.py</code> for PyQt5 it didn't say it would build QtQml.</p>
+<pre><code>Checking to see if the QtQml module should be built...
+# ...
+These PyQt5 modules will be built: QtCore, QtNetwork, QtXml, QtXmlPatterns,
+QtDBus, QtWebSockets, QtWebChannel, QtNfc.
+</code></pre>
+<p>So I ran it again with <code>--verbose</code> and saw there was an error for <code>QtQml</code>.</p>
+<pre><code class="lang-shell">/usr/bin/ld: cannot find -lGL
+collect2: error: ld returned 1 exit status
+cfgtest_QtQml.mk:242: recipe for target &#39;cfgtest_QtQml&#39; failed
+</code></pre>
+<p><code>-lGL</code> means that <code>ld</code> couldn't find <code>libGL.so</code>, that's how <code>ld</code> looks for libraries.</p>
+<p>Then I searched the Ubuntu packages for the file <code>libGL.so</code>.</p>
+<pre><code>dpkg -S libGL.so
+libgl1-mesa-glx:i386: /usr/lib/i386-linux-gnu/mesa/libGL.so.1
+libgl1-mesa-dev:amd64: /usr/lib/x86_64-linux-gnu/mesa/libGL.so
+libgl1-mesa-glx:amd64: /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1
+libgl1-mesa-glx:amd64: /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0
+libgl1-mesa-glx:i386: /usr/lib/i386-linux-gnu/mesa/libGL.so.1.2.0
+libgl1-mesa-dev:amd64: /usr/lib/x86_64-linux-gnu/libGL.so
+</code></pre>
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            
-                <div class="post-preview">
-                    <a href="../blog/2017/8/install-pyqt5-inside-a-virtual-environment/">
-                        <h2 class="post-title">
-                            Install PyQt5 Inside a Virtual Environment
-                        </h2>
-                        
-                    </a>
-                    <p class="post-meta">Posted by <a href="#">Cody</a> on Aug 17, 2017</p>
-                </div>
-                <hr>
-            
-                <div class="post-preview">
-                    <a href="../blog/2017/4/my-problems-with-bitbucket-cloud/">
-                        <h2 class="post-title">
-                            My Problems with Bitbucket Cloud Pull Requests
-                        </h2>
-                        
-                    </a>
-                    <p class="post-meta">Posted by <a href="#">Cody</a> on Apr 19, 2017</p>
-                </div>
-                <hr>
-            
-                <div class="post-preview">
-                    <a href="../blog/2017/1/whats-the-deal-with-ctrlleft-and-ctrlright/">
-                        <h2 class="post-title">
-                            What&#39;s the deal with Ctrl+Left and Ctrl+Right?
-                        </h2>
-                        
-                    </a>
-                    <p class="post-meta">Posted by <a href="#">Cody</a> on Jan 14, 2017</p>
-                </div>
-                <hr>
-            
-                <div class="post-preview">
-                    <a href="../blog/2016/5/how-to-setup-lets-encrypt-with-nginx/">
-                        <h2 class="post-title">
-                            How to Setup Let&#39;s Encrypt with nginx
-                        </h2>
-                        
-                    </a>
-                    <p class="post-meta">Posted by <a href="#">Cody</a> on May 15, 2016</p>
-                </div>
-                <hr>
-            
+    
+  </div>
 
-            
-  
-
+            </div>
         </div>
     </div>
-</div>
-
 
 
     <hr>

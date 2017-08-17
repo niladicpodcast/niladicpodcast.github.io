@@ -90,7 +90,7 @@
       <h3>My Problems with Bitbucket Cloud Pull Requests</h3>
     
     <p>I use Mercurial with bookmarks instead of named branches and a repo (fork) per user. I only have the default named branch. Development happens in a fork and a pull request is created.</p>
-<p>This is an example of my workflow <a href="https://bitbucket.org/Siecje/hg_setup/src/default/workflow.md?fileviewer=file-view-default">https://bitbucket.org/Siecje/hg_setup/src/default/workflow.md?fileviewer=file-view-default</a></p>
+<p>This is an example of my <a href="https://bitbucket.org/Siecje/hg_setup/src/default/workflow.md?fileviewer=file-view-default" target="_blank">workflow</a>.</p>
 <p>These are the problems I have encountered while using Bitbucket Cloud.</p>
 <h2>1. You can't get the code of a pull request from a private fork.</h2>
 <p>The diff of a Pull request is not the greatest, especially for large diffs.
@@ -194,7 +194,7 @@ I think it should always move the bookmark, because the bookmark is essentially 
 <ol>
 <li>No merge commit and source bookmark is the same as the destination bookmark</li>
 </ol>
-<p><strong>Bitbucket Issue</strong>: <a href="https://bitbucket.org/site/master/issues/12287/pull-requests-merged-ontop-of-a-mercurial">https://bitbucket.org/site/master/issues/12287/pull-requests-merged-ontop-of-a-mercurial</a></p>
+<p><a href="https://bitbucket.org/site/master/issues/12287/pull-requests-merged-ontop-of-a-mercurial" target="_blank">Bitbucket Issue</a></p>
 <h2>5. When you push a successor commit the pull request doesn't always update</h2>
 <p>With Mercurial evolution support in Bitbucket Labs, you can now push a successor commit to replace a commit, which makes the original commit obsolete.
 However pull requests do not automatically update, they still have the old and now obsolete commits as the source.</p>
@@ -214,14 +214,14 @@ When this happens I just make a new pull request and close the bugged one. This 
 <p>Bitbucket pipelines is pretty new, but even Jenkins doesn't have a plugin that can merge and run on a pull request from another repo.
 There is a plugin that looks like it will do this and even triggers when you create a pull request, but it just pulls down the destination repo and does a build, which is not obvious when you start using it.
 <a href="https://github.com/nishio-dens/bitbucket-pullrequest-builder-plugin">https://github.com/nishio-dens/bitbucket-pullrequest-builder-plugin</a></p>
-<p><a href="https://bitbucket.org/site/master/issues/13162/pull-requests-from-forks">https://bitbucket.org/site/master/issues/13162/pull-requests-from-forks</a></p>
+<p><a href="https://bitbucket.org/site/master/issues/13162/pull-requests-from-forks" target="_blank">Bitbucket Issue</a></p>
 <h2>8. Pull requests say they have been updated when they have not</h2>
 <p>I have multiple pull requests for heads in the default branch. When I push to the default branch in the source repo it says all of the pull requests have been updated.</p>
 <h2>9. You can merge a pull request without viewing the current version</h2>
 <p>If you are viewing a pull request and someone adds a commit and updates the pull request, you can merge the pull request without viewing the new commit. When you merge the pull request both commits are merged.</p>
 <h2>10 You can merge a pull request with obsolete commits</h2>
 <p>If you are viewing a pull request with drafts commits and they are replace with a successor commit then it is possible to merge the pull request with the obsolete commits.</p>
-<p><strong>Bitbucket Issue</strong>: <a href="https://bitbucket.org/site/master/issues/14613/hg-prevent-merging-a-pr-with-obsolete">https://bitbucket.org/site/master/issues/14613/hg-prevent-merging-a-pr-with-obsolete</a></p>
+<p><a href="https://bitbucket.org/site/master/issues/14613/hg-prevent-merging-a-pr-with-obsolete" target="_blank">Bitbucket Issue</a></p>
 <h2>11. You can't create a pull request for another fork of the main repo</h2>
 <p>If you are reviewing a pull request for a repo and you want to suggest changes to the pull request, what can you do?</p>
 <p>I thought you could simply create a pull request from your fork to the other person's fork. But you can only create a pull request from your fork for the main repo.</p>

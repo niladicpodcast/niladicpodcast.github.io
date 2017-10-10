@@ -99,21 +99,28 @@ chmod u+x qt-unified-linux-x64-3.0.0-online.run
 ./qt-unified-linux-x64-3.0.0-online.run
 </code></pre>
 <p>Navigate the installation wizard. Skip the sign up and install version Qt 5.9.1.</p>
-<p>Download SIP source code</p>
+<h2><a name="download-sip"></a>Download SIP source code</h2>
 <p><a href="https://www.riverbankcomputing.com/software/sip/download">https://www.riverbankcomputing.com/software/sip/download</a></p>
-<p>Download PyQt5 source code</p>
+<h2><a name="download-pyqt5"></a>Download PyQt5 source code</h2>
 <p><a href="https://www.riverbankcomputing.com/software/pyqt/download5">https://www.riverbankcomputing.com/software/pyqt/download5</a></p>
-<p>Create a virtualenv to install PyQt5 into</p>
+<h2><a name="venv"></a>Create a virtualenv to install PyQt5 into</h2>
 <pre><code class="lang-shell">python3 -m venv ~/.virtualenvs/pyqt5
 </code></pre>
-<p>Install sip</p>
+<h2><a name="install-sip"></a>Install sip</h2>
 <pre><code>cd ~/Downloads/sip-4.19.4.dev1708131720/
 ~/.virtualenvs/pyqt5/bin/python configure.py
 make
 make install
 </code></pre>
 <p>Now sip is installed in that virtualenv.</p>
-<p>Install PyQt5</p>
+<pre><code class="lang-shell">~/.virtualenvs/pyqt5/bin/python
+Python 3.5.2 (default, Sep 14 2017, 22:51:06)
+[GCC 5.4.0 20160609] on linux
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt; import sip
+&gt;&gt;&gt; # Works!
+</code></pre>
+<h2><a name="install-pyqt5"></a>Install PyQt5</h2>
 <p>In order to build <code>QML</code> support I had to install <code>libgl1-mesa-dev</code> on Ubuntu 16.04.
 See Bonus #2 for how I figured out which package to install.</p>
 <pre><code class="lang-shell">sudo apt-get install libgl1-mesa-dev
@@ -123,7 +130,7 @@ See Bonus #2 for how I figured out which package to install.</p>
 make
 make install
 </code></pre>
-<h2>Bonus #1 Add to pip freeze</h2>
+<h3><a name="bonus-1"></a>Bonus #1 Add to pip freeze</h3>
 <p>If you pip freeze you won't see <code>sip</code> and <code>PyQt5</code> because they don't have a <code>.dist_info</code> directory.</p>
 <pre><code>~/.virtualenvs/pyqt5/bin/pip freeze
 pkg-resources==0.0.0
@@ -138,7 +145,7 @@ pkg-resources==0.0.0
 PyQt5==5.9.1.dev1707250927
 sip==4.19.4.dev1708131720
 </code></pre>
-<h2>Bonus #2 How I figured out I needed that Ubuntu package</h2>
+<h3><a name="bonus-2"></a>Bonus #2 How I figured out I needed that Ubuntu package</h3>
 <p>When I first ran <code>configure.py</code> for PyQt5 it didn't say it would build QtQml.</p>
 <pre><code>Checking to see if the QtQml module should be built...
 # ...

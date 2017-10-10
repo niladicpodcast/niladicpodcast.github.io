@@ -99,15 +99,11 @@ chmod u+x qt-unified-linux-x64-3.0.0-online.run
 ./qt-unified-linux-x64-3.0.0-online.run
 </code></pre>
 <p>Navigate the installation wizard. Skip the sign up and install version Qt 5.9.1.</p>
-<h2><a name="download-sip"></a>Download SIP source code</h2>
-<p><a href="https://www.riverbankcomputing.com/software/sip/download">https://www.riverbankcomputing.com/software/sip/download</a></p>
-<h2><a name="download-pyqt5"></a>Download PyQt5 source code</h2>
-<p><a href="https://www.riverbankcomputing.com/software/pyqt/download5">https://www.riverbankcomputing.com/software/pyqt/download5</a></p>
-<h2><a name="venv"></a>Create a virtualenv to install PyQt5 into</h2>
-<pre><code class="lang-shell">python3 -m venv ~/.virtualenvs/pyqt5
+<h2 id="download-sip">Download SIP source code</h2><p><a href="https://www.riverbankcomputing.com/software/sip/download">https://www.riverbankcomputing.com/software/sip/download</a></p>
+<h2 id="download-pyqt5">Download PyQt5 source code</h2><p><a href="https://www.riverbankcomputing.com/software/pyqt/download5">https://www.riverbankcomputing.com/software/pyqt/download5</a></p>
+<h2 id="venv"></a>Create a virtualenv to install PyQt5 into</h2><pre><code class="lang-shell">python3 -m venv ~/.virtualenvs/pyqt5
 </code></pre>
-<h2><a name="install-sip"></a>Install sip</h2>
-<pre><code>cd ~/Downloads/sip-4.19.4.dev1708131720/
+<h2 id="install-sip">Install sip</h2><pre><code>cd ~/Downloads/sip-4.19.4.dev1708131720/
 ~/.virtualenvs/pyqt5/bin/python configure.py
 make
 make install
@@ -120,8 +116,7 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 &gt;&gt;&gt; import sip
 &gt;&gt;&gt; # Works!
 </code></pre>
-<h2><a name="install-pyqt5"></a>Install PyQt5</h2>
-<p>In order to build <code>QML</code> support I had to install <code>libgl1-mesa-dev</code> on Ubuntu 16.04.
+<h2 id="install-pyqt5">Install PyQt5</h2><p>In order to build <code>QML</code> support I had to install <code>libgl1-mesa-dev</code> on Ubuntu 16.04.
 See Bonus #2 for how I figured out which package to install.</p>
 <pre><code class="lang-shell">sudo apt-get install libgl1-mesa-dev
 </code></pre>
@@ -130,8 +125,7 @@ See Bonus #2 for how I figured out which package to install.</p>
 make
 make install
 </code></pre>
-<h3><a name="bonus-1"></a>Bonus #1 Add to pip freeze</h3>
-<p>If you pip freeze you won't see <code>sip</code> and <code>PyQt5</code> because they don't have a <code>.dist_info</code> directory.</p>
+<h3 id="bonus-1">Bonus #1 Add to pip freeze</h3><p>If you pip freeze you won't see <code>sip</code> and <code>PyQt5</code> because they don't have a <code>.dist_info</code> directory.</p>
 <pre><code>~/.virtualenvs/pyqt5/bin/pip freeze
 pkg-resources==0.0.0
 </code></pre>
@@ -145,8 +139,7 @@ pkg-resources==0.0.0
 PyQt5==5.9.1.dev1707250927
 sip==4.19.4.dev1708131720
 </code></pre>
-<h3><a name="bonus-2"></a>Bonus #2 How I figured out I needed that Ubuntu package</h3>
-<p>When I first ran <code>configure.py</code> for PyQt5 it didn't say it would build QtQml.</p>
+<h3 id="bonus-2">Bonus #2 How I figured out I needed that Ubuntu package</h3><p>When I first ran <code>configure.py</code> for PyQt5 it didn't say it would build QtQml.</p>
 <pre><code>Checking to see if the QtQml module should be built...
 # ...
 These PyQt5 modules will be built: QtCore, QtNetwork, QtXml, QtXmlPatterns,

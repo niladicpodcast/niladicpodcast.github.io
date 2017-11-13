@@ -219,7 +219,7 @@ There is a plugin that looks like it will do this and even triggers when you cre
 <p>I have multiple pull requests for heads in the default branch. When I push to the default branch in the source repo it says all of the pull requests have been updated.</p>
 <h2>9. You can merge a pull request without viewing the current version</h2>
 <p>If you are viewing a pull request and someone adds a commit and updates the pull request, you can merge the pull request without viewing the new commit. When you merge the pull request both commits are merged.</p>
-<h2>10 You can merge a pull request with obsolete commits</h2>
+<h2>10. You can merge a pull request with obsolete commits</h2>
 <p>If you are viewing a pull request with drafts commits and they are replace with a successor commit then it is possible to merge the pull request with the obsolete commits.</p>
 <p><a href="https://bitbucket.org/site/master/issues/14613/hg-prevent-merging-a-pr-with-obsolete" target="_blank">Bitbucket Issue</a></p>
 <h2>11. You can't create a pull request for another fork of the main repo</h2>
@@ -227,6 +227,14 @@ There is a plugin that looks like it will do this and even triggers when you cre
 <p>I thought you could simply create a pull request from your fork to the other person's fork. But you can only create a pull request from your fork for the main repo.</p>
 <p>On GitHub you go to the destination repo to create the pull request so the experience is a bit cleaner.</p>
 <p>As a workaround you can create another fork of the fork.</p>
+<h2>12. No rebase when a pull request is accepted</h2>
+<p>If I work on a feature and create a pull request, I can update to its parent and work on the second feature and create another pull request.
+But when the second pull request is accepted there will be a merge commit in the repo. To avoid merge commits I would need to rebase after the first pull request is accepted.
+This means reviewers could only review on pull request at a time.</p>
+<p>As a workaround you can just commit the second feature as child of the first feature and then only have one pull request
+and ask that the reviewer look at each commit as if it is its own pull request.</p>
+<p>This is not ideal because it is good to have small commits that can be reversed if needed and this encourages one commit per feature.</p>
+<p>Once Mercurial has an in memory merge then rebase can be done without the working directory of the repo.</p>
 
     
   </div>

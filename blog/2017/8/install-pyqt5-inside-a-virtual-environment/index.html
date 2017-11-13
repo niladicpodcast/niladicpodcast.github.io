@@ -93,7 +93,7 @@
 allows you to install specific versions of Python distribution packages in a contained environment without contaminating the system Python.
 This allows you to have multiple versions of PyQt5 installed on the same system
 so you can work on different projects that use different versions of PyQt5.</p>
-<p>Download the open source online installer from <a href="https://www.qt.io/">https://www.qt.io/</a></p>
+<p>Download the open source online installer from <a href="https://www.qt.io/">https://www.qt.io/</a>. Use the maintainence tool if you already have Qt installed.</p>
 <pre><code class="lang-shell">wget http://mirror.csclub.uwaterloo.ca/qtproject/archive/online_installers/3.0/qt-unified-linux-x64-3.0.0-online.run
 chmod u+x qt-unified-linux-x64-3.0.0-online.run
 ./qt-unified-linux-x64-3.0.0-online.run
@@ -101,10 +101,15 @@ chmod u+x qt-unified-linux-x64-3.0.0-online.run
 <p>Navigate the installation wizard. Skip the sign up and install version Qt 5.9.1.</p>
 <h2 id="download-sip">Download SIP source code</h2><p><a href="https://www.riverbankcomputing.com/software/sip/download">https://www.riverbankcomputing.com/software/sip/download</a></p>
 <h2 id="download-pyqt5">Download PyQt5 source code</h2><p><a href="https://www.riverbankcomputing.com/software/pyqt/download5">https://www.riverbankcomputing.com/software/pyqt/download5</a></p>
-<h2 id="venv"></a>Create a virtualenv to install PyQt5 into</h2><pre><code class="lang-shell">python3 -m venv ~/.virtualenvs/pyqt5
+<h2 id="venv"></a>Create a virtualenv to install PyQt5 into</h2><pre><code class="lang-shell">sudo apt-get install python3-venv
+python3 -m venv ~/.virtualenvs/pyqt5
+source ~/.virtualenvs/pyqt5/bin/activate
+# It is better to source the venv instead of just using the full path to the venv python
+# because it will use that python for the paths in qmldir for the pyqt5qmlplugin example
+# Yes the examples in the download actually get changed when you build pyqt5.
 </code></pre>
 <h2 id="install-sip">Install sip</h2><pre><code>cd ~/Downloads/sip-4.19.4.dev1708131720/
-~/.virtualenvs/pyqt5/bin/python configure.py
+python configure.py
 make
 make install
 </code></pre>
@@ -117,11 +122,11 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 &gt;&gt;&gt; # Works!
 </code></pre>
 <h2 id="install-pyqt5">Install PyQt5</h2><p>In order to build <code>QML</code> support I had to install <code>libgl1-mesa-dev</code> on Ubuntu 16.04.
-See Bonus #2 for how I figured out which package to install.</p>
+See <a href="#bonus-2">Bonus #2</a> for how I figured out which package to install.</p>
 <pre><code class="lang-shell">sudo apt-get install libgl1-mesa-dev
 </code></pre>
 <pre><code>cd ~/Downloads/PyQt5_gpl-5.9.1.dev1707250927/
-~/.virtualenvs/pyqt5/bin/python configure.py --qmake ~/Qt/5.9.1/gcc_64/bin/qmake --sip ~/.virtualenvs/pyqt5/bin/sip
+python configure.py --qmake ~/Qt/5.9.1/gcc_64/bin/qmake --sip ~/.virtualenvs/pyqt5/bin/sip
 make
 make install
 </code></pre>

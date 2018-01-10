@@ -7,13 +7,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Blog — Niladic Podcast</title>
+    <title>Setup a local SFTP server for development — Niladic Podcast</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../../static/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../static/css/clean-blog.min.css" rel="stylesheet">
+    <link href="../../../../static/css/clean-blog.min.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -51,7 +51,7 @@
                     
                     
                     <li>
-                        <a href="../blog/">Blog</a>
+                        <a href="../../../../blog/">Blog</a>
                     </li>
                     
                 </ul>
@@ -65,7 +65,7 @@
 
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url('../static/img/home-bg.jpg')">
+    <header class="intro-header" style="background-image: url('../../../../static/img/home-bg.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -80,75 +80,80 @@
 
     <!-- Main Content -->
     
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
+                
+  <div class="blog-post">
+    
+      <h3>Setup a local SFTP server for development</h3>
+    
+    <h1>Setup a SFTP server locally for development</h1>
+<p>OpenSSH comes with a SFTP server. First install OpenSSH Server.</p>
+<pre><code class="lang-shell">sudo apt install openssh-server
+</code></pre>
+<p>Create <code>sftponly</code> group</p>
+<pre><code class="lang-shell">sudo groupadd sftponly
+</code></pre>
+<p>Create the SFTP directory. The ChrootDirectory set in <code>sshd_config</code> must be owned by root and only writeable by root.</p>
+<pre><code class="lang-shell">sudo mkdir /sftp/
+sudo chown root:sftponly /sftp/
+sudo chmod 2755 /sftp/
+# The 2 is for g+s
+</code></pre>
+<p>If the ChrootDirectory is not owned by root you will get the following error:</p>
+<pre><code>packet_write_wait: Connection to 127.0.0.1 port 22: Broken pipe
+Couldn't read packet: Connection reset by peer
+</code></pre>
+<p>Configure SFTP server</p>
+<ul>
+<li>only available from localhost</li>
+<li>only available to users in the <code>sftponly</code> group</li>
+<li>/sftp/ is the directory on disk</li>
+</ul>
+<p>Add the following to the bottom of <code>/etc/ssh/sshd_config</code></p>
+<pre><code>Match Group sftponly
+    ChrootDirectory /sftp/
+    ForceCommand internal-sftp
+    AllowTcpForwarding no
+</code></pre>
+<pre><code class="lang-shell">sudo service ssh restart
+</code></pre>
+<p>You can create directories inside and just copy files into and they will be owned by the <code>sftponly</code> group.</p>
+<pre><code class="lang-shell">sudo mkdir /sftp/files/
+# Allow sftponly users to upload files
+sudo chmod 2775 /sftp/files/
+sudo cp file /sftp/files/
+</code></pre>
+<p>You can create a new user in the <code>sftponly</code> group and use that user and password to login to the SFTP server.</p>
+<pre><code>sudo useradd -M -G sftponly $newUser
+sudo passwd $newUser
+# set password
+sudo -u $newUser sftp localhost
+</code></pre>
+<p>To add your user to the group</p>
+<pre><code class="lang-shell">sudo usermod -a -G sftponly $USER
+</code></pre>
+<p>In order for your user to actually be in the <code>sftponly</code> group you need to log in after the usermod command.
+The safest thing to do is to compare your current groups with the new groups while you are still in the current environment.
+I forgot the <code>-a</code> in the <code>usermod</code> command and had to use GRUB to get a root terminal and add my user back to the correct groups.</p>
+<pre><code class="lang-shell">groups
+id
+</code></pre>
+<p>With the groups after login</p>
+<pre><code class="lang-shell">su - $USER
+groups
+id
+</code></pre>
+<p>The only difference should be the <code>sftponly</code> group.</p>
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            
-                <div class="post-preview">
-                    <a href="../blog/2018/1/setup-a-local-sftp-server-for-development/">
-                        <h2 class="post-title">
-                            Setup a local SFTP server for development
-                        </h2>
-                        
-                    </a>
-                    <p class="post-meta">Posted by <a href="#">Cody Scott</a> on Jan 10, 2018</p>
-                </div>
-                <hr>
-            
-                <div class="post-preview">
-                    <a href="../blog/2017/8/install-pyqt5-inside-a-virtual-environment/">
-                        <h2 class="post-title">
-                            Install PyQt5 Inside a Virtual Environment
-                        </h2>
-                        
-                    </a>
-                    <p class="post-meta">Posted by <a href="#">Cody</a> on Aug 17, 2017</p>
-                </div>
-                <hr>
-            
-                <div class="post-preview">
-                    <a href="../blog/2017/4/my-problems-with-bitbucket-cloud/">
-                        <h2 class="post-title">
-                            My Problems with Bitbucket Cloud Pull Requests
-                        </h2>
-                        
-                    </a>
-                    <p class="post-meta">Posted by <a href="#">Cody</a> on Apr 19, 2017</p>
-                </div>
-                <hr>
-            
-                <div class="post-preview">
-                    <a href="../blog/2017/1/whats-the-deal-with-ctrlleft-and-ctrlright/">
-                        <h2 class="post-title">
-                            What&#39;s the deal with Ctrl+Left and Ctrl+Right?
-                        </h2>
-                        
-                    </a>
-                    <p class="post-meta">Posted by <a href="#">Cody</a> on Jan 14, 2017</p>
-                </div>
-                <hr>
-            
-                <div class="post-preview">
-                    <a href="../blog/2016/5/how-to-setup-lets-encrypt-with-nginx/">
-                        <h2 class="post-title">
-                            How to Setup Let&#39;s Encrypt with nginx
-                        </h2>
-                        
-                    </a>
-                    <p class="post-meta">Posted by <a href="#">Cody</a> on May 15, 2016</p>
-                </div>
-                <hr>
-            
+    
+  </div>
 
-            
-  
-
+            </div>
         </div>
     </div>
-</div>
-
 
 
     <hr>

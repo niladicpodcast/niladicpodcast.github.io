@@ -7,13 +7,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Blog — Niladic Podcast</title>
+    <title>Run Linux GUI Applications on Windows 10 — Niladic Podcast</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../../static/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../static/css/clean-blog.min.css" rel="stylesheet">
+    <link href="../../../../static/css/clean-blog.min.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -51,7 +51,7 @@
                     
                     
                     <li>
-                        <a href="../blog/">Blog</a>
+                        <a href="../../../../blog/">Blog</a>
                     </li>
                     
                 </ul>
@@ -65,7 +65,7 @@
 
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url('../static/img/home-bg.jpg')">
+    <header class="intro-header" style="background-image: url('../../../../static/img/home-bg.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -80,86 +80,78 @@
 
     <!-- Main Content -->
     
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
+                
+  <div class="blog-post">
+    
+      <h3>Run Linux GUI Applications on Windows 10</h3>
+    
+    <p>Linux is my main development environment but I also need to test things on Windows. My computer boots into Windows 10 and then I run a Linux VM.
+Today I was trying to setup a Windows 7 VM to build an installer. The VM was running on a remote host and I was connecting to it with virt-manager.</p>
+<p>For some reason it was making my local Linux VM very sluggish and it was taking minutes to update the mouse position on the remote VM with virt-manager.</p>
+<p>So I decided to see if I could run virt-manager on my Windows 10 host but there is no Windows installer for it.</p>
+<p>I did find this ServerFault answer <a href="https://serverfault.com/a/840962">https://serverfault.com/a/840962</a> about using the Windows Subshell for Linux and I was able to get it working.</p>
+<p>Here is what I had to do.</p>
+<p>Following this <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">https://docs.microsoft.com/en-us/windows/wsl/install-win10</a></p>
+<p>Open PowerShell as Administrator and run:</p>
+<pre><code class="lang-PowerShell">Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+</code></pre>
+<p>Don't restart just yet.</p>
+<p>Install your distro by going to <a href="https://aka.ms/wslstore">https://aka.ms/wslstore</a></p>
+<p>You have to install it through the Windows Store but don't worry you don't need an account.
+When it asks you to sign in just say <strong>No, Thanks</strong> as it is already installing.</p>
+<p><img src="../../../../blog/2018/3/run-linux-gui-applications-on-windows-10/windows10store.png" alt="Windows 10 store dialog asking if you would like to sign in."></p>
+<p>It will be available in the Start Menu under the name of the distribution you chose, Ubuntu for me.</p>
+<p>First I made sure it was up to date and was able to fetch programs. This might take a while to download and install the updates so you can jump ahead.</p>
+<pre><code class="lang-shell">sudo apt update
+sudo apt upgrade
+</code></pre>
+<p>Then I installed the program I want to launch.</p>
+<pre><code class="lang-shell">sudo apt install virt-manager
+</code></pre>
+<h2>Install Xming on Windows 10</h2>
+<p>Download and install it from here <a href="https://sourceforge.net/projects/xming/">https://sourceforge.net/projects/xming/</a>.</p>
+<p>In order to run Linux GUI Applications Xming needs to be running.</p>
+<h3>Run Xming on boot</h3>
+<p>To run Xming on startup, you need to add a shortcut to the Startup directory.</p>
+<ul>
+<li>Search for Xming in the Start Menu</li>
+<li>Right click on the shortcut and select <strong>Open file location</strong></li>
+<li>Copy the selected Xming shortcut</li>
+<li>Press Ctrl-l to move the cursor to the Explorer location input</li>
+<li>type <code>shell:startup</code> and then Enter</li>
+<li>Paste the Xming shortcut in the Startup directory.</li>
+</ul>
+<p>Now Xming will start automatically when Windows 10 starts.</p>
+<h2>Launch Linux GUI Applications</h2>
+<p>In Linux set the display to use Xming.</p>
+<pre><code class="lang-shell">export DISPLAY=localhost:0.0
+</code></pre>
+<p>To have it be the default add that line to <code>~/.bashrc</code> which will run it on login.</p>
+<pre><code class="lang-shell">echo &#39;export DISPLAY=localhost:0.0&#39; &gt;&gt; ~/.bashrc
+</code></pre>
+<p>Now you can just run it in the Linux GUI application in the terminal with a <code>&amp;</code>.</p>
+<pre><code class="lang-shell">$ virt-manager &amp;
+</code></pre>
+<p>And if it works. Yah!</p>
+<p>Since virt-manager needs to connect to a remote computer I had to install <code>ssh-askpass</code>.</p>
+<pre><code class="lang-shell">sudo apt install ssh-askpass
+</code></pre>
+<p>I also created a keypair and uploaded my public key to the remote computer.</p>
+<pre><code class="lang-shell">ssh-keygen -t rsa -C &quot;email@example.com&quot;
+ssh-copy-id $user@$host
+</code></pre>
+<p>And now I can use virt-manager from Windows 10 and it works great.</p>
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            
-                <div class="post-preview">
-                    <a href="../blog/2018/3/run-linux-gui-applications-on-windows-10/">
-                        <h2 class="post-title">
-                            Run Linux GUI Applications on Windows 10
-                        </h2>
-                        
-                    </a>
-                    <p class="post-meta">Posted by <a href="#">Cody</a> on Mar 12, 2018</p>
-                </div>
-                <hr>
-            
-                <div class="post-preview">
-                    <a href="../blog/2018/1/setup-a-local-sftp-server-for-development/">
-                        <h2 class="post-title">
-                            Setup a local SFTP server for development
-                        </h2>
-                        
-                    </a>
-                    <p class="post-meta">Posted by <a href="#">Cody Scott</a> on Jan 10, 2018</p>
-                </div>
-                <hr>
-            
-                <div class="post-preview">
-                    <a href="../blog/2017/8/install-pyqt5-inside-a-virtual-environment/">
-                        <h2 class="post-title">
-                            Install PyQt5 Inside a Virtual Environment
-                        </h2>
-                        
-                    </a>
-                    <p class="post-meta">Posted by <a href="#">Cody</a> on Aug 17, 2017</p>
-                </div>
-                <hr>
-            
-                <div class="post-preview">
-                    <a href="../blog/2017/4/my-problems-with-bitbucket-cloud/">
-                        <h2 class="post-title">
-                            My Problems with Bitbucket Cloud Pull Requests
-                        </h2>
-                        
-                    </a>
-                    <p class="post-meta">Posted by <a href="#">Cody</a> on Apr 19, 2017</p>
-                </div>
-                <hr>
-            
-                <div class="post-preview">
-                    <a href="../blog/2017/1/whats-the-deal-with-ctrlleft-and-ctrlright/">
-                        <h2 class="post-title">
-                            What&#39;s the deal with Ctrl+Left and Ctrl+Right?
-                        </h2>
-                        
-                    </a>
-                    <p class="post-meta">Posted by <a href="#">Cody</a> on Jan 14, 2017</p>
-                </div>
-                <hr>
-            
-                <div class="post-preview">
-                    <a href="../blog/2016/5/how-to-setup-lets-encrypt-with-nginx/">
-                        <h2 class="post-title">
-                            How to Setup Let&#39;s Encrypt with nginx
-                        </h2>
-                        
-                    </a>
-                    <p class="post-meta">Posted by <a href="#">Cody</a> on May 15, 2016</p>
-                </div>
-                <hr>
-            
+    
+  </div>
 
-            
-  
-
+            </div>
         </div>
     </div>
-</div>
-
 
 
     <hr>

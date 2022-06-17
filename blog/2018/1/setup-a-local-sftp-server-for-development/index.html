@@ -100,7 +100,7 @@
 <pre><code class="lang-shell">sudo mkdir /sftp/
 sudo chown root:sftponly /sftp/
 sudo chmod 2755 /sftp/
-# The 2 is for g+s
+# The leading 2 is for g+s
 </code></pre>
 <p>If the ChrootDirectory is not owned by root you will get the following error:</p>
 <pre><code>packet_write_wait: Connection to 127.0.0.1 port 22: Broken pipe
@@ -120,7 +120,7 @@ Couldn't read packet: Connection reset by peer
 </code></pre>
 <pre><code class="lang-shell">sudo service ssh restart
 </code></pre>
-<p>You can create directories inside and just copy files into and they will be owned by the <code>sftponly</code> group.</p>
+<p>You can create directories inside and just copy files into them and they will be owned by the <code>sftponly</code> group.</p>
 <pre><code class="lang-shell">sudo mkdir /sftp/files/
 # Allow sftponly users to upload files
 sudo chmod 2775 /sftp/files/

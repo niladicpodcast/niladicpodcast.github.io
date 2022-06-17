@@ -121,7 +121,7 @@ cd certbot
 </code></pre>
 <p>This will reload nginx if the cert is renewed.</p>
 <p>To automatically renew
-Make sure this is in the root crontab. This will run once a day.</p>
+add this is in the root crontab. This will run once a day.</p>
 <pre><code># Renew Let's Encrypt cert if required
 4 4 * * * /path/to/certbot/certbot-auto renew --renew-hook="systemctl reload nginx"
 </code></pre>

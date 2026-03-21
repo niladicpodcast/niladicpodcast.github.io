@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+  
+    Run Linux GUI Applications on Windows 10
+  
+ | Niladic Podcast</title>
+  
+    
+      <link rel="icon" href="/static/favicon.svg" sizes="any" type="image/svg+xml">
+    
+  
+  
+  
+    
+      <meta property="og:site_name" content="Niladic Podcast">
+    
+  
+  
+  
+
+  
+  <meta property="og:type" content="article">
+  
+    <meta property="og:url" content="https://www.niladicpodcast.com/2018/03/12/run-linux-gui-applications-on-windows-10/">
+  
+  
+    <meta property="og:title" content="Run Linux GUI Applications on Windows 10">
+  
+  <meta property="og:description" content="">
+  
+
+  
+
+  
+  
+
+  
+    <link href="/static/htmd.css" rel="stylesheet">
+    <link href="/static/pygments.css" rel="stylesheet">
+    <!-- Fonts-->
+    <link href="/static/css/Lora.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/Open-Sans.min.css" rel="stylesheet" type="text/css">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/static/css/styles.min.css" rel="stylesheet">
+  
+  <link href="/feed.atom" rel="alternate" title="Niladic Podcast" type="application/atom+xml">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+    <div class="container px-4 px-lg-5">
+      <a class="navbar-brand" href="/">Niladic Podcast</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ms-auto py-4 py-lg-0">
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="/blog/">
+              Blog
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="javascript:void(0)" onclick="goToRandomPost()">
+              Random
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="/search/">
+              Search
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('/static/img/home-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <div class="site-heading">
+            <span class="h1">Niladic Podcast</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content-->
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-10 col-xl-9">
+        
+  
+  <article>
+    <h1>
+      
+        Run Linux GUI Applications on Windows 10
+      
+    </h1>
+    
+    <span class="meta">
+        Posted by <a href="/author/Cody/">Cody</a> on 2018-03-12
+      </span>
+    
+
+    
+      <p>Linux is my main development environment but I also need to test things on Windows. My computer boots into Windows 10 and then I run a Linux VM.
+Today I was trying to setup a new remote Windows 7 VM to build an installer. I was connecting to it with <code>virt-manager</code> through the local Linux VM.</p>
+<p>For some reason it was making my local Linux VM very sluggish and it was taking minutes to update the mouse position on the remote VM with <code>virt-manager</code>.</p>
+<p>So I decided to see if I could run <code>virt-manager</code> on my Windows 10 host but there is no Windows installer for it.</p>
+<p>I did find this ServerFault answer <a href="https://serverfault.com/a/840962" rel="nofollow">https://serverfault.com/a/840962</a> about using the Windows Subsystem for Linux and I was able to get it working.</p>
+<p>Here is what I had to do.</p>
+<p>Following this <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10" rel="nofollow">https://docs.microsoft.com/en-us/windows/wsl/install-win10</a></p>
+<p>Open PowerShell as Administrator and run:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">Enable-WindowsOptionalFeature</span> <span class="n">-Online</span> <span class="n">-FeatureName</span> <span class="n">Microsoft-Windows-Subsystem-Linux</span>
+</code></pre></div>
+
+<p>Don't restart just yet.</p>
+<p>Install your distro by going to <a href="https://aka.ms/wslstore" rel="nofollow">https://aka.ms/wslstore</a></p>
+<p>You have to install it through the Windows Store but don't worry you don't need an account.
+When it asks you to sign in just say <strong>No, Thanks</strong> as it is already installing.</p>
+<p><img alt="Windows 10 store dialog asking if you would like to sign in." src="/static/img/windows10store.png"></p>
+<p>It will be available in the Start Menu under the name of the distribution you chose, Ubuntu for me.</p>
+<p>First I made sure it was up to date and was able to fetch programs. This might take a while to download and install the updates.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>upgrade
+</code></pre></div>
+
+<p>Then I installed the program I want to launch.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>virt-manager
+</code></pre></div>
+
+<h2>Install Xming on Windows 10</h2>
+<p>Download and install it from here <a href="https://sourceforge.net/projects/xming/" rel="nofollow">https://sourceforge.net/projects/xming/</a>.</p>
+<p>In order to run Linux GUI Applications Xming needs to be running.</p>
+<h3>Run Xming on boot</h3>
+<p>To run Xming on startup, you need to add a shortcut to the Startup directory.</p>
+<ul>
+<li>Search for Xming in the Start Menu</li>
+<li>Right click on the shortcut and select <strong>Open file location</strong></li>
+<li>Copy the selected Xming shortcut</li>
+<li>Press <code>Ctrl-l</code> to move the cursor to the Explorer location input</li>
+<li>Type <code>shell:startup</code> and then Enter</li>
+<li>Paste the Xming shortcut in the Startup directory.</li>
+</ul>
+<p>Now Xming will start automatically when Windows 10 starts.</p>
+<h2>Launch Linux GUI Applications</h2>
+<p>In Linux set the display to use Xming.</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">DISPLAY</span><span class="o">=</span>localhost:0.0
+</code></pre></div>
+
+<p>To have it be the default add that line to <code>~/.bashrc</code> which will run it on login.</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export DISPLAY=localhost:0.0&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+</code></pre></div>
+
+<p>Now you can just run the Linux GUI application in the terminal with a <code>&amp;amp;</code>.</p>
+<div class="codehilite"><pre><span></span><code>virt-manager<span class="w"> </span><span class="p">&amp;</span>
+</code></pre></div>
+
+<p>And if it works, Yay!</p>
+<p>Since <code>virt-manager</code> needs to connect to a remote computer I had to install <code>ssh-askpass</code>.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ssh-askpass
+</code></pre></div>
+
+<p>I also created a keypair and uploaded my public key to the remote computer.</p>
+<div class="codehilite"><pre><span></span><code>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>rsa<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;email@example.com&quot;</span>
+ssh-copy-id<span class="w"> </span><span class="nv">$user</span>@<span class="nv">$host</span>
+</code></pre></div>
+
+<p>And now I can use <code>virt-manager</code> from Windows 10 and it works great. Well sometimes
+the bottom of the VM display is white and only works on my main monitor. When this
+happens I restart Xming and launch <code>virt-manager</code> again.</p>
+    
+
+    
+
+    
+      <hr class="small">
+
+      <h2 id="comments">Comments</h2>
+
+      <div id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="6fe398cd-a881-4122-bea7-ba7f4a832aae"
+        data-page-id="run-linux-gui-applications-on-windows-10"
+        data-page-url="https://www.niladicpodcast.com/2018/03/12/run-linux-gui-applications-on-windows-10/"
+        data-page-title="Run Linux GUI Applications on Windows 10">
+      </div>
+    
+  </article>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-top">
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <p class="text-center">
+            Created with <a href="https://github.com/Siecje/htmd" target="_blank">htmd</a>.
+          </p>
+          <p class="text-center">
+            <a href="https://startbootstrap.com/theme/clean-blog" target="_blank">Clean Blog</a> theme by
+            <a href="https://startbootstrap.com" target="_blank">Start Bootstrap</a>.
+            License <a href="https://github.com/BlackrockDigital/startbootstrap?tab=readme-ov-file#copyright-and-license" target="_blank">MIT</a>.
+          </p>
+          <p class="text-center">
+            Cover image from <a href="https://unsplash.com/" target="_blank">Unsplash</a>,
+            <a href="https://unsplash.com/license" target="_blank">license</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  
+  
+    <script src="/static/htmd.js"></script>
+    <script src="/static/js/menu.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-8394186-4', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+  
+  
+    <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+  
+  
+    <script>
+      markCurrentPostAsVisited();
+    </script>
+  
+
+</body>
+</html>

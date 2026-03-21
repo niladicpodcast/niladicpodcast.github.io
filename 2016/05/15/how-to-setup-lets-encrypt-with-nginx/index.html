@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+  
+    How to Setup Let&#39;s Encrypt with nginx
+  
+ | Niladic Podcast</title>
+  
+    
+      <link rel="icon" href="/static/favicon.svg" sizes="any" type="image/svg+xml">
+    
+  
+  
+  
+    
+      <meta property="og:site_name" content="Niladic Podcast">
+    
+  
+  
+  
+
+  
+  <meta property="og:type" content="article">
+  
+    <meta property="og:url" content="https://www.niladicpodcast.com/2016/05/15/how-to-setup-lets-encrypt-with-nginx/">
+  
+  
+    <meta property="og:title" content="How to Setup Let&#39;s Encrypt with nginx">
+  
+  <meta property="og:description" content="">
+  
+
+  
+
+  
+  
+
+  
+    <link href="/static/htmd.css" rel="stylesheet">
+    <link href="/static/pygments.css" rel="stylesheet">
+    <!-- Fonts-->
+    <link href="/static/css/Lora.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/Open-Sans.min.css" rel="stylesheet" type="text/css">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/static/css/styles.min.css" rel="stylesheet">
+  
+  <link href="/feed.atom" rel="alternate" title="Niladic Podcast" type="application/atom+xml">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+    <div class="container px-4 px-lg-5">
+      <a class="navbar-brand" href="/">Niladic Podcast</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ms-auto py-4 py-lg-0">
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="/blog/">
+              Blog
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="javascript:void(0)" onclick="goToRandomPost()">
+              Random
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="/search/">
+              Search
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('/static/img/home-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <div class="site-heading">
+            <span class="h1">Niladic Podcast</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content-->
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-10 col-xl-9">
+        
+  
+  <article>
+    <h1>
+      
+        How to Setup Let&#39;s Encrypt with nginx
+      
+    </h1>
+    
+    <span class="meta">
+        Posted by <a href="/author/Cody/">Cody</a> on 2016-05-15
+      </span>
+    
+
+    
+      <p><a href="https://letsencrypt.org/" target="_blank">Let's Encrypt</a> is a service to get free HTTPS certificates and automate renewing them.
+This is a guide to setting up Let's Encrypt when using <code>nginx</code> as a reverse proxy.</p>
+<p>Let's say you have a service running on localhost on a port other than 80 (ex. 8080).</p>
+<p>Nginx will listen on port 80 and transfer traffic to the service or services only available internally.</p>
+<p>If you would like to use a domain or a subdomain to access the service then add a DNS record for the server's IP address.</p>
+<p>To get a certificate first use this <code>nginx</code> config.
+Replace <code>example.com</code> with your domain or subdomain.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">listen</span><span class="w"> </span><span class="mi">80</span><span class="p">;</span>
+<span class="w">  </span><span class="n">server_name</span><span class="w"> </span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">;</span>
+<span class="w">  </span><span class="n">location</span><span class="w"> </span><span class="o">/.</span><span class="n">well</span><span class="o">-</span><span class="n">known</span><span class="o">/</span><span class="n">acme</span><span class="o">-</span><span class="n">challenge</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">root</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">letsencrypt</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Create the web root</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/var/www/letsencrypt
+</code></pre></div>
+
+<p>Install Let's Encrypt</p>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/certbot/certbot
+<span class="nb">cd</span><span class="w"> </span>certbot
+<span class="c1"># replace $email with your email address</span>
+./certbot-auto<span class="w"> </span>certonly<span class="w"> </span>-a<span class="w"> </span>webroot<span class="w"> </span>--webroot-path<span class="w"> </span>/var/www/letsencrypt<span class="w"> </span>--agree-tos<span class="w"> </span>--expand<span class="w"> </span>--text<span class="w"> </span>--email<span class="w"> </span><span class="nv">$email</span><span class="w"> </span>-d<span class="w"> </span>example.com
+</code></pre></div>
+
+<p>You can add additional subdomains with <code>-d</code> options.</p>
+<div class="codehilite"><pre><span></span><code>./certbot-auto<span class="w"> </span>certonly<span class="w"> </span>-a<span class="w"> </span>webroot<span class="w"> </span>--webroot-path<span class="w"> </span>/var/www/letsencrypt<span class="w"> </span>--agree-tos<span class="w"> </span>--expand<span class="w"> </span>--text<span class="w"> </span>--email<span class="w"> </span><span class="nv">$email</span><span class="w"> </span>-d<span class="w"> </span>example.com<span class="w"> </span>-d<span class="w"> </span>sub1.example.com<span class="w"> </span>-d<span class="w"> </span>sub2.example.com
+</code></pre></div>
+
+<p>To renew the certs you can run:</p>
+<div class="codehilite"><pre><span></span><code>/path/to/certbot/certbot-auto<span class="w"> </span>renew<span class="w"> </span>--renew-hook<span class="o">=</span><span class="s2">&quot;systemctl reload nginx&quot;</span>
+</code></pre></div>
+
+<p>This will reload <code>nginx</code> if the cert is renewed.</p>
+<p>To automatically renew the certificate, add this to the root crontab. This will run once a day.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Renew Let&#39;s Encrypt cert if required</span>
+<span class="mi">4</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">certbot</span><span class="o">/</span><span class="n">certbot</span><span class="o">-</span><span class="n">auto</span><span class="w"> </span><span class="n">renew</span><span class="w"> </span><span class="o">--</span><span class="n">renew</span><span class="o">-</span><span class="n">hook</span><span class="o">=</span><span class="s2">&quot;systemctl reload nginx&quot;</span>
+</code></pre></div>
+
+<p>So now you have certificates for the services. Time to use them!</p>
+<p><code>nginx</code> will handle the <code>HTTPS</code> traffic and send <code>HTTP</code> to internal services.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Redirect HTTP to HTTPS</span>
+<span class="n">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">listen</span><span class="w"> </span><span class="mi">80</span><span class="w"> </span><span class="n">default</span><span class="p">;</span>
+<span class="w">  </span><span class="n">server_name</span><span class="w"> </span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">;</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">301</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="o">//$</span><span class="n">server_name</span><span class="o">$</span><span class="n">request_uri</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1"># Listen on HTTPS</span>
+<span class="w">  </span><span class="n">listen</span><span class="w"> </span><span class="mi">443</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="n">ssl</span><span class="p">;</span>
+<span class="w">  </span><span class="n">server_name</span><span class="w"> </span><span class="n">localhost</span><span class="w"> </span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1"># Certificate</span>
+<span class="w">  </span><span class="n">ssl_certificate</span><span class="w">   </span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">letsencrypt</span><span class="o">/</span><span class="n">live</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">fullchain</span><span class="o">.</span><span class="n">pem</span><span class="p">;</span>
+<span class="w">  </span><span class="n">ssl_certificate_key</span><span class="w"> </span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">letsencrypt</span><span class="o">/</span><span class="n">live</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">privkey</span><span class="o">.</span><span class="n">pem</span><span class="p">;</span>
+<span class="w">  </span><span class="n">ssl_trusted_certificate</span><span class="w"> </span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">letsencrypt</span><span class="o">/</span><span class="n">live</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">fullchain</span><span class="o">.</span><span class="n">pem</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1"># For Let&#39;s Encrypt renewal</span>
+<span class="w">  </span><span class="n">location</span><span class="w"> </span><span class="o">/.</span><span class="n">well</span><span class="o">-</span><span class="n">known</span><span class="o">/</span><span class="n">acme</span><span class="o">-</span><span class="n">challenge</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">root</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">letsencrypt</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1"># Redirect to service running on localhost</span>
+<span class="w">  </span><span class="n">location</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">proxy_pass</span><span class="w"> </span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">8080</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+    
+
+    
+
+    
+      <hr class="small">
+
+      <h2 id="comments">Comments</h2>
+
+      <div id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="6fe398cd-a881-4122-bea7-ba7f4a832aae"
+        data-page-id="how-to-setup-lets-encrypt-with-nginx"
+        data-page-url="https://www.niladicpodcast.com/2016/05/15/how-to-setup-lets-encrypt-with-nginx/"
+        data-page-title="How to Setup Let&#39;s Encrypt with nginx">
+      </div>
+    
+  </article>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-top">
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <p class="text-center">
+            Created with <a href="https://github.com/Siecje/htmd" target="_blank">htmd</a>.
+          </p>
+          <p class="text-center">
+            <a href="https://startbootstrap.com/theme/clean-blog" target="_blank">Clean Blog</a> theme by
+            <a href="https://startbootstrap.com" target="_blank">Start Bootstrap</a>.
+            License <a href="https://github.com/BlackrockDigital/startbootstrap?tab=readme-ov-file#copyright-and-license" target="_blank">MIT</a>.
+          </p>
+          <p class="text-center">
+            Cover image from <a href="https://unsplash.com/" target="_blank">Unsplash</a>,
+            <a href="https://unsplash.com/license" target="_blank">license</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  
+  
+    <script src="/static/htmd.js"></script>
+    <script src="/static/js/menu.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-8394186-4', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+  
+  
+    <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+  
+  
+    <script>
+      markCurrentPostAsVisited();
+    </script>
+  
+
+</body>
+</html>

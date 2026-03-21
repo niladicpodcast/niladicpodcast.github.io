@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title type="text">Niladic Podcast</title>
+  <id>https://www.niladicpodcast.com/feed.atom</id>
+  <updated>2026-03-20T20:19:42.953403+00:00</updated>
+  <link href="https://www.niladicpodcast.com/blog/" />
+  <link href="https://www.niladicpodcast.com/feed.atom" rel="self" />
+  <subtitle type="text">A blog about software development.</subtitle>
+  <entry xml:base="https://www.niladicpodcast.com/feed.atom">
+    <title type="text">Run Linux GUI Applications on Windows 10</title>
+    <id>https://www.niladicpodcast.com/2018/03/12/run-linux-gui-applications-on-windows-10/</id>
+    <updated>2026-03-19T11:38:21.464691+00:00</updated>
+    <published>2018-03-12T00:00:00+00:00</published>
+    <link href="https://www.niladicpodcast.com/2018/03/12/run-linux-gui-applications-on-windows-10/" />
+    <author>
+      <name>Cody</name>
+    </author>
+    <content type="html">&lt;p&gt;Linux is my main development environment but I also need to test things on Windows. My computer boots into Windows 10 and then I run a Linux VM.
+Today I was trying to setup a new remote Windows 7 VM to build an installer. I was connecting to it with &lt;code&gt;virt-manager&lt;/code&gt; through the local Linux VM.&lt;/p&gt;
+&lt;p&gt;For some reason it was making my local Linux VM very sluggish and it was taking minutes to update the mouse position on the remote VM with &lt;code&gt;virt-manager&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;So I decided to see if I could run &lt;code&gt;virt-manager&lt;/code&gt; on my Windows 10 host but there is no Windows installer for it.&lt;/p&gt;
+&lt;p&gt;I did find this ServerFault answer &lt;a href=&#34;https://serverfault.com/a/840962&#34; rel=&#34;nofollow&#34;&gt;https://serverfault.com/a/840962&lt;/a&gt; about using the Windows Subsystem for Linux and I was able to get it working.&lt;/p&gt;
+&lt;p&gt;Here is what I had to do.&lt;/p&gt;
+&lt;p&gt;Following this &lt;a href=&#34;https://docs.microsoft.com/en-us/windows/wsl/install-win10&#34; rel=&#34;nofollow&#34;&gt;https://docs.microsoft.com/en-us/windows/wsl/install-win10&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Open PowerShell as Administrator and run:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nb&#34;&gt;Enable-WindowsOptionalFeature&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;-Online&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;-FeatureName&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Microsoft-Windows-Subsystem-Linux&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Don&#39;t restart just yet.&lt;/p&gt;
+&lt;p&gt;Install your distro by going to &lt;a href=&#34;https://aka.ms/wslstore&#34; rel=&#34;nofollow&#34;&gt;https://aka.ms/wslstore&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;You have to install it through the Windows Store but don&#39;t worry you don&#39;t need an account.
+When it asks you to sign in just say &lt;strong&gt;No, Thanks&lt;/strong&gt; as it is already installing.&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Windows 10 store dialog asking if you would like to sign in.&#34; src=&#34;/static/img/windows10store.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;It will be available in the Start Menu under the name of the distribution you chose, Ubuntu for me.&lt;/p&gt;
+&lt;p&gt;First I made sure it was up to date and was able to fetch programs. This might take a while to download and install the updates.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;upgrade
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Then I installed the program I want to launch.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;virt-manager
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Install Xming on Windows 10&lt;/h2&gt;
+&lt;p&gt;Download and install it from here &lt;a href=&#34;https://sourceforge.net/projects/xming/&#34; rel=&#34;nofollow&#34;&gt;https://sourceforge.net/projects/xming/&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In order to run Linux GUI Applications Xming needs to be running.&lt;/p&gt;
+&lt;h3&gt;Run Xming on boot&lt;/h3&gt;
+&lt;p&gt;To run Xming on startup, you need to add a shortcut to the Startup directory.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Search for Xming in the Start Menu&lt;/li&gt;
+&lt;li&gt;Right click on the shortcut and select &lt;strong&gt;Open file location&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Copy the selected Xming shortcut&lt;/li&gt;
+&lt;li&gt;Press &lt;code&gt;Ctrl-l&lt;/code&gt; to move the cursor to the Explorer location input&lt;/li&gt;
+&lt;li&gt;Type &lt;code&gt;shell:startup&lt;/code&gt; and then Enter&lt;/li&gt;
+&lt;li&gt;Paste the Xming shortcut in the Startup directory.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Now Xming will start automatically when Windows 10 starts.&lt;/p&gt;
+&lt;h2&gt;Launch Linux GUI Applications&lt;/h2&gt;
+&lt;p&gt;In Linux set the display to use Xming.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;DISPLAY&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;localhost:0.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To have it be the default add that line to &lt;code&gt;~/.bashrc&lt;/code&gt; which will run it on login.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;export DISPLAY=localhost:0.0&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&amp;gt;&amp;gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;~/.bashrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now you can just run the Linux GUI application in the terminal with a &lt;code&gt;&amp;amp;amp;&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;virt-manager&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;amp;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And if it works, Yay!&lt;/p&gt;
+&lt;p&gt;Since &lt;code&gt;virt-manager&lt;/code&gt; needs to connect to a remote computer I had to install &lt;code&gt;ssh-askpass&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;ssh-askpass
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I also created a keypair and uploaded my public key to the remote computer.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ssh-keygen&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-t&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;rsa&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-C&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;email@example.com&amp;quot;&lt;/span&gt;
+ssh-copy-id&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$user&lt;/span&gt;@&lt;span class=&#34;nv&#34;&gt;$host&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And now I can use &lt;code&gt;virt-manager&lt;/code&gt; from Windows 10 and it works great. Well sometimes
+the bottom of the VM display is white and only works on my main monitor. When this
+happens I restart Xming and launch &lt;code&gt;virt-manager&lt;/code&gt; again.&lt;/p&gt;</content>
+  </entry>
+  <entry xml:base="https://www.niladicpodcast.com/feed.atom">
+    <title type="text">How to Setup Let&#39;s Encrypt with nginx</title>
+    <id>https://www.niladicpodcast.com/2016/05/15/how-to-setup-lets-encrypt-with-nginx/</id>
+    <updated>2026-03-19T11:38:21.464691+00:00</updated>
+    <published>2016-05-15T00:00:00+00:00</published>
+    <link href="https://www.niladicpodcast.com/2016/05/15/how-to-setup-lets-encrypt-with-nginx/" />
+    <author>
+      <name>Cody</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;a href=&#34;https://letsencrypt.org/&#34; target=&#34;_blank&#34;&gt;Let&#39;s Encrypt&lt;/a&gt; is a service to get free HTTPS certificates and automate renewing them.
+This is a guide to setting up Let&#39;s Encrypt when using &lt;code&gt;nginx&lt;/code&gt; as a reverse proxy.&lt;/p&gt;
+&lt;p&gt;Let&#39;s say you have a service running on localhost on a port other than 80 (ex. 8080).&lt;/p&gt;
+&lt;p&gt;Nginx will listen on port 80 and transfer traffic to the service or services only available internally.&lt;/p&gt;
+&lt;p&gt;If you would like to use a domain or a subdomain to access the service then add a DNS record for the server&#39;s IP address.&lt;/p&gt;
+&lt;p&gt;To get a certificate first use this &lt;code&gt;nginx&lt;/code&gt; config.
+Replace &lt;code&gt;example.com&lt;/code&gt; with your domain or subdomain.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;listen&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;80&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server_name&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;example&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;com&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;location&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;well&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;known&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;acme&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;challenge&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;root&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;var&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;www&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;letsencrypt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Create the web root&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mkdir&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-p&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/var/www/letsencrypt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Install Let&#39;s Encrypt&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;clone&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;https://github.com/certbot/certbot
+&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;certbot
+&lt;span class=&#34;c1&#34;&gt;# replace $email with your email address&lt;/span&gt;
+./certbot-auto&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;certonly&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-a&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;webroot&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--webroot-path&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/var/www/letsencrypt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--agree-tos&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--expand&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--text&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--email&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$email&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-d&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You can add additional subdomains with &lt;code&gt;-d&lt;/code&gt; options.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;./certbot-auto&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;certonly&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-a&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;webroot&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--webroot-path&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/var/www/letsencrypt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--agree-tos&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--expand&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--text&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--email&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$email&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-d&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;example.com&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-d&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;sub1.example.com&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-d&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;sub2.example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To renew the certs you can run:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/path/to/certbot/certbot-auto&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;renew&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--renew-hook&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;systemctl reload nginx&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This will reload &lt;code&gt;nginx&lt;/code&gt; if the cert is renewed.&lt;/p&gt;
+&lt;p&gt;To automatically renew the certificate, add this to the root crontab. This will run once a day.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;c1&#34;&gt;# Renew Let&amp;#39;s Encrypt cert if required&lt;/span&gt;
+&lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;to&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;certbot&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;certbot&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;auto&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;renew&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;renew&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;hook&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;systemctl reload nginx&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;So now you have certificates for the services. Time to use them!&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;nginx&lt;/code&gt; will handle the &lt;code&gt;HTTPS&lt;/code&gt; traffic and send &lt;code&gt;HTTP&lt;/code&gt; to internal services.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;c1&#34;&gt;# Redirect HTTP to HTTPS&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;listen&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;80&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;default&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server_name&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;example&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;com&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;301&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;https&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;//$&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server_name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;request_uri&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Listen on HTTPS&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;listen&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;443&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;default&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ssl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server_name&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;localhost&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;example&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;com&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Certificate&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ssl_certificate&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;etc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;letsencrypt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;live&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;example&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;com&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fullchain&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pem&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ssl_certificate_key&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;etc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;letsencrypt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;live&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;example&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;com&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;privkey&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pem&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ssl_trusted_certificate&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;etc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;letsencrypt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;live&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;example&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;com&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fullchain&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pem&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# For Let&amp;#39;s Encrypt renewal&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;location&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;well&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;known&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;acme&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;challenge&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;root&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;var&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;www&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;letsencrypt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Redirect to service running on localhost&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;location&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;proxy_pass&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;http&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;//&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;localhost&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;8080&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+  </entry>
+  <entry xml:base="https://www.niladicpodcast.com/feed.atom">
+    <title type="text">Install PyQt5 Inside a Virtual Environment</title>
+    <id>https://www.niladicpodcast.com/2017/08/17/install-pyqt5-inside-a-virtual-environment/</id>
+    <updated>2026-03-20T20:19:42.953403+00:00</updated>
+    <published>2017-08-17T00:00:00+00:00</published>
+    <link href="https://www.niladicpodcast.com/2017/08/17/install-pyqt5-inside-a-virtual-environment/" />
+    <author>
+      <name>Cody</name>
+    </author>
+    <content type="html">&lt;p&gt;A &lt;a href=&#34;https://docs.python.org/3/library/venv.html&#34; target=&#34;_blank&#34;&gt;virtual environment&lt;/a&gt;
+allows you to install specific versions of Python distribution packages in a contained environment without contaminating the system Python.
+This allows you to have multiple versions of PyQt5 installed on the same system
+so you can work on different projects that use different versions of PyQt5.&lt;/p&gt;
+&lt;p&gt;Download the open source online installer from &lt;a href=&#34;https://www.qt.io/&#34; rel=&#34;nofollow&#34;&gt;https://www.qt.io/&lt;/a&gt; or use the maintenance tool if you already have Qt installed.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;wget&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;http://mirror.csclub.uwaterloo.ca/qtproject/archive/online_installers/3.0/qt-unified-linux-x64-3.0.0-online.run
+chmod&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;u+x&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;qt-unified-linux-x64-3.0.0-online.run
+./qt-unified-linux-x64-3.0.0-online.run
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Navigate the installation wizard. Skip the signup and install version Qt 5.9.1.&lt;/p&gt;
+&lt;h2 id=&#34;download-sip&#34;&gt;Download SIP source code&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.riverbankcomputing.com/software/sip/download&#34; rel=&#34;nofollow&#34;&gt;https://www.riverbankcomputing.com/software/sip/download&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;download-pyqt5&#34;&gt;Download PyQt5 source code&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.riverbankcomputing.com/software/pyqt/download5&#34; rel=&#34;nofollow&#34;&gt;https://www.riverbankcomputing.com/software/pyqt/download5&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;venv&#34;&gt;Create a virtualenv for PyQt5&lt;/h2&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt-get&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;python3-venv
+python3&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-m&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;venv&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;~/.virtualenvs/pyqt5
+&lt;span class=&#34;nb&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;~/.virtualenvs/pyqt5/bin/activate
+&lt;span class=&#34;c1&#34;&gt;# It is better to source the venv instead of just using the full path to the venv python&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# because it will use that python for the paths in qmldir for the pyqt5qmlplugin example&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Yes the examples in the download actually get changed when you build pyqt5.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;install-sip&#34;&gt;Install SIP&lt;/h2&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;~/Downloads/sip-4.19.4.dev1708131720/
+python&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;configure.py
+make
+make&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now the &lt;code&gt;sip&lt;/code&gt; distribution package is installed in that virtualenv.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;~/.virtualenvs/pyqt5/bin/python
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;n&#34;&gt;Python&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;3.5.2&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;default&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Sep&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;14&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2017&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;22&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;51&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;06&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;GCC&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;5.4.0&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;20160609&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;on&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;linux&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;Type&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;help&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;copyright&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;credits&amp;quot;&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;or&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;license&amp;quot;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;more&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;information&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nn&#34;&gt;sip&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# Works!&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;install-pyqt5&#34;&gt;Install PyQt5&lt;/h2&gt;
+
+&lt;p&gt;In order to build &lt;code&gt;QML&lt;/code&gt; support I had to install &lt;code&gt;libgl1-mesa-dev&lt;/code&gt; on Ubuntu 16.04.
+See &lt;a href=&#34;#bonus-2&#34;&gt;Bonus #2&lt;/a&gt; for how I figured out which package to install.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt-get&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;libgl1-mesa-dev
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;~/Downloads/PyQt5_gpl-5.9.1.dev1707250927/
+python&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;configure.py&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--qmake&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;~/Qt/5.9.1/gcc_64/bin/qmake&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--sip&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;~/.virtualenvs/pyqt5/bin/sip
+make
+make&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;bonus-1&#34;&gt;Bonus #1 Add to pip freeze&lt;/h3&gt;
+
+&lt;p&gt;If you pip freeze you won&#39;t see &lt;code&gt;sip&lt;/code&gt; and &lt;code&gt;PyQt5&lt;/code&gt; because they don&#39;t have a &lt;code&gt;.dist-info&lt;/code&gt; directory.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;~/.virtualenvs/pyqt5/bin/pip&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;freeze
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;pkg-resources==0.0.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You can however manually create them.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mkdir&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;~/.virtualenvs/pyqt5/lib/python3.5/site-packages/sip-4.19.4.dev1708131720.dist-info
+touch&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;~/.virtualenvs/pyqt5/lib/python3.5/site-packages/sip-4.19.4.dev1708131720.dist-info/INSTALLER
+mkdir&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;~/.virtualenvs/pyqt5/lib/python3.5/site-packages/PyQt5-5.9.1.dev1707250927.dist-info
+touch&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;~/.virtualenvs/pyqt5/lib/python3.5/site-packages/PyQt5-5.9.1.dev1707250927.dist-info/INSTALLER
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;~/.virtualenvs/pyqt5/bin/pip&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;freeze
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;pkg-resources==0.0.0
+PyQt5==5.9.1.dev1707250927
+sip==4.19.4.dev1708131720
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;bonus-2&#34;&gt;Bonus #2 How I figured out I needed that Ubuntu package&lt;/h3&gt;
+
+&lt;p&gt;When I first ran &lt;code&gt;configure.py&lt;/code&gt; for PyQt5 it didn&#39;t say it would build QtQml.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nv&#34;&gt;Checking&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;to&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;see&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;the&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;QtQml&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;should&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;be&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;built&lt;/span&gt;...
+#&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;...
+&lt;span class=&#34;nv&#34;&gt;These&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;PyQt5&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;modules&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;will&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;be&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;built&lt;/span&gt;:&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;QtCore&lt;/span&gt;,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;QtNetwork&lt;/span&gt;,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;QtXml&lt;/span&gt;,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;QtXmlPatterns&lt;/span&gt;,
+&lt;span class=&#34;nv&#34;&gt;QtDBus&lt;/span&gt;,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;QtWebSockets&lt;/span&gt;,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;QtWebChannel&lt;/span&gt;,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;QtNfc&lt;/span&gt;.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;So I ran it again with &lt;code&gt;--verbose&lt;/code&gt; and saw there was an error for &lt;code&gt;QtQml&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/usr/bin/ld: cannot find -lGL
+collect2: error: ld returned 1 exit status
+cfgtest_QtQml.mk:242: recipe for target &amp;#39;cfgtest_QtQml&amp;#39; failed
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;-lGL&lt;/code&gt; means that &lt;code&gt;ld&lt;/code&gt; couldn&#39;t find &lt;code&gt;libGL.so&lt;/code&gt;, that&#39;s how &lt;code&gt;ld&lt;/code&gt; looks for libraries.&lt;/p&gt;
+&lt;p&gt;Then I searched the Ubuntu packages for the file &lt;code&gt;libGL.so&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;dpkg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-S&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;libGL.so
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;libgl1-mesa-glx:i386: /usr/lib/i386-linux-gnu/mesa/libGL.so.1
+libgl1-mesa-dev:amd64: /usr/lib/x86_64-linux-gnu/mesa/libGL.so
+libgl1-mesa-glx:amd64: /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1
+libgl1-mesa-glx:amd64: /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0
+libgl1-mesa-glx:i386: /usr/lib/i386-linux-gnu/mesa/libGL.so.1.2.0
+libgl1-mesa-dev:amd64: /usr/lib/x86_64-linux-gnu/libGL.so
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+  </entry>
+  <entry xml:base="https://www.niladicpodcast.com/feed.atom">
+    <title type="text">What&#39;s the deal with Ctrl+Left and Ctrl+Right?</title>
+    <id>https://www.niladicpodcast.com/2017/01/14/whats-the-deal-with-ctrlleft-and-ctrlright/</id>
+    <updated>2026-03-19T11:38:21.516020+00:00</updated>
+    <published>2017-01-14T00:00:00+00:00</published>
+    <link href="https://www.niladicpodcast.com/2017/01/14/whats-the-deal-with-ctrlleft-and-ctrlright/" />
+    <author>
+      <name>Cody</name>
+    </author>
+    <content type="html">&lt;p&gt;What is with the behaviour of &lt;code&gt;Ctrl+Left&lt;/code&gt; and &lt;code&gt;Ctrl+Right&lt;/code&gt;? Almost every editor behaves differently.&lt;/p&gt;
+&lt;p&gt;The different behaviour makes it hard to use efficiently.&lt;/p&gt;
+&lt;p&gt;Use this text as an example and put your cursor at the beginning and press &lt;code&gt;Ctrl+Right&lt;/code&gt; until you reach the end.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nx&#34;&gt;simple&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;sentence&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;with&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;under_scores&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;hyphen&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Where do you think the cursor will stop? Where does it stop?&lt;/p&gt;
+&lt;p&gt;On Windows in Notepad++ it stops where I&#39;ve added the &lt;code&gt;|&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nx&#34;&gt;simple&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;sentence&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;with&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;under_scores&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;hyphen&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|-|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In Atom on Windows it stops:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nx&#34;&gt;simple&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;sentence&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;with&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;under_scores&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;hyphen&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|-|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In Atom it stops at the end of words, that&#39;s good if you are replacing the word, but if you are deleting the first word, you also want to delete the space after it.&lt;/p&gt;
+&lt;p&gt;Neither of them stopped at the underscore. That&#39;s not good if you want to replace the first part before the underscore. For example, changing the variable &lt;code&gt;file_name&lt;/code&gt; to &lt;code&gt;folder_name&lt;/code&gt; when you change your code.&lt;/p&gt;
+&lt;p&gt;This behaviour isn&#39;t in the preferences for editors and you wouldn&#39;t want the behaviour to be different in different editors.&lt;/p&gt;
+&lt;p&gt;Some of you might be thinking, just use &lt;code&gt;vim&lt;/code&gt; or &lt;code&gt;emacs&lt;/code&gt; and you don&#39;t have to worry about using &lt;code&gt;Ctrl+Left&lt;/code&gt; and &lt;code&gt;Ctrl+Right&lt;/code&gt; because there are better ways of navigation. But you are not always in &lt;code&gt;vim&lt;/code&gt; or &lt;code&gt;emacs&lt;/code&gt;, sometimes you are in a browser or an IDE.&lt;/p&gt;
+&lt;p&gt;Another strange thing is going backwards from the end of the text. With the cursor at the end of the text, if I repeatedly press &lt;code&gt;Ctrl+Left&lt;/code&gt; in Atom I stop at the beginning of words like in Notepad++.&lt;/p&gt;
+&lt;p&gt;I end up just using &lt;code&gt;Ctrl+End&lt;/code&gt; or &lt;code&gt;Ctrl + Home&lt;/code&gt; because I know what it is going to do and for the most part I don&#39;t want to stop after each symbol. If I wanted to do that I would just use &lt;code&gt;Right&lt;/code&gt; or &lt;code&gt;Left&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;test(False)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Stops at&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;test|(|False)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;So I can be at the end of &lt;code&gt;test&lt;/code&gt; and delete the rest of the word, but I have to hit &lt;code&gt;Ctrl+Right&lt;/code&gt; three times.
+I want to go the next whitespace, unless it is a hyphen or an underscore.&lt;/p&gt;
+&lt;p&gt;But inside the parentheses I want different behaviour.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;test(False|, True|)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;But if you are inside the parentheses I would want to stop before the closing parenthesis.
+If the cursor is at the first &lt;code&gt;|&lt;/code&gt;, then I want to go to the second one to delete the second parameter for example.&lt;/p&gt;
+&lt;p&gt;So maybe this isn&#39;t the correct solution, maybe a key that does the equivalent of double clicking the mouse is actually what I want.&lt;/p&gt;
+&lt;p&gt;I guess this is why people end up writing their own version of existing software. Maybe I should write my own editor, or at least try and then realize why what I want is not possible.&lt;/p&gt;
+&lt;p&gt;So really there are two problems, why isn&#39;t the &lt;code&gt;Ctrl+Left&lt;/code&gt; and &lt;code&gt;Ctrl+Right&lt;/code&gt; behaviour the same everywhere, and when we make it consistent can we make it good?&lt;/p&gt;
+&lt;p&gt;I&#39;ll just leave this here &lt;a href=&#34;https://xkcd.com/927/&#34; rel=&#34;nofollow&#34;&gt;https://xkcd.com/927/&lt;/a&gt;.&lt;/p&gt;</content>
+  </entry>
+  <entry xml:base="https://www.niladicpodcast.com/feed.atom">
+    <title type="text">My Problems with Bitbucket Cloud Pull Requests</title>
+    <id>https://www.niladicpodcast.com/2017/04/19/my-problems-with-bitbucket-cloud/</id>
+    <updated>2026-03-19T11:38:21.464691+00:00</updated>
+    <published>2017-04-19T11:52:42.486942+00:00</published>
+    <link href="https://www.niladicpodcast.com/2017/04/19/my-problems-with-bitbucket-cloud/" />
+    <author>
+      <name>Cody</name>
+    </author>
+    <content type="html">&lt;p&gt;I use Mercurial with bookmarks instead of named branches and a repo (fork) per user. I only have the default named branch. Development happens in a fork and a pull request is created.&lt;/p&gt;
+&lt;p&gt;This is an example of my &lt;a href=&#34;https://bitbucket.org/Siecje/hg_setup/src/default/workflow.md?fileviewer=file-view-default&#34; target=&#34;_blank&#34;&gt;workflow&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;These are the problems I have encountered while using Bitbucket Cloud.&lt;/p&gt;
+&lt;h2&gt;1. You can&#39;t get the code of a pull request from a private fork.&lt;/h2&gt;
+&lt;p&gt;The diff of a pull request is not the greatest, especially for large diffs.
+Sometimes you want to have the code of a pull request locally,
+to run tests or look at the code in your preferred editor with syntax highlighting, the ability to jump to definition, and search for other uses.&lt;/p&gt;
+&lt;p&gt;If you have read access to the source repo then you can clone the source repo. If it is a public repo then everyone has read access by definition.
+However if you are working with a private repo with private forks then by default you won&#39;t have access.
+You can view the changes in the pull request but you can&#39;t get them locally.&lt;/p&gt;
+&lt;p&gt;Each private fork needs to add read access for the rest of the team.
+Fortunately, you can add a group from the original repo, but it would be nice if you could enforce that all forks have certain user and group access.&lt;/p&gt;
+&lt;p&gt;GitHub creates a branch in the pull request destination repo that you can pull down from the destination remote repo, so you don&#39;t need access to the source repo.&lt;/p&gt;
+&lt;h2&gt;2. You can&#39;t have a pull request source be a specific commit&lt;/h2&gt;
+&lt;p&gt;A pull request source must be a head. So you can&#39;t create a pull request and prevent it from automatically updating
+and then add additional commits to the commit in the pull request, without having them show up in the pull request.&lt;/p&gt;
+&lt;p&gt;The use case arises when you need a new feature to be reviewed but you need to use the first feature for another feature.&lt;/p&gt;
+&lt;p&gt;You can create another fork and push the additional commits to the new fork.
+Or you can do &lt;code&gt;hg graft&lt;/code&gt; and then rebase the new commits after the pull request is merged
+and &lt;code&gt;hg prune&lt;/code&gt; the duplicate commits from the graft.&lt;/p&gt;
+&lt;p&gt;Ideally, a pull request source could be set to a bookmark, and if you move the bookmark then the pull request would update, if you don&#39;t move the bookmark but add commits on top of that commit, the pull request should not update.
+Since Mercurial supports merging non head commits, it would be nice if you could do it in a pull request.&lt;/p&gt;
+&lt;p&gt;Just to show that Mercurial supports this&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;init
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;touch&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;a
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;add&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;a
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;commit&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-m&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;initial&amp;quot;&lt;/span&gt;
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;la
+@&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cody&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;tip&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;-03-10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;initial
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;a&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&amp;gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;a
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;commit&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-m&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;mainline has moved&amp;quot;&lt;/span&gt;
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-r&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;.^
+&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;files&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;updated,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;files&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;merged,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;files&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;removed,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;files&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;unresolved
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;b&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&amp;gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;b
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;add&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;b
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;commit&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-m&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;requesting if b can be added&amp;quot;&lt;/span&gt;
+created&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;new&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;head
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;changing contents of b&amp;quot;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&amp;gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;b
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;status
+M&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;b
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;commit&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-m&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;changing b&amp;quot;&lt;/span&gt;
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;la
+@&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cody&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;tip&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;-03-10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;changing&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;b
+o&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cody&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;-03-10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;requesting&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;b&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;can&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;be&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;added
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;o&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cody&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;-03-10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;/&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;mainline&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;has&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;moved
+o&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cody&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;-03-10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;initial
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;files&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;updated,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;files&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;merged,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;files&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;removed,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;files&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;unresolved
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;merge&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-r&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;
+&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;files&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;updated,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;files&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;merged,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;files&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;removed,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;files&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;unresolved
+&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;branch&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;merge,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;don&lt;span class=&#34;err&#34;&gt;&amp;#39;&lt;/span&gt;t&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;forget&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;to&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;commit&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;la
+o&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cody&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;tip&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;-03-10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;changing&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;b
+@&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cody&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;-03-10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;requesting&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;b&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;can&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;be&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;added
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;@&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cody&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;-03-10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;/&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;mainline&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;has&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;moved
+o&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cody&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;-03-10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;initial
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;status
+M&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;b
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;ll
+@&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cody&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;-03-10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;mainline&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;has&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;moved
+o&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cody&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;-03-10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;initial
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;commit&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-m&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;merge&amp;quot;&lt;/span&gt;
+$&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hg&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;la
+@&lt;span class=&#34;w&#34;&gt;     &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cody&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;tip&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;-03-10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\ &lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;merge
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;o&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cody&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;-03-10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;/&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;changing&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;b
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;o&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cody&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;-03-10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;requesting&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;b&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;can&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;be&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;added
+o&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cody&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;-03-10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;/&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;mainline&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;has&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;moved
+o&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cody&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;-03-10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;initial
+$
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;3. Pull requests don&#39;t show the destination bookmark&lt;/h2&gt;
+&lt;p&gt;When you create a pull request you set the source and destination, but when you are viewing an existing pull request you can&#39;t see the destination bookmark, only the branch name.
+Since I only have the default branch and use bookmarks for multiple heads, I can&#39;t see the destination bookmark. So I have to click merge without knowing where the commits are going to end up.
+It also doesn&#39;t show the bookmark of the source in the case you want to clone the source repo and manually merge, you have to click on the commit and see the bookmark or use the commit hash.&lt;/p&gt;
+&lt;h2&gt;4. Merging pull requests doesn&#39;t always move the destination bookmark.&lt;/h2&gt;
+&lt;p&gt;My pull requests always have a destination bookmark, but unless the source commit has the same bookmark and there is no merge commit added by merging the pull request, the bookmark doesn&#39;t move.
+I think it should always move the bookmark, because the bookmark is essentially the &#34;branch&#34; and should be on the head of the &#34;branch&#34;. Though there are cases where you want to have a bookmark for a commit that is not a head.&lt;/p&gt;
+&lt;p&gt;The default behaviour should be to move the destination bookmark and maybe add a checkbox to the pull request to prevent the destination bookmark from moving.&lt;/p&gt;
+&lt;p&gt;The cases where the destination bookmark does not move are as follows:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;When there is no merge commit but source and destination bookmarks are different&lt;/li&gt;
+&lt;li&gt;When there is a merge commit but with different bookmarks&lt;/li&gt;
+&lt;li&gt;When there is a merge commit with the same bookmarks&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The case when the destination bookmark does move:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;No merge commit and source bookmark is the same as the destination bookmark&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;a href=&#34;https://bitbucket.org/site/master/issues/12287/pull-requests-merged-ontop-of-a-mercurial&#34; target=&#34;_blank&#34;&gt;Bitbucket Issue&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;5. When you push a successor commit the pull request doesn&#39;t always update&lt;/h2&gt;
+&lt;p&gt;With Mercurial evolution support in Bitbucket Labs, you can now push a successor commit to replace a commit, which makes the original commit obsolete.
+However pull requests do not automatically update, they still have the old and now obsolete commits as the source.&lt;/p&gt;
+&lt;p&gt;You can edit the pull request and select the new commits as the source.&lt;/p&gt;
+&lt;p&gt;Ideally you should be able to set the source to be a bookmark and when that bookmark changes (ex. to a successor commit) then the pull request should update.&lt;/p&gt;
+&lt;p&gt;I have had this happen once, though it is not clear why it doesn&#39;t always happen.&lt;/p&gt;
+&lt;h2&gt;6. Updating a pull request is buggy&lt;/h2&gt;
+&lt;p&gt;When you update a pull request the destination is set to the first commit sorted by commit hash alphabetically, which is weird because when you create a pull request the destination is the newest commit in that branch.&lt;/p&gt;
+&lt;p&gt;This means you have to be careful and set it back to what it was before you clicked &lt;em&gt;Edit&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Also sometimes editing the pull request causes the destination to be the wrong commit and doesn&#39;t work even though you changed the destination.
+Or the source is set to default and shows the most recent commits added to the repo and you can&#39;t change it.
+When this happens I just make a new pull request and close the bugged one. This causes two emails to be sent to the reviewers.&lt;/p&gt;
+&lt;p&gt;You can&#39;t just edit the pull request description, there is only the one edit form and as previously mentioned it changes the destination and you risk the pull request becoming bugged.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Update&lt;/strong&gt;: 2017-08-16 When editing a pull request the destination is no longer the first alphabetically sorted commit, it is the head that was most recently updated.&lt;/p&gt;
+&lt;h2&gt;7. Can&#39;t build CI for a pull request from another repo&lt;/h2&gt;
+&lt;p&gt;Bitbucket Pipelines won&#39;t build a pull request from a fork. You can enable pipelines in the fork, but you can only trust the passing pipeline if there won&#39;t be a merge commit when you merge the pull request, since it hasn&#39;t tested the code when it is merged.&lt;/p&gt;
+&lt;p&gt;Bitbucket pipelines is pretty new, and even Jenkins doesn&#39;t have a plugin that can merge and run on a pull request from another repo.
+There is a plugin that looks like it will do this and even triggers when you create a pull request, but it just pulls down the destination repo and does a build, which is not obvious when you start using it.
+&lt;a href=&#34;https://github.com/nishio-dens/bitbucket-pullrequest-builder-plugin&#34; rel=&#34;nofollow&#34;&gt;https://github.com/nishio-dens/bitbucket-pullrequest-builder-plugin&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://bitbucket.org/site/master/issues/13162/pull-requests-from-forks&#34; target=&#34;_blank&#34;&gt;Bitbucket Issue&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;8. Pull requests say they have been updated when they have not&lt;/h2&gt;
+&lt;p&gt;I have multiple pull requests for heads in the default branch. When I push to the default branch in the source repo it says all of the pull requests have been updated.&lt;/p&gt;
+&lt;h2&gt;9. You can merge a pull request without viewing the current version&lt;/h2&gt;
+&lt;p&gt;If you are viewing a pull request and someone adds a commit and updates the pull request, you can merge the pull request without viewing the new commit. When you merge the pull request both commits are merged.&lt;/p&gt;
+&lt;h2&gt;10. You can merge a pull request with obsolete commits&lt;/h2&gt;
+&lt;p&gt;If you are viewing a pull request with draft commits and they have been replaced with a successor commit it is still possible to merge the pull request with the obsolete commits.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://bitbucket.org/site/master/issues/14613/hg-prevent-merging-a-pr-with-obsolete&#34; target=&#34;_blank&#34;&gt;Bitbucket Issue&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;11. You can&#39;t create a pull request for another fork of the main repo&lt;/h2&gt;
+&lt;p&gt;If you are reviewing a pull request for a repo and you want to suggest changes to the pull request, what can you do?&lt;/p&gt;
+&lt;p&gt;I thought you could simply create a pull request from your fork to the other person&#39;s fork. But you can only create a pull request from your fork for the main repo.&lt;/p&gt;
+&lt;p&gt;On GitHub you go to the destination repo to create the pull request so the experience is a bit cleaner.&lt;/p&gt;
+&lt;p&gt;As a workaround you can create another fork of the fork.&lt;/p&gt;
+&lt;h2&gt;12. No rebase when a pull request is accepted&lt;/h2&gt;
+&lt;p&gt;If I work on a feature and create a pull request, I can update to its parent and work on the second feature and create another pull request.
+But when the second pull request is accepted there will be a merge commit in the repo. To avoid merge commits I would need to rebase after the first pull request is accepted.
+This means reviewers could only review one pull request at a time.&lt;/p&gt;
+&lt;p&gt;As a workaround you can just commit the second feature as child of the first feature and then only have one pull request
+and ask that the reviewer look at each commit as if it is its own pull request.&lt;/p&gt;
+&lt;p&gt;This is not ideal because it is good to have small commits that can be reversed if needed and this encourages one commit per feature.&lt;/p&gt;
+&lt;p&gt;Once Mercurial has an in-memory merge then rebase can be done without the working directory of the repo.&lt;/p&gt;</content>
+  </entry>
+  <entry xml:base="https://www.niladicpodcast.com/feed.atom">
+    <title type="text">Setup a local SFTP server for development</title>
+    <id>https://www.niladicpodcast.com/2018/01/10/setup-a-local-sftp-server-for-development/</id>
+    <updated>2026-03-19T11:38:21.464691+00:00</updated>
+    <published>2018-01-10T00:00:00+00:00</published>
+    <link href="https://www.niladicpodcast.com/2018/01/10/setup-a-local-sftp-server-for-development/" />
+    <author>
+      <name>Cody Scott</name>
+    </author>
+    <content type="html">&lt;p&gt;OpenSSH comes with an SFTP server. First install OpenSSH Server.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;openssh-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Create &lt;code&gt;sftponly&lt;/code&gt; group.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;groupadd&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;sftponly
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Create a directory for SFTP files. The &lt;code&gt;ChrootDirectory&lt;/code&gt; set in &lt;code&gt;sshd_config&lt;/code&gt; must be owned by &lt;code&gt;root&lt;/code&gt; and only writable by &lt;code&gt;root&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mkdir&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/sftp/
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;chown&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;root:sftponly&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/sftp/
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;chmod&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2755&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/sftp/
+&lt;span class=&#34;c1&#34;&gt;# The leading 2 is for g+s&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;If the &lt;code&gt;ChrootDirectory&lt;/code&gt; is not owned by &lt;code&gt;root&lt;/code&gt; you will get the following error:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;n&#34;&gt;packet_write_wait&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Connection&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;to&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;127.0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0.1&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;port&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;22&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Broken&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pipe&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;Couldn&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;read&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;packet&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Connection&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;reset&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;by&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;peer&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Configure SFTP server&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;only available from localhost&lt;/li&gt;
+&lt;li&gt;only available to users in the &lt;code&gt;sftponly&lt;/code&gt; group&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/sftp/&lt;/code&gt; is the directory on disk&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Add the following to the bottom of &lt;code&gt;/etc/ssh/sshd_config&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Match Group sftponly
+    ChrootDirectory /sftp/
+    ForceCommand internal-sftp
+    AllowTcpForwarding no
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;service&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;ssh&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You can create directories inside and copy files into them and they will be owned by the &lt;code&gt;sftponly&lt;/code&gt; group.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mkdir&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/sftp/files/
+&lt;span class=&#34;c1&#34;&gt;# Allow sftponly users to upload files&lt;/span&gt;
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;chmod&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2775&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/sftp/files/
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cp&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;file&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/sftp/files/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You can create a new user in the &lt;code&gt;sftponly&lt;/code&gt; group and use that user and password to login to the SFTP server.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;useradd&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-M&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-G&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;sftponly&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$newUser&lt;/span&gt;
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;passwd&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$newUser&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# set password&lt;/span&gt;
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-u&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$newUser&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;sftp&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;localhost
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To add an existing user to the group:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;usermod&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-a&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-G&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;sftponly&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$USER&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In order for your user to actually be in the &lt;code&gt;sftponly&lt;/code&gt; group you need to log in after the usermod command.
+The safest thing to do is to compare your current groups with the new groups while you are still in the current environment and can still fix it.
+I forgot the &lt;code&gt;-a&lt;/code&gt; in the &lt;code&gt;usermod&lt;/code&gt; command and had to use GRUB to get a root terminal and add my user back to the correct groups.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;groups
+id
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Compare with the groups after login:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;su&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$USER&lt;/span&gt;
+groups
+id
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The only difference should be the &lt;code&gt;sftponly&lt;/code&gt; group.&lt;/p&gt;</content>
+  </entry>
+</feed>

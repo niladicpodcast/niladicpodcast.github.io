@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+  
+    My Problems with Bitbucket Cloud Pull Requests
+  
+ | Niladic Podcast</title>
+  
+    
+      <link rel="icon" href="/static/favicon.svg" sizes="any" type="image/svg+xml">
+    
+  
+  
+  
+    
+      <meta property="og:site_name" content="Niladic Podcast">
+    
+  
+  
+  
+
+  
+  <meta property="og:type" content="article">
+  
+    <meta property="og:url" content="https://www.niladicpodcast.com/2017/04/19/my-problems-with-bitbucket-cloud/">
+  
+  
+    <meta property="og:title" content="My Problems with Bitbucket Cloud Pull Requests">
+  
+  <meta property="og:description" content="">
+  
+
+  
+
+  
+  
+
+  
+    <link href="/static/htmd.css" rel="stylesheet">
+    <link href="/static/pygments.css" rel="stylesheet">
+    <!-- Fonts-->
+    <link href="/static/css/Lora.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/Open-Sans.min.css" rel="stylesheet" type="text/css">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/static/css/styles.min.css" rel="stylesheet">
+  
+  <link href="/feed.atom" rel="alternate" title="Niladic Podcast" type="application/atom+xml">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+    <div class="container px-4 px-lg-5">
+      <a class="navbar-brand" href="/">Niladic Podcast</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ms-auto py-4 py-lg-0">
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="/blog/">
+              Blog
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="javascript:void(0)" onclick="goToRandomPost()">
+              Random
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="/search/">
+              Search
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('/static/img/home-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <div class="site-heading">
+            <span class="h1">Niladic Podcast</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content-->
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-10 col-xl-9">
+        
+  
+  <article>
+    <h1>
+      
+        My Problems with Bitbucket Cloud Pull Requests
+      
+    </h1>
+    
+    <span class="meta">
+        Posted by <a href="/author/Cody/">Cody</a> on 2017-04-19
+      </span>
+    
+
+    
+      <p>I use Mercurial with bookmarks instead of named branches and a repo (fork) per user. I only have the default named branch. Development happens in a fork and a pull request is created.</p>
+<p>This is an example of my <a href="https://bitbucket.org/Siecje/hg_setup/src/default/workflow.md?fileviewer=file-view-default" target="_blank">workflow</a>.</p>
+<p>These are the problems I have encountered while using Bitbucket Cloud.</p>
+<h2>1. You can't get the code of a pull request from a private fork.</h2>
+<p>The diff of a pull request is not the greatest, especially for large diffs.
+Sometimes you want to have the code of a pull request locally,
+to run tests or look at the code in your preferred editor with syntax highlighting, the ability to jump to definition, and search for other uses.</p>
+<p>If you have read access to the source repo then you can clone the source repo. If it is a public repo then everyone has read access by definition.
+However if you are working with a private repo with private forks then by default you won't have access.
+You can view the changes in the pull request but you can't get them locally.</p>
+<p>Each private fork needs to add read access for the rest of the team.
+Fortunately, you can add a group from the original repo, but it would be nice if you could enforce that all forks have certain user and group access.</p>
+<p>GitHub creates a branch in the pull request destination repo that you can pull down from the destination remote repo, so you don't need access to the source repo.</p>
+<h2>2. You can't have a pull request source be a specific commit</h2>
+<p>A pull request source must be a head. So you can't create a pull request and prevent it from automatically updating
+and then add additional commits to the commit in the pull request, without having them show up in the pull request.</p>
+<p>The use case arises when you need a new feature to be reviewed but you need to use the first feature for another feature.</p>
+<p>You can create another fork and push the additional commits to the new fork.
+Or you can do <code>hg graft</code> and then rebase the new commits after the pull request is merged
+and <code>hg prune</code> the duplicate commits from the graft.</p>
+<p>Ideally, a pull request source could be set to a bookmark, and if you move the bookmark then the pull request would update, if you don't move the bookmark but add commits on top of that commit, the pull request should not update.
+Since Mercurial supports merging non head commits, it would be nice if you could do it in a pull request.</p>
+<p>Just to show that Mercurial supports this</p>
+<div class="codehilite"><pre><span></span><code>$<span class="w"> </span>hg<span class="w"> </span>init
+$<span class="w"> </span>touch<span class="w"> </span>a
+$<span class="w"> </span>hg<span class="w"> </span>add<span class="w"> </span>a
+$<span class="w"> </span>hg<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;initial&quot;</span>
+$<span class="w"> </span>hg<span class="w"> </span>la
+@<span class="w">   </span><span class="m">0</span><span class="w"> </span>cody<span class="w"> </span>tip<span class="w"> </span><span class="o">(</span><span class="m">2017</span>-03-10<span class="o">)</span>
+<span class="w">   </span>initial
+$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>a<span class="w"> </span>&gt;<span class="w"> </span>a
+$<span class="w"> </span>hg<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;mainline has moved&quot;</span>
+$<span class="w"> </span>hg<span class="w"> </span>update<span class="w"> </span>-r<span class="w"> </span>.^
+<span class="m">1</span><span class="w"> </span>files<span class="w"> </span>updated,<span class="w"> </span><span class="m">0</span><span class="w"> </span>files<span class="w"> </span>merged,<span class="w"> </span><span class="m">0</span><span class="w"> </span>files<span class="w"> </span>removed,<span class="w"> </span><span class="m">0</span><span class="w"> </span>files<span class="w"> </span>unresolved
+$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>b<span class="w"> </span>&gt;<span class="w"> </span>b
+$<span class="w"> </span>hg<span class="w"> </span>add<span class="w"> </span>b
+$<span class="w"> </span>hg<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;requesting if b can be added&quot;</span>
+created<span class="w"> </span>new<span class="w"> </span>head
+$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;changing contents of b&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>b
+$<span class="w"> </span>hg<span class="w"> </span>status
+M<span class="w"> </span>b
+$<span class="w"> </span>hg<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;changing b&quot;</span>
+$<span class="w"> </span>hg<span class="w"> </span>la
+@<span class="w">   </span><span class="m">3</span><span class="w"> </span>cody<span class="w"> </span>tip<span class="w"> </span><span class="o">(</span><span class="m">2017</span>-03-10<span class="o">)</span>
+<span class="p">|</span><span class="w">  </span>changing<span class="w"> </span>b
+o<span class="w">   </span><span class="m">2</span><span class="w"> </span>cody<span class="w"> </span><span class="o">(</span><span class="m">2017</span>-03-10<span class="o">)</span>
+<span class="p">|</span><span class="w">  </span>requesting<span class="w"> </span><span class="k">if</span><span class="w"> </span>b<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>added
+<span class="p">|</span><span class="w"> </span>o<span class="w">   </span><span class="m">1</span><span class="w"> </span>cody<span class="w"> </span><span class="o">(</span><span class="m">2017</span>-03-10<span class="o">)</span>
+<span class="p">|</span>/<span class="w">   </span>mainline<span class="w"> </span>has<span class="w"> </span>moved
+o<span class="w">   </span><span class="m">0</span><span class="w"> </span>cody<span class="w"> </span><span class="o">(</span><span class="m">2017</span>-03-10<span class="o">)</span>
+<span class="w">   </span>initial
+$<span class="w"> </span>hg<span class="w"> </span>update<span class="w"> </span><span class="m">1</span>
+<span class="m">1</span><span class="w"> </span>files<span class="w"> </span>updated,<span class="w"> </span><span class="m">0</span><span class="w"> </span>files<span class="w"> </span>merged,<span class="w"> </span><span class="m">1</span><span class="w"> </span>files<span class="w"> </span>removed,<span class="w"> </span><span class="m">0</span><span class="w"> </span>files<span class="w"> </span>unresolved
+$<span class="w"> </span>hg<span class="w"> </span>merge<span class="w"> </span>-r<span class="w"> </span><span class="m">2</span>
+<span class="m">1</span><span class="w"> </span>files<span class="w"> </span>updated,<span class="w"> </span><span class="m">0</span><span class="w"> </span>files<span class="w"> </span>merged,<span class="w"> </span><span class="m">0</span><span class="w"> </span>files<span class="w"> </span>removed,<span class="w"> </span><span class="m">0</span><span class="w"> </span>files<span class="w"> </span>unresolved
+<span class="o">(</span>branch<span class="w"> </span>merge,<span class="w"> </span>don<span class="err">&#39;</span>t<span class="w"> </span>forget<span class="w"> </span>to<span class="w"> </span>commit<span class="o">)</span>
+$<span class="w"> </span>hg<span class="w"> </span>la
+o<span class="w">   </span><span class="m">3</span><span class="w"> </span>cody<span class="w"> </span>tip<span class="w"> </span><span class="o">(</span><span class="m">2017</span>-03-10<span class="o">)</span>
+<span class="p">|</span><span class="w">  </span>changing<span class="w"> </span>b
+@<span class="w">   </span><span class="m">2</span><span class="w"> </span>cody<span class="w"> </span><span class="o">(</span><span class="m">2017</span>-03-10<span class="o">)</span>
+<span class="p">|</span><span class="w">  </span>requesting<span class="w"> </span><span class="k">if</span><span class="w"> </span>b<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>added
+<span class="p">|</span><span class="w"> </span>@<span class="w">   </span><span class="m">1</span><span class="w"> </span>cody<span class="w"> </span><span class="o">(</span><span class="m">2017</span>-03-10<span class="o">)</span>
+<span class="p">|</span>/<span class="w">   </span>mainline<span class="w"> </span>has<span class="w"> </span>moved
+o<span class="w">   </span><span class="m">0</span><span class="w"> </span>cody<span class="w"> </span><span class="o">(</span><span class="m">2017</span>-03-10<span class="o">)</span>
+<span class="w">   </span>initial
+$<span class="w"> </span>hg<span class="w"> </span>status
+M<span class="w"> </span>b
+$<span class="w"> </span>hg<span class="w"> </span>ll
+@<span class="w">   </span><span class="m">1</span><span class="w"> </span>cody<span class="w"> </span><span class="o">(</span><span class="m">2017</span>-03-10<span class="o">)</span>
+<span class="p">|</span><span class="w">  </span>mainline<span class="w"> </span>has<span class="w"> </span>moved
+o<span class="w">   </span><span class="m">0</span><span class="w"> </span>cody<span class="w"> </span><span class="o">(</span><span class="m">2017</span>-03-10<span class="o">)</span>
+<span class="w">   </span>initial
+$<span class="w"> </span>hg<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;merge&quot;</span>
+$<span class="w"> </span>hg<span class="w"> </span>la
+@<span class="w">     </span><span class="m">4</span><span class="w"> </span>cody<span class="w"> </span>tip<span class="w"> </span><span class="o">(</span><span class="m">2017</span>-03-10<span class="o">)</span>
+<span class="p">|</span><span class="se">\ </span><span class="w">  </span>merge
+<span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>o<span class="w">   </span><span class="m">3</span><span class="w"> </span>cody<span class="w"> </span><span class="o">(</span><span class="m">2017</span>-03-10<span class="o">)</span>
+<span class="p">|</span><span class="w"> </span><span class="p">|</span>/<span class="w">   </span>changing<span class="w"> </span>b
+<span class="p">|</span><span class="w"> </span>o<span class="w">   </span><span class="m">2</span><span class="w"> </span>cody<span class="w"> </span><span class="o">(</span><span class="m">2017</span>-03-10<span class="o">)</span>
+<span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>requesting<span class="w"> </span><span class="k">if</span><span class="w"> </span>b<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>added
+o<span class="w"> </span><span class="p">|</span><span class="w">   </span><span class="m">1</span><span class="w"> </span>cody<span class="w"> </span><span class="o">(</span><span class="m">2017</span>-03-10<span class="o">)</span>
+<span class="p">|</span>/<span class="w">   </span>mainline<span class="w"> </span>has<span class="w"> </span>moved
+o<span class="w">   </span><span class="m">0</span><span class="w"> </span>cody<span class="w"> </span><span class="o">(</span><span class="m">2017</span>-03-10<span class="o">)</span>
+<span class="w">   </span>initial
+$
+</code></pre></div>
+
+<h2>3. Pull requests don't show the destination bookmark</h2>
+<p>When you create a pull request you set the source and destination, but when you are viewing an existing pull request you can't see the destination bookmark, only the branch name.
+Since I only have the default branch and use bookmarks for multiple heads, I can't see the destination bookmark. So I have to click merge without knowing where the commits are going to end up.
+It also doesn't show the bookmark of the source in the case you want to clone the source repo and manually merge, you have to click on the commit and see the bookmark or use the commit hash.</p>
+<h2>4. Merging pull requests doesn't always move the destination bookmark.</h2>
+<p>My pull requests always have a destination bookmark, but unless the source commit has the same bookmark and there is no merge commit added by merging the pull request, the bookmark doesn't move.
+I think it should always move the bookmark, because the bookmark is essentially the "branch" and should be on the head of the "branch". Though there are cases where you want to have a bookmark for a commit that is not a head.</p>
+<p>The default behaviour should be to move the destination bookmark and maybe add a checkbox to the pull request to prevent the destination bookmark from moving.</p>
+<p>The cases where the destination bookmark does not move are as follows:</p>
+<ol>
+<li>When there is no merge commit but source and destination bookmarks are different</li>
+<li>When there is a merge commit but with different bookmarks</li>
+<li>When there is a merge commit with the same bookmarks</li>
+</ol>
+<p>The case when the destination bookmark does move:</p>
+<ol>
+<li>No merge commit and source bookmark is the same as the destination bookmark</li>
+</ol>
+<p><a href="https://bitbucket.org/site/master/issues/12287/pull-requests-merged-ontop-of-a-mercurial" target="_blank">Bitbucket Issue</a></p>
+<h2>5. When you push a successor commit the pull request doesn't always update</h2>
+<p>With Mercurial evolution support in Bitbucket Labs, you can now push a successor commit to replace a commit, which makes the original commit obsolete.
+However pull requests do not automatically update, they still have the old and now obsolete commits as the source.</p>
+<p>You can edit the pull request and select the new commits as the source.</p>
+<p>Ideally you should be able to set the source to be a bookmark and when that bookmark changes (ex. to a successor commit) then the pull request should update.</p>
+<p>I have had this happen once, though it is not clear why it doesn't always happen.</p>
+<h2>6. Updating a pull request is buggy</h2>
+<p>When you update a pull request the destination is set to the first commit sorted by commit hash alphabetically, which is weird because when you create a pull request the destination is the newest commit in that branch.</p>
+<p>This means you have to be careful and set it back to what it was before you clicked <em>Edit</em>.</p>
+<p>Also sometimes editing the pull request causes the destination to be the wrong commit and doesn't work even though you changed the destination.
+Or the source is set to default and shows the most recent commits added to the repo and you can't change it.
+When this happens I just make a new pull request and close the bugged one. This causes two emails to be sent to the reviewers.</p>
+<p>You can't just edit the pull request description, there is only the one edit form and as previously mentioned it changes the destination and you risk the pull request becoming bugged.</p>
+<p><strong>Update</strong>: 2017-08-16 When editing a pull request the destination is no longer the first alphabetically sorted commit, it is the head that was most recently updated.</p>
+<h2>7. Can't build CI for a pull request from another repo</h2>
+<p>Bitbucket Pipelines won't build a pull request from a fork. You can enable pipelines in the fork, but you can only trust the passing pipeline if there won't be a merge commit when you merge the pull request, since it hasn't tested the code when it is merged.</p>
+<p>Bitbucket pipelines is pretty new, and even Jenkins doesn't have a plugin that can merge and run on a pull request from another repo.
+There is a plugin that looks like it will do this and even triggers when you create a pull request, but it just pulls down the destination repo and does a build, which is not obvious when you start using it.
+<a href="https://github.com/nishio-dens/bitbucket-pullrequest-builder-plugin" rel="nofollow">https://github.com/nishio-dens/bitbucket-pullrequest-builder-plugin</a></p>
+<p><a href="https://bitbucket.org/site/master/issues/13162/pull-requests-from-forks" target="_blank">Bitbucket Issue</a></p>
+<h2>8. Pull requests say they have been updated when they have not</h2>
+<p>I have multiple pull requests for heads in the default branch. When I push to the default branch in the source repo it says all of the pull requests have been updated.</p>
+<h2>9. You can merge a pull request without viewing the current version</h2>
+<p>If you are viewing a pull request and someone adds a commit and updates the pull request, you can merge the pull request without viewing the new commit. When you merge the pull request both commits are merged.</p>
+<h2>10. You can merge a pull request with obsolete commits</h2>
+<p>If you are viewing a pull request with draft commits and they have been replaced with a successor commit it is still possible to merge the pull request with the obsolete commits.</p>
+<p><a href="https://bitbucket.org/site/master/issues/14613/hg-prevent-merging-a-pr-with-obsolete" target="_blank">Bitbucket Issue</a></p>
+<h2>11. You can't create a pull request for another fork of the main repo</h2>
+<p>If you are reviewing a pull request for a repo and you want to suggest changes to the pull request, what can you do?</p>
+<p>I thought you could simply create a pull request from your fork to the other person's fork. But you can only create a pull request from your fork for the main repo.</p>
+<p>On GitHub you go to the destination repo to create the pull request so the experience is a bit cleaner.</p>
+<p>As a workaround you can create another fork of the fork.</p>
+<h2>12. No rebase when a pull request is accepted</h2>
+<p>If I work on a feature and create a pull request, I can update to its parent and work on the second feature and create another pull request.
+But when the second pull request is accepted there will be a merge commit in the repo. To avoid merge commits I would need to rebase after the first pull request is accepted.
+This means reviewers could only review one pull request at a time.</p>
+<p>As a workaround you can just commit the second feature as child of the first feature and then only have one pull request
+and ask that the reviewer look at each commit as if it is its own pull request.</p>
+<p>This is not ideal because it is good to have small commits that can be reversed if needed and this encourages one commit per feature.</p>
+<p>Once Mercurial has an in-memory merge then rebase can be done without the working directory of the repo.</p>
+    
+
+    
+
+    
+      <hr class="small">
+
+      <h2 id="comments">Comments</h2>
+
+      <div id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="6fe398cd-a881-4122-bea7-ba7f4a832aae"
+        data-page-id="my-problems-with-bitbucket-cloud"
+        data-page-url="https://www.niladicpodcast.com/2017/04/19/my-problems-with-bitbucket-cloud/"
+        data-page-title="My Problems with Bitbucket Cloud Pull Requests">
+      </div>
+    
+  </article>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-top">
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <p class="text-center">
+            Created with <a href="https://github.com/Siecje/htmd" target="_blank">htmd</a>.
+          </p>
+          <p class="text-center">
+            <a href="https://startbootstrap.com/theme/clean-blog" target="_blank">Clean Blog</a> theme by
+            <a href="https://startbootstrap.com" target="_blank">Start Bootstrap</a>.
+            License <a href="https://github.com/BlackrockDigital/startbootstrap?tab=readme-ov-file#copyright-and-license" target="_blank">MIT</a>.
+          </p>
+          <p class="text-center">
+            Cover image from <a href="https://unsplash.com/" target="_blank">Unsplash</a>,
+            <a href="https://unsplash.com/license" target="_blank">license</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  
+  
+    <script src="/static/htmd.js"></script>
+    <script src="/static/js/menu.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-8394186-4', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+  
+  
+    <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+  
+  
+    <script>
+      markCurrentPostAsVisited();
+    </script>
+  
+
+</body>
+</html>

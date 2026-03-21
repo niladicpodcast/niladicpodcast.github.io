@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+  
+    What&#39;s the deal with Ctrl+Left and Ctrl+Right?
+  
+ | Niladic Podcast</title>
+  
+    
+      <link rel="icon" href="/static/favicon.svg" sizes="any" type="image/svg+xml">
+    
+  
+  
+  
+    
+      <meta property="og:site_name" content="Niladic Podcast">
+    
+  
+  
+  
+
+  
+  <meta property="og:type" content="article">
+  
+    <meta property="og:url" content="https://www.niladicpodcast.com/2017/01/14/whats-the-deal-with-ctrlleft-and-ctrlright/">
+  
+  
+    <meta property="og:title" content="What&#39;s the deal with Ctrl+Left and Ctrl+Right?">
+  
+  <meta property="og:description" content="">
+  
+
+  
+
+  
+  
+
+  
+    <link href="/static/htmd.css" rel="stylesheet">
+    <link href="/static/pygments.css" rel="stylesheet">
+    <!-- Fonts-->
+    <link href="/static/css/Lora.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/Open-Sans.min.css" rel="stylesheet" type="text/css">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/static/css/styles.min.css" rel="stylesheet">
+  
+  <link href="/feed.atom" rel="alternate" title="Niladic Podcast" type="application/atom+xml">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+    <div class="container px-4 px-lg-5">
+      <a class="navbar-brand" href="/">Niladic Podcast</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ms-auto py-4 py-lg-0">
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="/blog/">
+              Blog
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="javascript:void(0)" onclick="goToRandomPost()">
+              Random
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="/search/">
+              Search
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('/static/img/home-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <div class="site-heading">
+            <span class="h1">Niladic Podcast</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content-->
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-10 col-xl-9">
+        
+  
+  <article>
+    <h1>
+      
+        What&#39;s the deal with Ctrl+Left and Ctrl+Right?
+      
+    </h1>
+    
+    <span class="meta">
+        Posted by <a href="/author/Cody/">Cody</a> on 2017-01-14
+      </span>
+    
+
+    
+      <p>What is with the behaviour of <code>Ctrl+Left</code> and <code>Ctrl+Right</code>? Almost every editor behaves differently.</p>
+<p>The different behaviour makes it hard to use efficiently.</p>
+<p>Use this text as an example and put your cursor at the beginning and press <code>Ctrl+Right</code> until you reach the end.</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">simple</span><span class="w"> </span><span class="nx">sentence</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">words</span><span class="p">.</span>
+<span class="nx">under_scores</span>
+<span class="nx">hyphen</span><span class="o">-</span><span class="nx">words</span>
+</code></pre></div>
+
+<p>Where do you think the cursor will stop? Where does it stop?</p>
+<p>On Windows in Notepad++ it stops where I've added the <code>|</code></p>
+<div class="codehilite"><pre><span></span><code><span class="nx">simple</span><span class="w"> </span><span class="o">|</span><span class="nx">sentence</span><span class="w"> </span><span class="o">|</span><span class="nx">with</span><span class="w"> </span><span class="o">|</span><span class="nx">words</span><span class="o">|</span><span class="p">.</span><span class="o">|</span>
+<span class="o">|</span><span class="nx">under_scores</span><span class="o">|</span>
+<span class="o">|</span><span class="nx">hyphen</span><span class="o">|-|</span><span class="nx">words</span><span class="o">|</span>
+</code></pre></div>
+
+<p>In Atom on Windows it stops:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">simple</span><span class="o">|</span><span class="w"> </span><span class="nx">sentence</span><span class="o">|</span><span class="w"> </span><span class="nx">with</span><span class="o">|</span><span class="w"> </span><span class="nx">words</span><span class="o">|</span><span class="p">.</span><span class="o">|</span>
+<span class="nx">under_scores</span><span class="o">|</span>
+<span class="nx">hyphen</span><span class="o">|-|</span><span class="nx">words</span><span class="o">|</span>
+</code></pre></div>
+
+<p>In Atom it stops at the end of words, that's good if you are replacing the word, but if you are deleting the first word, you also want to delete the space after it.</p>
+<p>Neither of them stopped at the underscore. That's not good if you want to replace the first part before the underscore. For example, changing the variable <code>file_name</code> to <code>folder_name</code> when you change your code.</p>
+<p>This behaviour isn't in the preferences for editors and you wouldn't want the behaviour to be different in different editors.</p>
+<p>Some of you might be thinking, just use <code>vim</code> or <code>emacs</code> and you don't have to worry about using <code>Ctrl+Left</code> and <code>Ctrl+Right</code> because there are better ways of navigation. But you are not always in <code>vim</code> or <code>emacs</code>, sometimes you are in a browser or an IDE.</p>
+<p>Another strange thing is going backwards from the end of the text. With the cursor at the end of the text, if I repeatedly press <code>Ctrl+Left</code> in Atom I stop at the beginning of words like in Notepad++.</p>
+<p>I end up just using <code>Ctrl+End</code> or <code>Ctrl + Home</code> because I know what it is going to do and for the most part I don't want to stop after each symbol. If I wanted to do that I would just use <code>Right</code> or <code>Left</code>.</p>
+<p>For example:</p>
+<div class="codehilite"><pre><span></span><code>test(False)
+</code></pre></div>
+
+<p>Stops at</p>
+<div class="codehilite"><pre><span></span><code>test|(|False)
+</code></pre></div>
+
+<p>So I can be at the end of <code>test</code> and delete the rest of the word, but I have to hit <code>Ctrl+Right</code> three times.
+I want to go the next whitespace, unless it is a hyphen or an underscore.</p>
+<p>But inside the parentheses I want different behaviour.</p>
+<div class="codehilite"><pre><span></span><code>test(False|, True|)
+</code></pre></div>
+
+<p>But if you are inside the parentheses I would want to stop before the closing parenthesis.
+If the cursor is at the first <code>|</code>, then I want to go to the second one to delete the second parameter for example.</p>
+<p>So maybe this isn't the correct solution, maybe a key that does the equivalent of double clicking the mouse is actually what I want.</p>
+<p>I guess this is why people end up writing their own version of existing software. Maybe I should write my own editor, or at least try and then realize why what I want is not possible.</p>
+<p>So really there are two problems, why isn't the <code>Ctrl+Left</code> and <code>Ctrl+Right</code> behaviour the same everywhere, and when we make it consistent can we make it good?</p>
+<p>I'll just leave this here <a href="https://xkcd.com/927/" rel="nofollow">https://xkcd.com/927/</a>.</p>
+    
+
+    
+
+    
+      <hr class="small">
+
+      <h2 id="comments">Comments</h2>
+
+      <div id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="6fe398cd-a881-4122-bea7-ba7f4a832aae"
+        data-page-id="whats-the-deal-with-ctrlleft-and-ctrlright"
+        data-page-url="https://www.niladicpodcast.com/2017/01/14/whats-the-deal-with-ctrlleft-and-ctrlright/"
+        data-page-title="What&#39;s the deal with Ctrl+Left and Ctrl+Right?">
+      </div>
+    
+  </article>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-top">
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <p class="text-center">
+            Created with <a href="https://github.com/Siecje/htmd" target="_blank">htmd</a>.
+          </p>
+          <p class="text-center">
+            <a href="https://startbootstrap.com/theme/clean-blog" target="_blank">Clean Blog</a> theme by
+            <a href="https://startbootstrap.com" target="_blank">Start Bootstrap</a>.
+            License <a href="https://github.com/BlackrockDigital/startbootstrap?tab=readme-ov-file#copyright-and-license" target="_blank">MIT</a>.
+          </p>
+          <p class="text-center">
+            Cover image from <a href="https://unsplash.com/" target="_blank">Unsplash</a>,
+            <a href="https://unsplash.com/license" target="_blank">license</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  
+  
+    <script src="/static/htmd.js"></script>
+    <script src="/static/js/menu.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-8394186-4', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+  
+  
+    <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+  
+  
+    <script>
+      markCurrentPostAsVisited();
+    </script>
+  
+
+</body>
+</html>

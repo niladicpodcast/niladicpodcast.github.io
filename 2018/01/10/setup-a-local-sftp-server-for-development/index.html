@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+  
+    Setup a local SFTP server for development
+  
+ | Niladic Podcast</title>
+  
+    
+      <link rel="icon" href="/static/favicon.svg" sizes="any" type="image/svg+xml">
+    
+  
+  
+  
+    
+      <meta property="og:site_name" content="Niladic Podcast">
+    
+  
+  
+  
+
+  
+  <meta property="og:type" content="article">
+  
+    <meta property="og:url" content="https://www.niladicpodcast.com/2018/01/10/setup-a-local-sftp-server-for-development/">
+  
+  
+    <meta property="og:title" content="Setup a local SFTP server for development">
+  
+  <meta property="og:description" content="">
+  
+
+  
+
+  
+  
+
+  
+    <link href="/static/htmd.css" rel="stylesheet">
+    <link href="/static/pygments.css" rel="stylesheet">
+    <!-- Fonts-->
+    <link href="/static/css/Lora.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/Open-Sans.min.css" rel="stylesheet" type="text/css">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/static/css/styles.min.css" rel="stylesheet">
+  
+  <link href="/feed.atom" rel="alternate" title="Niladic Podcast" type="application/atom+xml">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+    <div class="container px-4 px-lg-5">
+      <a class="navbar-brand" href="/">Niladic Podcast</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ms-auto py-4 py-lg-0">
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="/blog/">
+              Blog
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="javascript:void(0)" onclick="goToRandomPost()">
+              Random
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="/search/">
+              Search
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('/static/img/home-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <div class="site-heading">
+            <span class="h1">Niladic Podcast</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content-->
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-10 col-xl-9">
+        
+  
+  <article>
+    <h1>
+      
+        Setup a local SFTP server for development
+      
+    </h1>
+    
+    <span class="meta">
+        Posted by <a href="/author/Cody%20Scott/">Cody Scott</a> on 2018-01-10
+      </span>
+    
+
+    
+      <p>OpenSSH comes with an SFTP server. First install OpenSSH Server.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>openssh-server
+</code></pre></div>
+
+<p>Create <code>sftponly</code> group.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>groupadd<span class="w"> </span>sftponly
+</code></pre></div>
+
+<p>Create a directory for SFTP files. The <code>ChrootDirectory</code> set in <code>sshd_config</code> must be owned by <code>root</code> and only writable by <code>root</code>.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>mkdir<span class="w"> </span>/sftp/
+sudo<span class="w"> </span>chown<span class="w"> </span>root:sftponly<span class="w"> </span>/sftp/
+sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">2755</span><span class="w"> </span>/sftp/
+<span class="c1"># The leading 2 is for g+s</span>
+</code></pre></div>
+
+<p>If the <code>ChrootDirectory</code> is not owned by <code>root</code> you will get the following error:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">packet_write_wait</span><span class="o">:</span><span class="w"> </span><span class="n">Connection</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="mi">22</span><span class="o">:</span><span class="w"> </span><span class="n">Broken</span><span class="w"> </span><span class="n">pipe</span>
+<span class="n">Couldn</span><span class="err">&#39;</span><span class="n">t</span><span class="w"> </span><span class="n">read</span><span class="w"> </span><span class="n">packet</span><span class="o">:</span><span class="w"> </span><span class="n">Connection</span><span class="w"> </span><span class="n">reset</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">peer</span>
+</code></pre></div>
+
+<p>Configure SFTP server</p>
+<ul>
+<li>only available from localhost</li>
+<li>only available to users in the <code>sftponly</code> group</li>
+<li><code>/sftp/</code> is the directory on disk</li>
+</ul>
+<p>Add the following to the bottom of <code>/etc/ssh/sshd_config</code></p>
+<div class="codehilite"><pre><span></span><code>Match Group sftponly
+    ChrootDirectory /sftp/
+    ForceCommand internal-sftp
+    AllowTcpForwarding no
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>service<span class="w"> </span>ssh<span class="w"> </span>restart
+</code></pre></div>
+
+<p>You can create directories inside and copy files into them and they will be owned by the <code>sftponly</code> group.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>mkdir<span class="w"> </span>/sftp/files/
+<span class="c1"># Allow sftponly users to upload files</span>
+sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">2775</span><span class="w"> </span>/sftp/files/
+sudo<span class="w"> </span>cp<span class="w"> </span>file<span class="w"> </span>/sftp/files/
+</code></pre></div>
+
+<p>You can create a new user in the <code>sftponly</code> group and use that user and password to login to the SFTP server.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>useradd<span class="w"> </span>-M<span class="w"> </span>-G<span class="w"> </span>sftponly<span class="w"> </span><span class="nv">$newUser</span>
+sudo<span class="w"> </span>passwd<span class="w"> </span><span class="nv">$newUser</span>
+<span class="c1"># set password</span>
+sudo<span class="w"> </span>-u<span class="w"> </span><span class="nv">$newUser</span><span class="w"> </span>sftp<span class="w"> </span>localhost
+</code></pre></div>
+
+<p>To add an existing user to the group:</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>usermod<span class="w"> </span>-a<span class="w"> </span>-G<span class="w"> </span>sftponly<span class="w"> </span><span class="nv">$USER</span>
+</code></pre></div>
+
+<p>In order for your user to actually be in the <code>sftponly</code> group you need to log in after the usermod command.
+The safest thing to do is to compare your current groups with the new groups while you are still in the current environment and can still fix it.
+I forgot the <code>-a</code> in the <code>usermod</code> command and had to use GRUB to get a root terminal and add my user back to the correct groups.</p>
+<div class="codehilite"><pre><span></span><code>groups
+id
+</code></pre></div>
+
+<p>Compare with the groups after login:</p>
+<div class="codehilite"><pre><span></span><code>su<span class="w"> </span>-<span class="w"> </span><span class="nv">$USER</span>
+groups
+id
+</code></pre></div>
+
+<p>The only difference should be the <code>sftponly</code> group.</p>
+    
+
+    
+
+    
+      <hr class="small">
+
+      <h2 id="comments">Comments</h2>
+
+      <div id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="6fe398cd-a881-4122-bea7-ba7f4a832aae"
+        data-page-id="setup-a-local-sftp-server-for-development"
+        data-page-url="https://www.niladicpodcast.com/2018/01/10/setup-a-local-sftp-server-for-development/"
+        data-page-title="Setup a local SFTP server for development">
+      </div>
+    
+  </article>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-top">
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <p class="text-center">
+            Created with <a href="https://github.com/Siecje/htmd" target="_blank">htmd</a>.
+          </p>
+          <p class="text-center">
+            <a href="https://startbootstrap.com/theme/clean-blog" target="_blank">Clean Blog</a> theme by
+            <a href="https://startbootstrap.com" target="_blank">Start Bootstrap</a>.
+            License <a href="https://github.com/BlackrockDigital/startbootstrap?tab=readme-ov-file#copyright-and-license" target="_blank">MIT</a>.
+          </p>
+          <p class="text-center">
+            Cover image from <a href="https://unsplash.com/" target="_blank">Unsplash</a>,
+            <a href="https://unsplash.com/license" target="_blank">license</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  
+  
+    <script src="/static/htmd.js"></script>
+    <script src="/static/js/menu.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-8394186-4', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+  
+  
+    <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+  
+  
+    <script>
+      markCurrentPostAsVisited();
+    </script>
+  
+
+</body>
+</html>

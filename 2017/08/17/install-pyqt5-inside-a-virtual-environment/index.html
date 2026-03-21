@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+  
+    Install PyQt5 Inside a Virtual Environment
+  
+ | Niladic Podcast</title>
+  
+    
+      <link rel="icon" href="/static/favicon.svg" sizes="any" type="image/svg+xml">
+    
+  
+  
+  
+    
+      <meta property="og:site_name" content="Niladic Podcast">
+    
+  
+  
+  
+
+  
+  <meta property="og:type" content="article">
+  
+    <meta property="og:url" content="https://www.niladicpodcast.com/2017/08/17/install-pyqt5-inside-a-virtual-environment/">
+  
+  
+    <meta property="og:title" content="Install PyQt5 Inside a Virtual Environment">
+  
+  <meta property="og:description" content="">
+  
+
+  
+
+  
+  
+
+  
+    <link href="/static/htmd.css" rel="stylesheet">
+    <link href="/static/pygments.css" rel="stylesheet">
+    <!-- Fonts-->
+    <link href="/static/css/Lora.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/Open-Sans.min.css" rel="stylesheet" type="text/css">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/static/css/styles.min.css" rel="stylesheet">
+  
+  <link href="/feed.atom" rel="alternate" title="Niladic Podcast" type="application/atom+xml">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+    <div class="container px-4 px-lg-5">
+      <a class="navbar-brand" href="/">Niladic Podcast</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ms-auto py-4 py-lg-0">
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="/blog/">
+              Blog
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="javascript:void(0)" onclick="goToRandomPost()">
+              Random
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="/search/">
+              Search
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('/static/img/home-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <div class="site-heading">
+            <span class="h1">Niladic Podcast</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content-->
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-10 col-xl-9">
+        
+  
+  <article>
+    <h1>
+      
+        Install PyQt5 Inside a Virtual Environment
+      
+    </h1>
+    
+    <span class="meta">
+        Posted by <a href="/author/Cody/">Cody</a> on 2017-08-17
+      </span>
+    
+
+    
+      <p>A <a href="https://docs.python.org/3/library/venv.html" target="_blank">virtual environment</a>
+allows you to install specific versions of Python distribution packages in a contained environment without contaminating the system Python.
+This allows you to have multiple versions of PyQt5 installed on the same system
+so you can work on different projects that use different versions of PyQt5.</p>
+<p>Download the open source online installer from <a href="https://www.qt.io/" rel="nofollow">https://www.qt.io/</a> or use the maintenance tool if you already have Qt installed.</p>
+<div class="codehilite"><pre><span></span><code>wget<span class="w"> </span>http://mirror.csclub.uwaterloo.ca/qtproject/archive/online_installers/3.0/qt-unified-linux-x64-3.0.0-online.run
+chmod<span class="w"> </span>u+x<span class="w"> </span>qt-unified-linux-x64-3.0.0-online.run
+./qt-unified-linux-x64-3.0.0-online.run
+</code></pre></div>
+
+<p>Navigate the installation wizard. Skip the signup and install version Qt 5.9.1.</p>
+<h2 id="download-sip">Download SIP source code</h2>
+
+<p><a href="https://www.riverbankcomputing.com/software/sip/download" rel="nofollow">https://www.riverbankcomputing.com/software/sip/download</a></p>
+<h2 id="download-pyqt5">Download PyQt5 source code</h2>
+
+<p><a href="https://www.riverbankcomputing.com/software/pyqt/download5" rel="nofollow">https://www.riverbankcomputing.com/software/pyqt/download5</a></p>
+<h2 id="venv">Create a virtualenv for PyQt5</h2>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python3-venv
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>~/.virtualenvs/pyqt5
+<span class="nb">source</span><span class="w"> </span>~/.virtualenvs/pyqt5/bin/activate
+<span class="c1"># It is better to source the venv instead of just using the full path to the venv python</span>
+<span class="c1"># because it will use that python for the paths in qmldir for the pyqt5qmlplugin example</span>
+<span class="c1"># Yes the examples in the download actually get changed when you build pyqt5.</span>
+</code></pre></div>
+
+<h2 id="install-sip">Install SIP</h2>
+
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/Downloads/sip-4.19.4.dev1708131720/
+python<span class="w"> </span>configure.py
+make
+make<span class="w"> </span>install
+</code></pre></div>
+
+<p>Now the <code>sip</code> distribution package is installed in that virtualenv.</p>
+<div class="codehilite"><pre><span></span><code>~/.virtualenvs/pyqt5/bin/python
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="n">Python</span> <span class="mf">3.5.2</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Sep</span> <span class="mi">14</span> <span class="mi">2017</span><span class="p">,</span> <span class="mi">22</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">06</span><span class="p">)</span>
+<span class="p">[</span><span class="n">GCC</span> <span class="mf">5.4.0</span> <span class="mi">20160609</span><span class="p">]</span> <span class="n">on</span> <span class="n">linux</span>
+<span class="n">Type</span> <span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="s2">&quot;copyright&quot;</span><span class="p">,</span> <span class="s2">&quot;credits&quot;</span> <span class="ow">or</span> <span class="s2">&quot;license&quot;</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">sip</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="c1"># Works!</span>
+</code></pre></div>
+
+<h2 id="install-pyqt5">Install PyQt5</h2>
+
+<p>In order to build <code>QML</code> support I had to install <code>libgl1-mesa-dev</code> on Ubuntu 16.04.
+See <a href="#bonus-2">Bonus #2</a> for how I figured out which package to install.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>libgl1-mesa-dev
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/Downloads/PyQt5_gpl-5.9.1.dev1707250927/
+python<span class="w"> </span>configure.py<span class="w"> </span>--qmake<span class="w"> </span>~/Qt/5.9.1/gcc_64/bin/qmake<span class="w"> </span>--sip<span class="w"> </span>~/.virtualenvs/pyqt5/bin/sip
+make
+make<span class="w"> </span>install
+</code></pre></div>
+
+<h3 id="bonus-1">Bonus #1 Add to pip freeze</h3>
+
+<p>If you pip freeze you won't see <code>sip</code> and <code>PyQt5</code> because they don't have a <code>.dist-info</code> directory.</p>
+<div class="codehilite"><pre><span></span><code>~/.virtualenvs/pyqt5/bin/pip<span class="w"> </span>freeze
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>pkg-resources==0.0.0
+</code></pre></div>
+
+<p>You can however manually create them.</p>
+<div class="codehilite"><pre><span></span><code>mkdir<span class="w"> </span>~/.virtualenvs/pyqt5/lib/python3.5/site-packages/sip-4.19.4.dev1708131720.dist-info
+touch<span class="w"> </span>~/.virtualenvs/pyqt5/lib/python3.5/site-packages/sip-4.19.4.dev1708131720.dist-info/INSTALLER
+mkdir<span class="w"> </span>~/.virtualenvs/pyqt5/lib/python3.5/site-packages/PyQt5-5.9.1.dev1707250927.dist-info
+touch<span class="w"> </span>~/.virtualenvs/pyqt5/lib/python3.5/site-packages/PyQt5-5.9.1.dev1707250927.dist-info/INSTALLER
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>~/.virtualenvs/pyqt5/bin/pip<span class="w"> </span>freeze
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>pkg-resources==0.0.0
+PyQt5==5.9.1.dev1707250927
+sip==4.19.4.dev1708131720
+</code></pre></div>
+
+<h3 id="bonus-2">Bonus #2 How I figured out I needed that Ubuntu package</h3>
+
+<p>When I first ran <code>configure.py</code> for PyQt5 it didn't say it would build QtQml.</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">Checking</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">see</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">QtQml</span><span class="w"> </span><span class="nv">module</span><span class="w"> </span><span class="nv">should</span><span class="w"> </span><span class="nv">be</span><span class="w"> </span><span class="nv">built</span>...
+#<span class="w"> </span>...
+<span class="nv">These</span><span class="w"> </span><span class="nv">PyQt5</span><span class="w"> </span><span class="nv">modules</span><span class="w"> </span><span class="nv">will</span><span class="w"> </span><span class="nv">be</span><span class="w"> </span><span class="nv">built</span>:<span class="w"> </span><span class="nv">QtCore</span>,<span class="w"> </span><span class="nv">QtNetwork</span>,<span class="w"> </span><span class="nv">QtXml</span>,<span class="w"> </span><span class="nv">QtXmlPatterns</span>,
+<span class="nv">QtDBus</span>,<span class="w"> </span><span class="nv">QtWebSockets</span>,<span class="w"> </span><span class="nv">QtWebChannel</span>,<span class="w"> </span><span class="nv">QtNfc</span>.
+</code></pre></div>
+
+<p>So I ran it again with <code>--verbose</code> and saw there was an error for <code>QtQml</code>.</p>
+<div class="codehilite"><pre><span></span><code>/usr/bin/ld: cannot find -lGL
+collect2: error: ld returned 1 exit status
+cfgtest_QtQml.mk:242: recipe for target &#39;cfgtest_QtQml&#39; failed
+</code></pre></div>
+
+<p><code>-lGL</code> means that <code>ld</code> couldn't find <code>libGL.so</code>, that's how <code>ld</code> looks for libraries.</p>
+<p>Then I searched the Ubuntu packages for the file <code>libGL.so</code>.</p>
+<div class="codehilite"><pre><span></span><code>dpkg<span class="w"> </span>-S<span class="w"> </span>libGL.so
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>libgl1-mesa-glx:i386: /usr/lib/i386-linux-gnu/mesa/libGL.so.1
+libgl1-mesa-dev:amd64: /usr/lib/x86_64-linux-gnu/mesa/libGL.so
+libgl1-mesa-glx:amd64: /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1
+libgl1-mesa-glx:amd64: /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0
+libgl1-mesa-glx:i386: /usr/lib/i386-linux-gnu/mesa/libGL.so.1.2.0
+libgl1-mesa-dev:amd64: /usr/lib/x86_64-linux-gnu/libGL.so
+</code></pre></div>
+    
+
+    
+
+    
+      <hr class="small">
+
+      <h2 id="comments">Comments</h2>
+
+      <div id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="6fe398cd-a881-4122-bea7-ba7f4a832aae"
+        data-page-id="install-pyqt5-inside-a-virtual-environment"
+        data-page-url="https://www.niladicpodcast.com/2017/08/17/install-pyqt5-inside-a-virtual-environment/"
+        data-page-title="Install PyQt5 Inside a Virtual Environment">
+      </div>
+    
+  </article>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-top">
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <p class="text-center">
+            Created with <a href="https://github.com/Siecje/htmd" target="_blank">htmd</a>.
+          </p>
+          <p class="text-center">
+            <a href="https://startbootstrap.com/theme/clean-blog" target="_blank">Clean Blog</a> theme by
+            <a href="https://startbootstrap.com" target="_blank">Start Bootstrap</a>.
+            License <a href="https://github.com/BlackrockDigital/startbootstrap?tab=readme-ov-file#copyright-and-license" target="_blank">MIT</a>.
+          </p>
+          <p class="text-center">
+            Cover image from <a href="https://unsplash.com/" target="_blank">Unsplash</a>,
+            <a href="https://unsplash.com/license" target="_blank">license</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  
+  
+    <script src="/static/htmd.js"></script>
+    <script src="/static/js/menu.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-8394186-4', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+  
+  
+    <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+  
+  
+    <script>
+      markCurrentPostAsVisited();
+    </script>
+  
+
+</body>
+</html>

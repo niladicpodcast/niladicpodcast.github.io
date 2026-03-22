@@ -1,5 +1,5 @@
 async function goToRandomPost() {
-    const response = await fetch(window.location.origin + '/posts.json');
+    const response = await fetch('/posts.json');
     const allPosts = await response.json();
     
     const visited = JSON.parse(localStorage.getItem('visitedPosts')) || [];

@@ -2,86 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title type="text">Niladic Podcast</title>
   <id>https://www.niladicpodcast.com/feed.atom</id>
-  <updated>2026-04-07T09:03:47.412804+00:00</updated>
+  <updated>2026-05-23T11:51:24.606483+00:00</updated>
   <link href="https://www.niladicpodcast.com/blog/" />
   <link href="https://www.niladicpodcast.com/feed.atom" rel="self" />
   <subtitle type="text">A blog about software development.</subtitle>
-  <entry xml:base="https://www.niladicpodcast.com/feed.atom">
-    <title type="text">Run Linux GUI Applications on Windows 10</title>
-    <id>https://www.niladicpodcast.com/2018/03/12/run-linux-gui-applications-on-windows-10/</id>
-    <updated>2026-04-07T09:03:47.412804+00:00</updated>
-    <published>2018-03-12T00:00:00+00:00</published>
-    <link href="https://www.niladicpodcast.com/2018/03/12/run-linux-gui-applications-on-windows-10/" />
-    <author>
-      <name>Cody</name>
-    </author>
-    <content type="html">&lt;p&gt;Linux is my main development environment but I also need to test things on Windows. My computer boots into Windows 10 and then I run a Linux VM.
-Today I was trying to setup a new remote Windows 7 VM to build an installer. I was connecting to it with &lt;code&gt;virt-manager&lt;/code&gt; through the local Linux VM.&lt;/p&gt;
-&lt;p&gt;For some reason it was making my local Linux VM very sluggish and it was taking minutes to update the mouse position on the remote VM with &lt;code&gt;virt-manager&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;So I decided to see if I could run &lt;code&gt;virt-manager&lt;/code&gt; on my Windows 10 host but there is no Windows installer for it.&lt;/p&gt;
-&lt;p&gt;I did find this ServerFault answer &lt;a href=&#34;https://serverfault.com/a/840962&#34; rel=&#34;nofollow&#34;&gt;https://serverfault.com/a/840962&lt;/a&gt; about using the Windows Subsystem for Linux and I was able to get it working.&lt;/p&gt;
-&lt;p&gt;Here is what I had to do.&lt;/p&gt;
-&lt;p&gt;Following this &lt;a href=&#34;https://docs.microsoft.com/en-us/windows/wsl/install-win10&#34; rel=&#34;nofollow&#34;&gt;https://docs.microsoft.com/en-us/windows/wsl/install-win10&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Open PowerShell as Administrator and run:&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nb&#34;&gt;Enable-WindowsOptionalFeature&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;-Online&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;-FeatureName&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Microsoft-Windows-Subsystem-Linux&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Don&#39;t restart just yet.&lt;/p&gt;
-&lt;p&gt;Install your distro by going to &lt;a href=&#34;https://aka.ms/wslstore&#34; rel=&#34;nofollow&#34;&gt;https://aka.ms/wslstore&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;You have to install it through the Windows Store but don&#39;t worry you don&#39;t need an account.
-When it asks you to sign in just say &lt;strong&gt;No, Thanks&lt;/strong&gt; as it is already installing.&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;Windows 10 store dialog asking if you would like to sign in.&#34; src=&#34;/static/img/windows10store.png&#34;&gt;&lt;/p&gt;
-&lt;p&gt;It will be available in the Start Menu under the name of the distribution you chose, Ubuntu for me.&lt;/p&gt;
-&lt;p&gt;First I made sure it was up to date and was able to fetch programs. This might take a while to download and install the updates.&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update
-sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;upgrade
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Then I installed the program I want to launch.&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;virt-manager
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2&gt;Install Xming on Windows 10&lt;/h2&gt;
-&lt;p&gt;Download and install it from here &lt;a href=&#34;https://sourceforge.net/projects/xming/&#34; rel=&#34;nofollow&#34;&gt;https://sourceforge.net/projects/xming/&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;In order to run Linux GUI Applications Xming needs to be running.&lt;/p&gt;
-&lt;h3&gt;Run Xming on boot&lt;/h3&gt;
-&lt;p&gt;To run Xming on startup, you need to add a shortcut to the Startup directory.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Search for Xming in the Start Menu&lt;/li&gt;
-&lt;li&gt;Right click on the shortcut and select &lt;strong&gt;Open file location&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;Copy the selected Xming shortcut&lt;/li&gt;
-&lt;li&gt;Press &lt;code&gt;Ctrl-l&lt;/code&gt; to move the cursor to the Explorer location input&lt;/li&gt;
-&lt;li&gt;Type &lt;code&gt;shell:startup&lt;/code&gt; and then Enter&lt;/li&gt;
-&lt;li&gt;Paste the Xming shortcut in the Startup directory.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Now Xming will start automatically when Windows 10 starts.&lt;/p&gt;
-&lt;h2&gt;Launch Linux GUI Applications&lt;/h2&gt;
-&lt;p&gt;In Linux set the display to use Xming.&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;DISPLAY&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;localhost:0.0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;To have it be the default add that line to &lt;code&gt;~/.bashrc&lt;/code&gt; which will run it on login.&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;export DISPLAY=localhost:0.0&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&amp;gt;&amp;gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;~/.bashrc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Now you can just run the Linux GUI application in the terminal with a &lt;code&gt;&amp;amp;amp;&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;virt-manager&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;amp;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;And if it works, Yay!&lt;/p&gt;
-&lt;p&gt;Since &lt;code&gt;virt-manager&lt;/code&gt; needs to connect to a remote computer I had to install &lt;code&gt;ssh-askpass&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;ssh-askpass
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;I also created a keypair and uploaded my public key to the remote computer.&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ssh-keygen&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-t&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;rsa&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-C&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;email@example.com&amp;quot;&lt;/span&gt;
-ssh-copy-id&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$user&lt;/span&gt;@&lt;span class=&#34;nv&#34;&gt;$host&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;And now I can use &lt;code&gt;virt-manager&lt;/code&gt; from Windows 10 and it works great. Well sometimes
-the bottom of the VM display is white and only works on my main monitor. When this
-happens I restart Xming and launch &lt;code&gt;virt-manager&lt;/code&gt; again.&lt;/p&gt;</content>
-  </entry>
   <entry xml:base="https://www.niladicpodcast.com/feed.atom">
     <title type="text">How to Setup Let&#39;s Encrypt with nginx</title>
     <id>https://www.niladicpodcast.com/2016/05/15/how-to-setup-lets-encrypt-with-nginx/</id>
@@ -284,63 +208,6 @@ libgl1-mesa-dev:amd64: /usr/lib/x86_64-linux-gnu/libGL.so
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
   </entry>
   <entry xml:base="https://www.niladicpodcast.com/feed.atom">
-    <title type="text">What&#39;s the deal with Ctrl+Left and Ctrl+Right?</title>
-    <id>https://www.niladicpodcast.com/2017/01/14/whats-the-deal-with-ctrlleft-and-ctrlright/</id>
-    <updated>2026-04-07T09:03:47.412804+00:00</updated>
-    <published>2017-01-14T00:00:00+00:00</published>
-    <link href="https://www.niladicpodcast.com/2017/01/14/whats-the-deal-with-ctrlleft-and-ctrlright/" />
-    <author>
-      <name>Cody</name>
-    </author>
-    <content type="html">&lt;p&gt;What is with the behaviour of &lt;code&gt;Ctrl+Left&lt;/code&gt; and &lt;code&gt;Ctrl+Right&lt;/code&gt;? Almost every editor behaves differently.&lt;/p&gt;
-&lt;p&gt;The different behaviour makes it hard to use efficiently.&lt;/p&gt;
-&lt;p&gt;Use this text as an example and put your cursor at the beginning and press &lt;code&gt;Ctrl+Right&lt;/code&gt; until you reach the end.&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nx&#34;&gt;simple&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;sentence&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;with&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;
-&lt;span class=&#34;nx&#34;&gt;under_scores&lt;/span&gt;
-&lt;span class=&#34;nx&#34;&gt;hyphen&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Where do you think the cursor will stop? Where does it stop?&lt;/p&gt;
-&lt;p&gt;On Windows in Notepad++ it stops where I&#39;ve added the &lt;code&gt;|&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nx&#34;&gt;simple&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;sentence&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;with&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
-&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;under_scores&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
-&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;hyphen&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|-|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;In Atom on Windows it stops:&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nx&#34;&gt;simple&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;sentence&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;with&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
-&lt;span class=&#34;nx&#34;&gt;under_scores&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
-&lt;span class=&#34;nx&#34;&gt;hyphen&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|-|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;In Atom it stops at the end of words, that&#39;s good if you are replacing the word, but if you are deleting the first word, you also want to delete the space after it.&lt;/p&gt;
-&lt;p&gt;Neither of them stopped at the underscore. That&#39;s not good if you want to replace the first part before the underscore. For example, changing the variable &lt;code&gt;file_name&lt;/code&gt; to &lt;code&gt;folder_name&lt;/code&gt; when you change your code.&lt;/p&gt;
-&lt;p&gt;This behaviour isn&#39;t in the preferences for editors and you wouldn&#39;t want the behaviour to be different in different editors.&lt;/p&gt;
-&lt;p&gt;Some of you might be thinking, just use &lt;code&gt;vim&lt;/code&gt; or &lt;code&gt;emacs&lt;/code&gt; and you don&#39;t have to worry about using &lt;code&gt;Ctrl+Left&lt;/code&gt; and &lt;code&gt;Ctrl+Right&lt;/code&gt; because there are better ways of navigation. But you are not always in &lt;code&gt;vim&lt;/code&gt; or &lt;code&gt;emacs&lt;/code&gt;, sometimes you are in a browser or an IDE.&lt;/p&gt;
-&lt;p&gt;Another strange thing is going backwards from the end of the text. With the cursor at the end of the text, if I repeatedly press &lt;code&gt;Ctrl+Left&lt;/code&gt; in Atom I stop at the beginning of words like in Notepad++.&lt;/p&gt;
-&lt;p&gt;I end up just using &lt;code&gt;Ctrl+End&lt;/code&gt; or &lt;code&gt;Ctrl + Home&lt;/code&gt; because I know what it is going to do and for the most part I don&#39;t want to stop after each symbol. If I wanted to do that I would just use &lt;code&gt;Right&lt;/code&gt; or &lt;code&gt;Left&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;For example:&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;test(False)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Stops at&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;test|(|False)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;So I can be at the end of &lt;code&gt;test&lt;/code&gt; and delete the rest of the word, but I have to hit &lt;code&gt;Ctrl+Right&lt;/code&gt; three times.
-I want to go the next whitespace, unless it is a hyphen or an underscore.&lt;/p&gt;
-&lt;p&gt;But inside the parentheses I want different behaviour.&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;test(False|, True|)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;But if you are inside the parentheses I would want to stop before the closing parenthesis.
-If the cursor is at the first &lt;code&gt;|&lt;/code&gt;, then I want to go to the second one to delete the second parameter for example.&lt;/p&gt;
-&lt;p&gt;So maybe this isn&#39;t the correct solution, maybe a key that does the equivalent of double clicking the mouse is actually what I want.&lt;/p&gt;
-&lt;p&gt;I guess this is why people end up writing their own version of existing software. Maybe I should write my own editor, or at least try and then realize why what I want is not possible.&lt;/p&gt;
-&lt;p&gt;So really there are two problems, why isn&#39;t the &lt;code&gt;Ctrl+Left&lt;/code&gt; and &lt;code&gt;Ctrl+Right&lt;/code&gt; behaviour the same everywhere, and when we make it consistent can we make it good?&lt;/p&gt;
-&lt;p&gt;I&#39;ll just leave this here &lt;a href=&#34;https://xkcd.com/927/&#34; rel=&#34;nofollow&#34;&gt;https://xkcd.com/927/&lt;/a&gt;.&lt;/p&gt;</content>
-  </entry>
-  <entry xml:base="https://www.niladicpodcast.com/feed.atom">
     <title type="text">My Problems with Bitbucket Cloud Pull Requests</title>
     <id>https://www.niladicpodcast.com/2017/04/19/my-problems-with-bitbucket-cloud/</id>
     <updated>2026-04-07T09:03:47.412804+00:00</updated>
@@ -497,9 +364,142 @@ and ask that the reviewer look at each commit as if it is its own pull request.&
 &lt;p&gt;Once Mercurial has an in-memory merge then rebase can be done without the working directory of the repo.&lt;/p&gt;</content>
   </entry>
   <entry xml:base="https://www.niladicpodcast.com/feed.atom">
+    <title type="text">Run Linux GUI Applications on Windows 10</title>
+    <id>https://www.niladicpodcast.com/2018/03/12/run-linux-gui-applications-on-windows-10/</id>
+    <updated>2026-04-07T09:03:47.412804+00:00</updated>
+    <published>2018-03-12T00:00:00+00:00</published>
+    <link href="https://www.niladicpodcast.com/2018/03/12/run-linux-gui-applications-on-windows-10/" />
+    <author>
+      <name>Cody</name>
+    </author>
+    <content type="html">&lt;p&gt;Linux is my main development environment but I also need to test things on Windows. My computer boots into Windows 10 and then I run a Linux VM.
+Today I was trying to setup a new remote Windows 7 VM to build an installer. I was connecting to it with &lt;code&gt;virt-manager&lt;/code&gt; through the local Linux VM.&lt;/p&gt;
+&lt;p&gt;For some reason it was making my local Linux VM very sluggish and it was taking minutes to update the mouse position on the remote VM with &lt;code&gt;virt-manager&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;So I decided to see if I could run &lt;code&gt;virt-manager&lt;/code&gt; on my Windows 10 host but there is no Windows installer for it.&lt;/p&gt;
+&lt;p&gt;I did find this ServerFault answer &lt;a href=&#34;https://serverfault.com/a/840962&#34; rel=&#34;nofollow&#34;&gt;https://serverfault.com/a/840962&lt;/a&gt; about using the Windows Subsystem for Linux and I was able to get it working.&lt;/p&gt;
+&lt;p&gt;Here is what I had to do.&lt;/p&gt;
+&lt;p&gt;Following this &lt;a href=&#34;https://docs.microsoft.com/en-us/windows/wsl/install-win10&#34; rel=&#34;nofollow&#34;&gt;https://docs.microsoft.com/en-us/windows/wsl/install-win10&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Open PowerShell as Administrator and run:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nb&#34;&gt;Enable-WindowsOptionalFeature&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;-Online&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;-FeatureName&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Microsoft-Windows-Subsystem-Linux&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Don&#39;t restart just yet.&lt;/p&gt;
+&lt;p&gt;Install your distro by going to &lt;a href=&#34;https://aka.ms/wslstore&#34; rel=&#34;nofollow&#34;&gt;https://aka.ms/wslstore&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;You have to install it through the Windows Store but don&#39;t worry you don&#39;t need an account.
+When it asks you to sign in just say &lt;strong&gt;No, Thanks&lt;/strong&gt; as it is already installing.&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Windows 10 store dialog asking if you would like to sign in.&#34; src=&#34;/static/img/windows10store.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;It will be available in the Start Menu under the name of the distribution you chose, Ubuntu for me.&lt;/p&gt;
+&lt;p&gt;First I made sure it was up to date and was able to fetch programs. This might take a while to download and install the updates.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;upgrade
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Then I installed the program I want to launch.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;virt-manager
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Install Xming on Windows 10&lt;/h2&gt;
+&lt;p&gt;Download and install it from here &lt;a href=&#34;https://sourceforge.net/projects/xming/&#34; rel=&#34;nofollow&#34;&gt;https://sourceforge.net/projects/xming/&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In order to run Linux GUI Applications Xming needs to be running.&lt;/p&gt;
+&lt;h3&gt;Run Xming on boot&lt;/h3&gt;
+&lt;p&gt;To run Xming on startup, you need to add a shortcut to the Startup directory.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Search for Xming in the Start Menu&lt;/li&gt;
+&lt;li&gt;Right click on the shortcut and select &lt;strong&gt;Open file location&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Copy the selected Xming shortcut&lt;/li&gt;
+&lt;li&gt;Press &lt;code&gt;Ctrl-l&lt;/code&gt; to move the cursor to the Explorer location input&lt;/li&gt;
+&lt;li&gt;Type &lt;code&gt;shell:startup&lt;/code&gt; and then Enter&lt;/li&gt;
+&lt;li&gt;Paste the Xming shortcut in the Startup directory.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Now Xming will start automatically when Windows 10 starts.&lt;/p&gt;
+&lt;h2&gt;Launch Linux GUI Applications&lt;/h2&gt;
+&lt;p&gt;In Linux set the display to use Xming.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;DISPLAY&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;localhost:0.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To have it be the default add that line to &lt;code&gt;~/.bashrc&lt;/code&gt; which will run it on login.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;export DISPLAY=localhost:0.0&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&amp;gt;&amp;gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;~/.bashrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now you can just run the Linux GUI application in the terminal with a &lt;code&gt;&amp;amp;amp;&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;virt-manager&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;amp;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And if it works, Yay!&lt;/p&gt;
+&lt;p&gt;Since &lt;code&gt;virt-manager&lt;/code&gt; needs to connect to a remote computer I had to install &lt;code&gt;ssh-askpass&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;ssh-askpass
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I also created a keypair and uploaded my public key to the remote computer.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ssh-keygen&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-t&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;rsa&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-C&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;email@example.com&amp;quot;&lt;/span&gt;
+ssh-copy-id&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$user&lt;/span&gt;@&lt;span class=&#34;nv&#34;&gt;$host&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And now I can use &lt;code&gt;virt-manager&lt;/code&gt; from Windows 10 and it works great. Well sometimes
+the bottom of the VM display is white and only works on my main monitor. When this
+happens I restart Xming and launch &lt;code&gt;virt-manager&lt;/code&gt; again.&lt;/p&gt;</content>
+  </entry>
+  <entry xml:base="https://www.niladicpodcast.com/feed.atom">
+    <title type="text">What&#39;s the deal with Ctrl+Left and Ctrl+Right?</title>
+    <id>https://www.niladicpodcast.com/2017/01/14/whats-the-deal-with-ctrlleft-and-ctrlright/</id>
+    <updated>2026-04-07T09:03:47.412804+00:00</updated>
+    <published>2017-01-14T00:00:00+00:00</published>
+    <link href="https://www.niladicpodcast.com/2017/01/14/whats-the-deal-with-ctrlleft-and-ctrlright/" />
+    <author>
+      <name>Cody</name>
+    </author>
+    <content type="html">&lt;p&gt;What is with the behaviour of &lt;code&gt;Ctrl+Left&lt;/code&gt; and &lt;code&gt;Ctrl+Right&lt;/code&gt;? Almost every editor behaves differently.&lt;/p&gt;
+&lt;p&gt;The different behaviour makes it hard to use efficiently.&lt;/p&gt;
+&lt;p&gt;Use this text as an example and put your cursor at the beginning and press &lt;code&gt;Ctrl+Right&lt;/code&gt; until you reach the end.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nx&#34;&gt;simple&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;sentence&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;with&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;under_scores&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;hyphen&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Where do you think the cursor will stop? Where does it stop?&lt;/p&gt;
+&lt;p&gt;On Windows in Notepad++ it stops where I&#39;ve added the &lt;code&gt;|&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nx&#34;&gt;simple&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;sentence&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;with&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;under_scores&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;hyphen&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|-|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In Atom on Windows it stops:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nx&#34;&gt;simple&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;sentence&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;with&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;under_scores&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;hyphen&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|-|&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;words&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In Atom it stops at the end of words, that&#39;s good if you are replacing the word, but if you are deleting the first word, you also want to delete the space after it.&lt;/p&gt;
+&lt;p&gt;Neither of them stopped at the underscore. That&#39;s not good if you want to replace the first part before the underscore. For example, changing the variable &lt;code&gt;file_name&lt;/code&gt; to &lt;code&gt;folder_name&lt;/code&gt; when you change your code.&lt;/p&gt;
+&lt;p&gt;This behaviour isn&#39;t in the preferences for editors and you wouldn&#39;t want the behaviour to be different in different editors.&lt;/p&gt;
+&lt;p&gt;Some of you might be thinking, just use &lt;code&gt;vim&lt;/code&gt; or &lt;code&gt;emacs&lt;/code&gt; and you don&#39;t have to worry about using &lt;code&gt;Ctrl+Left&lt;/code&gt; and &lt;code&gt;Ctrl+Right&lt;/code&gt; because there are better ways of navigation. But you are not always in &lt;code&gt;vim&lt;/code&gt; or &lt;code&gt;emacs&lt;/code&gt;, sometimes you are in a browser or an IDE.&lt;/p&gt;
+&lt;p&gt;Another strange thing is going backwards from the end of the text. With the cursor at the end of the text, if I repeatedly press &lt;code&gt;Ctrl+Left&lt;/code&gt; in Atom I stop at the beginning of words like in Notepad++.&lt;/p&gt;
+&lt;p&gt;I end up just using &lt;code&gt;Ctrl+End&lt;/code&gt; or &lt;code&gt;Ctrl + Home&lt;/code&gt; because I know what it is going to do and for the most part I don&#39;t want to stop after each symbol. If I wanted to do that I would just use &lt;code&gt;Right&lt;/code&gt; or &lt;code&gt;Left&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;test(False)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Stops at&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;test|(|False)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;So I can be at the end of &lt;code&gt;test&lt;/code&gt; and delete the rest of the word, but I have to hit &lt;code&gt;Ctrl+Right&lt;/code&gt; three times.
+I want to go the next whitespace, unless it is a hyphen or an underscore.&lt;/p&gt;
+&lt;p&gt;But inside the parentheses I want different behaviour.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;test(False|, True|)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;But if you are inside the parentheses I would want to stop before the closing parenthesis.
+If the cursor is at the first &lt;code&gt;|&lt;/code&gt;, then I want to go to the second one to delete the second parameter for example.&lt;/p&gt;
+&lt;p&gt;So maybe this isn&#39;t the correct solution, maybe a key that does the equivalent of double clicking the mouse is actually what I want.&lt;/p&gt;
+&lt;p&gt;I guess this is why people end up writing their own version of existing software. Maybe I should write my own editor, or at least try and then realize why what I want is not possible.&lt;/p&gt;
+&lt;p&gt;So really there are two problems, why isn&#39;t the &lt;code&gt;Ctrl+Left&lt;/code&gt; and &lt;code&gt;Ctrl+Right&lt;/code&gt; behaviour the same everywhere, and when we make it consistent can we make it good?&lt;/p&gt;
+&lt;p&gt;I&#39;ll just leave this here &lt;a href=&#34;https://xkcd.com/927/&#34; rel=&#34;nofollow&#34;&gt;https://xkcd.com/927/&lt;/a&gt;.&lt;/p&gt;</content>
+  </entry>
+  <entry xml:base="https://www.niladicpodcast.com/feed.atom">
     <title type="text">Setup a local SFTP server for development</title>
     <id>https://www.niladicpodcast.com/2018/01/10/setup-a-local-sftp-server-for-development/</id>
-    <updated>2026-04-07T09:03:47.412804+00:00</updated>
+    <updated>2026-05-23T02:27:00.865470+00:00</updated>
     <published>2018-01-10T00:00:00+00:00</published>
     <link href="https://www.niladicpodcast.com/2018/01/10/setup-a-local-sftp-server-for-development/" />
     <author>
@@ -521,8 +521,8 @@ sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;chmod&lt;span class=&#34;w&#34;&
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;If the &lt;code&gt;ChrootDirectory&lt;/code&gt; is not owned by &lt;code&gt;root&lt;/code&gt; you will get the following error:&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;n&#34;&gt;packet_write_wait&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Connection&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;to&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;127.0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0.1&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;port&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;22&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Broken&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pipe&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;Couldn&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;read&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;packet&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Connection&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;reset&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;by&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;peer&lt;/span&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;packet_write_wait: Connection to 127.0.0.1 port 22: Broken pipe
+Couldn&amp;#39;t read packet: Connection reset by peer
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Configure SFTP server&lt;/p&gt;
@@ -573,5 +573,597 @@ id
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The only difference should be the &lt;code&gt;sftponly&lt;/code&gt; group.&lt;/p&gt;</content>
+  </entry>
+  <entry xml:base="https://www.niladicpodcast.com/feed.atom">
+    <title type="text">How to Setup Ubuntu 26.04 with Btrfs</title>
+    <id>https://www.niladicpodcast.com/2026/05/23/how-to-setup-ubuntu-26.04-btrfs/</id>
+    <updated>2026-05-23T11:51:24.606483+00:00</updated>
+    <published>2026-05-23T02:27:00.865470+00:00</published>
+    <link href="https://www.niladicpodcast.com/2026/05/23/how-to-setup-ubuntu-26.04-btrfs/" />
+    <author>
+      <name>Cody</name>
+    </author>
+    <content type="html">&lt;p&gt;My goal is simple, install Ubuntu 26.04 on a laptop and use Btrfs with local snapshots as backups. That should be easy right? Will I need to use the terminal? Maybe for some obscure hyper optimized tweaks, but surely this should be straightforward. After all 2026 is the year of the Linux Desktop and everyone is abandoning Windows for Linux.&lt;/p&gt;
+&lt;p&gt;I will be evaluating Ubuntu on my personal laptop and installing it on a desktop for my Grandmother to replace a 10 year old Windows computer.&lt;/p&gt;
+&lt;p&gt;This will be better because it will be:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Immune to windows malware&lt;/li&gt;
+&lt;li&gt;Immune to phone scams&lt;/li&gt;
+&lt;li&gt;Can&#39;t install three different antiviruses at the same time and make the computer slow&lt;/li&gt;
+&lt;li&gt;No forced disruptive updates (ex. Copilot all the things)&lt;/li&gt;
+&lt;li&gt;No long waits for Windows to update&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ubuntu 26.04 LTS was released a month ago and it comes Linux kernel version 7.0 which was also release a month ago. &lt;a href=&#34;https://en.wikipedia.org/wiki/Linux_kernel_version_history&#34; rel=&#34;nofollow&#34;&gt;https://en.wikipedia.org/wiki/Linux_kernel_version_history&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I&#39;m installing Ubuntu 26.04 on a Dell Latitude 5520 laptop from 2021, so there shouldn&#39;t be any drivers missing or any issues for 5 year old hardware.&lt;/p&gt;
+&lt;h2&gt;Installation Wizard&lt;/h2&gt;
+&lt;p&gt;The installation wizard doesn&#39;t have an option for Btrfs but it does have an option for ZFS. That&#39;s okay I&#39;ll just manually create a partition with a &lt;code&gt;Btrfs&lt;/code&gt; filesystem and some &lt;code&gt;Btrfs&lt;/code&gt; subvolumes.&lt;/p&gt;
+&lt;p&gt;The partition manager in the wizard is clunky. First I tried to create a &lt;code&gt;FAT32&lt;/code&gt; boot partition but there is no &lt;code&gt;FAT32&lt;/code&gt; filesystem option.&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Edit partition only has size, filesystem, and mount point.&#34; src=&#34;/static/img/Ubuntu-26.04-wizard-edit-boot-partition.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Also curiously ZFS is not an option even though it was one of the filesystems you could pick if you didn&#39;t select manual partitions.&lt;/p&gt;
+&lt;p&gt;I selected VFAT and &lt;code&gt;/boot&lt;/code&gt; mount point.&lt;/p&gt;
+&lt;p&gt;But it didn&#39;t like that:&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Create partition window showing error message which reads /boot is not a supported filesystem for VFAT.&#34; src=&#34;/static/img/Ubuntu-26.04-wizard-boot-partition.png&#34;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;/boot is not a supported filesystem for VFAT.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The partition step in the installation wizard will let you create a Btrfs partition but it won&#39;t let you create a subvolume. That&#39;s not ideal since you won&#39;t be able to use Timeshift which will automatically create snapshots (backups) that you can use to restore your filesystem. Timeshift takes snapshots of a subvolume and stores them in a subvolume.&lt;/p&gt;
+&lt;p&gt;Alright I&#39;ll create two Btrfs partitions for now and I&#39;ll move the files into subvolumes later. I created a Btrfs partition for &lt;code&gt;/home&lt;/code&gt; which is &lt;code&gt;nvme0n1p1&lt;/code&gt; and it automatically creates a boot partition labeled &lt;code&gt;nvme0n1p2&lt;/code&gt;. I would like the boot partition to be the first partition but since you can&#39;t create a FAT32 partition and you can&#39;t change the partition name of the boot partition it automatically created, the first partition can&#39;t be the first partition. I&#39;m not a perfectionist so this isn&#39;t a big deal.&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Edit partition only has size, filesystem, and mount point.&#34; src=&#34;/static/img/Ubuntu-26.04-wizard-edit-boot-partition.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;I created another Btrfs partition for &lt;code&gt;/&lt;/code&gt; which is &lt;code&gt;nvme0n1p3&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;nvme0n1 drive with the three partitions.&#34; src=&#34;/static/img/Ubuntu-26.04-wizard-partitions.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Curiously when I ran the installer again it to get the steps down it showed the boot partition which was previously &lt;code&gt;FAT32&lt;/code&gt; as &lt;code&gt;VFAT&lt;/code&gt;, which is confusing.&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;nvme0n1 now shows boot partition as VFAT.&#34; src=&#34;/static/img/Ubuntu-26.04-wizard-vfat.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The partition sizes are different because when I re-installed and re-created the partitions I changed the sizes and I just booted back into the live installer to get that picture.&lt;/p&gt;
+&lt;h2&gt;Creating Btrfs Subvolumes&lt;/h2&gt;
+&lt;p&gt;This is how I moved the files in the partition into a new &lt;code&gt;Btrfs&lt;/code&gt; subvolume in the partition so I could use Timeshift. I also enabled zstd compression while I was at it.&lt;/p&gt;
+&lt;p&gt;I booted back into the live environment of the installation media and ran the following commands.&lt;/p&gt;
+&lt;p&gt;I opened a terminal with &lt;code&gt;ctrl+alt+t&lt;/code&gt; and ran:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mkdir&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-p&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/home
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mount&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/dev/nvme0n1p1&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/home
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;btrfs&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;subvolume&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;create&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/home/@home
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mv&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/home/*&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/home/@home/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ignore this error.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nl&#34;&gt;mv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cannot&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;move&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;/mnt/home/@home&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;to&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;subdirectory&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;of&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;itself&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;/mnt/home/@home/@home&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;There is definitely a better command but that works.&lt;/p&gt;
+&lt;p&gt;While the subvolume is mounted we can compress the files.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;btrfs&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;filesystem&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;defragment&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-r&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-v&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-czstd&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/home/@home
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Unmount &lt;code&gt;/home&lt;/code&gt; partition&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;umount&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/home
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;rmdir&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/home
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Move files in / partition to new @ Btrfs subvoume&lt;/h2&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mount&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/dev/nvme0n1p3&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;btrfs&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;subvolume&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;create&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/@
+&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mv&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;boot&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;dev&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;lib64&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;proc&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;run&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;snap&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;sys&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;usr&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;bin&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cdrom&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;etc&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;lib&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;media&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;opt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;root&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;sbin&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;srv&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;tmp&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;var&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-t&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;@
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;rmdir&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;home&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mnt
+&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;vi&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/@/etc/fstab
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Find &lt;code&gt;defaults&lt;/code&gt; for both of the Btrfs partitions and add the subvol and compress so future files will be compressed.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;defaults,subvol=@,compress=zstd:3
+defaults,subvol=@home,compress=zstd:3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Curiously the pass value which is the last value on the line is &lt;code&gt;1&lt;/code&gt; when it should be &lt;code&gt;0&lt;/code&gt; for Btrfs.&lt;/p&gt;
+&lt;p&gt;Why wasn&#39;t it set when the filesystem was set to Btrfs?&lt;/p&gt;
+&lt;p&gt;Here is what my &lt;code&gt;/etc/fstab&lt;/code&gt; contains&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;# / was on /dev/nvme0n1p3 during curtin installation
+/dev/disk/by-uuid/8026ffff-0d1a-4f2c-9afa-901d6d34763a / btrfs defaults,subvol=@,compress=zstd:3 0 0
+# /home was on /dev/nvme0n1p1 during curtin installation
+/dev/disk/by-uuid/b6a801ac-fbe1-437c-bd76-107333946ef2 /home btrfs defaults,subvol=@home,compress=zstd:3 0 0
+# /boot/efi was on /dev/nvme0n1p2 during curtin installation
+/dev/disk/by-uuid/E019-C652 /boot/efi vfat defaults 0 1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now that we modified &lt;code&gt;/etc/fstab&lt;/code&gt; we an compress all of the files.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;btrfs&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;filesystem&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;defragment&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-r&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-v&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-czstd&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/@
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Unmount&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;umount&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now there are two options to fix booting into Ubuntu.&lt;/p&gt;
+&lt;h3&gt;Fix boot via GRUB menu&lt;/h3&gt;
+&lt;p&gt;I shutdown and removed the installation media and booted, but unfortunately it didn&#39;t boot into Ubuntu, instead I ended up in the GRUB console.&lt;/p&gt;
+&lt;p&gt;Since there is one drive and the &lt;code&gt;/&lt;/code&gt; partition is the third partition (&lt;code&gt;nvme0n1p3&lt;/code&gt;) I ran:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;root&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=(&lt;/span&gt;hd0,gpt3&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+linux&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/@/boot/vmlinuz&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;root&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/nvme0n1p3&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;rootflags&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;subvol&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;@&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;ro
+initrd&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/@/boot/initrd.img
+boot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;After logging into Ubuntu I opened a terminal and ran:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;c1&#34;&gt;# Update boot partition grub.cfg&lt;/span&gt;
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;grub-install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/dev/nvme0n1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;c1&#34;&gt;# Update Btrfs (/) partition grub.cfg&lt;/span&gt;
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update-grub
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Then I rebooted and verified it boot into Ubuntu.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;reboot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Fix boot by modifying partitions&lt;/h3&gt;
+&lt;p&gt;If you are already able to boot into Ubuntu after moving the files into subvolumes then you don&#39;t need to do this. Do this instead of the commands in the GRUB console.&lt;/p&gt;
+&lt;p&gt;In the live installer environment mount the boot partition.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mkdir&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-p&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/boot
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mount&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/dev/nvme0n1p2&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/boot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I thought I would modify the &lt;code&gt;switch_root&lt;/code&gt; command in &lt;code&gt;/init&lt;/code&gt;, but I didn&#39;t see an &lt;code&gt;/init&lt;/code&gt; or &lt;code&gt;initramfs&lt;/code&gt; or &lt;code&gt;initrd&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;.
+└── EFI
+    ├── BOOT
+    │   ├── BOOTX64.EFI
+    │   ├── fbx64.efi
+    │   └── mmx64.efi
+    └── ubuntu
+        ├── BOOTX64.CSV
+        ├── grub.cfg
+        ├── grubx64.efi
+        ├── mmx64.efi
+        └── shimx64.efi
+
+4 directories, 8 files
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;du&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-sh&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/boot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;mf&#34;&gt;6.4&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;M&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mnt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;boot&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;If the boot partition is so small why did Ubuntu create it with 1GB of space?
+I know if I install other OSes they will also add files to this partition for example in addition to /EFI/ubuntu/ there could be /EFI/windows.
+I wonder how big the windows folder would be?&lt;/p&gt;
+&lt;p&gt;Also motherboard firmware updates are copied to the boot partition so the motherboard can use them to update&lt;/p&gt;
+&lt;p&gt;1GB seems very large I guess most people don&#39;t miss 1GB.&lt;/p&gt;
+&lt;p&gt;I did see a &lt;code&gt;grub.cfg&lt;/code&gt; and I fixed the path in it.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo vi /mnt/boot/EFI/ubuntu/grub.cfg&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Before&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;search.fs_uuid 8026ffff-0d1a-4f2c-9afa-901d6d34763a root 
+set prefix=($root)&amp;#39;/boot/grub&amp;#39;
+configfile $prefix/grub.cfg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;After&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;search.fs_uuid 8026ffff-0d1a-4f2c-9afa-901d6d34763a root 
+set prefix=($root)&amp;#39;/@/boot/grub&amp;#39;
+configfile $prefix/grub.cfg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Since it references &lt;code&gt;grub.cfg&lt;/code&gt; on the &lt;code&gt;/&lt;/code&gt; partition we need to fix that.&lt;/p&gt;
+&lt;p&gt;Umount boot partition&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;umount&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/boot
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;rmdir&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/boot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Remount the &lt;code&gt;/&lt;/code&gt; partition.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo mount /dev/nvme0n1p3 /mnt
+sudo vi /mnt/@/boot/grub/grub.cfg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Hmm it says not to edit this file directly.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;#&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;DO&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;NOT&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;EDIT&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;THIS&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;FILE&lt;/span&gt;
+#
+#&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;It&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;is&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;automatically&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;generated&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;by&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;grub&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;mkconfig&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;using&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;templates&lt;/span&gt;
+#&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;from&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;etc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;grub&lt;/span&gt;.&lt;span class=&#34;nv&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;and&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;settings&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;from&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;etc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;default&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;grub&lt;/span&gt;
+#
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Well I need to change each path to start with &lt;code&gt;/@&lt;/code&gt; for example &lt;code&gt;font=&#34;/usr/share/grub/unicode.pf2&#34;&lt;/code&gt; should be &lt;code&gt;font=&#34;/@/usr/share/grub/unicode.pf2&#34;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;But I won&#39;t edit the file because I don&#39;t know if the changes will persist or if they do, they won&#39;t persist for long.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;umount&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;c1&#34;&gt;# Mount your new root subvolume (@)&lt;/span&gt;
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mount&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-o&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;subvol&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;@&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/dev/nvme0n1p3&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt
+
+&lt;span class=&#34;c1&#34;&gt;# Mount your EFI partition into the right spot inside it&lt;/span&gt;
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mount&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/dev/nvme0n1p2&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/boot/efi
+
+&lt;span class=&#34;c1&#34;&gt;# Bind the system hardware directories so the chroot environment can see your drive&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;i&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;in&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/dev&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/dev/pts&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/proc&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/sys&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/run&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mount&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;BIND&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$i&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt&lt;span class=&#34;nv&#34;&gt;$i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;# Jump inside your subvolume as &amp;quot;root&amp;quot;&lt;/span&gt;
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;chroot&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt
+
+&lt;span class=&#34;c1&#34;&gt;# NOW you can run the fix commands cleanly!&lt;/span&gt;
+grub-install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/dev/nvme0n1
+update-grub
+
+&lt;span class=&#34;c1&#34;&gt;# Exit the chroot&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;exit&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Shutdown remove the installation media and boot and verify it boots into Ubuntu.&lt;/p&gt;
+&lt;h2&gt;Don&#39;t show GRUB menu&lt;/h2&gt;
+&lt;p&gt;After verifying it is working I prevented the GRUB menu from being shown on boot by &lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;vi&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/etc/default/grub
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;GRUB_TIMEOUT_STYLE=countdown
+GRUB_TIMEOUT=0
+GRUB_RECORDFAIL_TIMEOUT=0
+GRUB_DISABLE_OS_PROBER=true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update-grub
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;After reboot I verified that the GRUB menu is not shown and it boots into Ubuntu.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;reboot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Install Timeshift (Btrfs Backups)&lt;/h3&gt;
+&lt;p&gt;Now that we have Btrfs subvolumes and we can use Timeshift!&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;timeshift
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now open Timeshift by pressing super and then type Timeshift or run &lt;code&gt;timeshift-gtk&lt;/code&gt; in the terminal.&lt;/p&gt;
+&lt;p&gt;Select &lt;code&gt;btrfs&lt;/code&gt; and set the number of snapshots you would like to keep.&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Timeshift settings to keep 12 Monthly, 8 Weekly, 30 Daily, 12 Hourly, and 5 Boot.&#34; src=&#34;/static/img/Timeshift-schedule.png&#34;&gt;&lt;/p&gt;
+&lt;h3&gt;Battery drain when idle&lt;/h3&gt;
+&lt;p&gt;Out of the box the battery was being drained while suspended. I had 80% battery and after 4 hours the battery was at 50%.
+So what&#39;s going on?&lt;/p&gt;
+&lt;p&gt;I set the laptop to suspend when closed by&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo vi /etc/systemd/logind.conf.d/99-laptop-lid.conf&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;k&#34;&gt;[Login]&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;HandleLidSwitch&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;suspend&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;HandleLidSwitchExternalPower&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;suspend&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo systemctl restart systemd-logind
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This laptop has an Intel 11th Gen Core processor (Tiger Lake) so we can only use s2idle.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cat /sys/power/mem_sleep&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;s2idle&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;If there is a deep option without square brackets, which means not selected. Then you can add this to &lt;code&gt;/etc/default/grub&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;GRUB_CMDLINE_LINUX_DEFAULT=&amp;quot;quiet splash mem_sleep_default=deep&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update-grub
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To know if the computer is not entering a low power suspend you can suspend it and then wait a couple minutes and then check if the amount of time it spent in the different suspend states increased.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;systemctl&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;suspend&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;after waiting a couple minutes, wake it up by moving the mouse or pressing a key on the keyboard&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cat&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/sys/kernel/debug/pmc_core/substate_residencies
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;pmc0   Substate       Residency
+         S0i2.0               0
+         S0i3.0               0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;If the values are 0 then it is not entering lower power states.&lt;/p&gt;
+&lt;p&gt;To check why run &lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo cat /sys/kernel/debug/pmc_core/ltr_show
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is what I did to get it to actually enter low power states.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;tlp&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;tlp-rdw
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;tlp&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;start
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;cat&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/etc/udev/rules.d/99-fingerprint-autosuspend.rules&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ACTION==&amp;quot;add&amp;quot;, SUBSYSTEM==&amp;quot;usb&amp;quot;, ATTR{idVendor}==&amp;quot;0a5c&amp;quot;, ATTR{idProduct}==&amp;quot;5842&amp;quot;, ATTR{power/control}=&amp;quot;auto&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;cat&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/etc/udev/rules.d/99-pci-pm.rules&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ACTION==&amp;quot;add&amp;quot;, SUBSYSTEM==&amp;quot;pci&amp;quot;, ATTR{vendor}==&amp;quot;0x8086&amp;quot;, ATTR{device}==&amp;quot;0xa0f0&amp;quot;, ATTR{power/control}=&amp;quot;auto&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;cat /etc/systemd/system/disable-usb-wakeup.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;k&#34;&gt;[Unit]&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;Description&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;Disable USB XHCI wakeup triggers&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;[Service]&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;Type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;oneshot&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;ExecStart&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;/bin/sh -c &amp;quot;echo XHCI &amp;gt; /proc/acpi/wakeup&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;RemainAfterExit&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;yes&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;[Install]&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;WantedBy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;multi-user.target&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;cat&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/etc/systemd/system/disable-cardreader-wakeup.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;k&#34;&gt;[Unit]&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;Description&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;Disable Card Reader ACPI Wakeup to fix S0i3 sleep&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;[Service]&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;Type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;oneshot&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;ExecStart&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;/bin/sh -c &amp;quot;grep -q &amp;#39;RP07.*enabled&amp;#39; /proc/acpi/wakeup &amp;amp;&amp;amp; echo RP07 &amp;gt; /proc/acpi/wakeup || true&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;RemainAfterExit&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;yes&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;[Install]&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;WantedBy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;multi-user.target&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Then I just decided to reboot and enter the UEFI settings and disable Bluetooth since I don&#39;t use and then it worked.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;systemctl&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;suspend&lt;/span&gt;
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cat&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/sys/kernel/debug/pmc_core/substate_residencies
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;pmc0   Substate       Residency
+         S0i2.0           23912
+         S0i3.0       212881216
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;After making these changes the battery went from 80% to 73% in 6.5 hours while suspended.&lt;/p&gt;
+&lt;h3&gt;Enable Hibernate&lt;/h3&gt;
+&lt;p&gt;If suspend isn&#39;t actually entering low power mode you can hibernate instead.&lt;/p&gt;
+&lt;p&gt;First we need to create a swap file to store everything that is in RAM when we hibernate.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;free -h&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;               total        used        free      shared  buff/cache   available
+Mem:            14Gi       2.6Gi       9.2Gi       736Mi       3.8Gi        12Gi
+Swap:             0B          0B          0B
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mount&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/dev/nvme0n1p3&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;btrfs&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;subvolume&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;create&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/@swap
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Add &lt;code&gt;/swap&lt;/code&gt; to /etc/fstab&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;vi&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/etc/fstab
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;# /etc/fstab: static file system information.
+#
+# Use &amp;#39;blkid&amp;#39; to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# &amp;lt;file system&amp;gt; &amp;lt;mount point&amp;gt;   &amp;lt;type&amp;gt;  &amp;lt;options&amp;gt;       &amp;lt;dump&amp;gt;  &amp;lt;pass&amp;gt;
+# / was on /dev/nvme0n1p3 during curtin installation
+/dev/disk/by-uuid/8026ffff-0d1a-4f2c-9afa-901d6d34763a / btrfs defaults,subvol=@,compress=zstd:3 0 0
+# /home was on /dev/nvme0n1p1 during curtin installation
+/dev/disk/by-uuid/b6a801ac-fbe1-437c-bd76-107333946ef2 /home btrfs defaults,subvol=@home,compress=zstd:3 0 0
+# /boot/efi was on /dev/nvme0n1p2 during curtin installation
+/dev/disk/by-uuid/E019-C652 /boot/efi vfat defaults 0 1
+/dev/disk/by-uuid/8026ffff-0d1a-4f2c-9afa-901d6d34763a /swap btrfs subvol=@swap,nodatacow,noatime 0 0 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mount&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/swap
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;btrfs&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;filesystem&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mkswapfile&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--size&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;16G&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/swap/swapfile
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;swapon&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/swap/swapfile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;free&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-m
+&lt;span class=&#34;w&#34;&gt;               &lt;/span&gt;total&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;used&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;free&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;shared&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;buff/cache&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;available
+Mem:&lt;span class=&#34;w&#34;&gt;           &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;15203&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2918&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;8700&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;         &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;798&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;4139&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;       &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;12285&lt;/span&gt;
+Swap:&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;16383&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;           &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;       &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;16383&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;cat /etc/fstab&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;# /etc/fstab: static file system information.
+#
+# Use &amp;#39;blkid&amp;#39; to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# &amp;lt;file system&amp;gt; &amp;lt;mount point&amp;gt;   &amp;lt;type&amp;gt;  &amp;lt;options&amp;gt;       &amp;lt;dump&amp;gt;  &amp;lt;pass&amp;gt;
+# / was on /dev/nvme0n1p3 during curtin installation
+/dev/disk/by-uuid/8026ffff-0d1a-4f2c-9afa-901d6d34763a / btrfs defaults,subvol=@,compress=zstd:3 0 0
+# /home was on /dev/nvme0n1p1 during curtin installation
+/dev/disk/by-uuid/b6a801ac-fbe1-437c-bd76-107333946ef2 /home btrfs defaults,subvol=@home,compress=zstd:3 0 0
+# /boot/efi was on /dev/nvme0n1p2 during curtin installation
+/dev/disk/by-uuid/E019-C652 /boot/efi vfat defaults 0 1
+/dev/disk/by-uuid/8026ffff-0d1a-4f2c-9afa-901d6d34763a /swap btrfs subvol=@swap,nodatacow,noatime 0 0 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We need to grab the offset of the swapfile so it can re-populate the RAM on boot.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;btrfs&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;inspect-internal&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;map-swapfile&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/swap/swapfile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Physical start:  19366150144
+Resume offset:       4728064
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Add &lt;code&gt;resume&lt;/code&gt; and &lt;code&gt;resume_offset&lt;/code&gt; to &lt;code&gt;/etc/default/grub&lt;/code&gt; and don&#39;t forget to &lt;code&gt;sudo update-grub&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo vi /etc/default/grub&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;GRUB_CMDLINE_LINUX_DEFAULT=&amp;quot;quiet splash resume=UUID=8026ffff-0d1a-4f2c-9afa-901d6d34763a resume_offset=4728064&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update-grub
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;sudo vi /etc/initramfs-tools/conf.d/resume&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;RESUME=UUID=8026ffff-0d1a-4f2c-9afa-901d6d34763a
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;sudo update-initramfs -u -k all&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;update-initramfs: Generating /boot/initrd.img-7.0.0-15-generic
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;systemctl&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;hibernate
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now that hibernate is working we can hibernate when we close the laptop.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo vi /etc/systemd/logind.conf.d/99-laptop-lid.conf&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;k&#34;&gt;[Login]&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;HandleLidSwitch&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;hibernate&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;HandleLidSwitchExternalPower&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;suspend&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;gsettings&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;org.gnome.settings-daemon.plugins.power&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;lid-close-battery-action&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;hibernate&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You might also want to use &lt;code&gt;suspend-then-hibernate&lt;/code&gt; in &lt;code&gt;/etc/systemd/logind.conf.d/99-laptop-lid.conf&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;k&#34;&gt;[Login]&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;HandleLidSwitch&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;suspend-then-hibernate&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;HandleLidSwitchExternalPower&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;suspend&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Adding Hibernate to Power Off Options&lt;/h3&gt;
+&lt;p&gt;That should work but you won&#39;t see hibernate in the Power Off options in the right hand corner.
+For it to show up there we need to do the following:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo vi /etc/polkit-1/rules.d/10-enable-hibernate.rules&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nv&#34;&gt;polkit&lt;/span&gt;.&lt;span class=&#34;nv&#34;&gt;addRule&lt;/span&gt;&lt;span class=&#34;ss&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;ss&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;action&lt;/span&gt;,&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;subject&lt;/span&gt;&lt;span class=&#34;ss&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;{
+&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;ss&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;action&lt;/span&gt;.&lt;span class=&#34;nv&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;==&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;org.freedesktop.login1.hibernate&amp;quot;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;||&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;action&lt;/span&gt;.&lt;span class=&#34;nv&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;==&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;org.freedesktop.login1.hibernate-multiple-sessions&amp;quot;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;||&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;action&lt;/span&gt;.&lt;span class=&#34;nv&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;==&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;org.freedesktop.upower.hibernate&amp;quot;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;||&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;action&lt;/span&gt;.&lt;span class=&#34;nv&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;==&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;org.freedesktop.login1.handle-hibernate-key&amp;quot;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;||&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;action&lt;/span&gt;.&lt;span class=&#34;nv&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;==&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;org.freedesktop.login1.hibernate-ignore-inhibit&amp;quot;&lt;/span&gt;&lt;span class=&#34;ss&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;subject&lt;/span&gt;.&lt;span class=&#34;nv&#34;&gt;isInGroup&lt;/span&gt;&lt;span class=&#34;ss&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;sudo&amp;quot;&lt;/span&gt;&lt;span class=&#34;ss&#34;&gt;))&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;{
+&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;polkit&lt;/span&gt;.&lt;span class=&#34;nb&#34;&gt;Result&lt;/span&gt;.&lt;span class=&#34;nv&#34;&gt;YES&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;}
+}&lt;span class=&#34;ss&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;gnome-shell-extension-manager
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Open &lt;code&gt;Extension Manager&lt;/code&gt; click browse tab and search hibernate then install the one by slaclau.&lt;/p&gt;
+&lt;p&gt;Currently it is not listed as supporting GNOME 50 so I had to run:&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;gsettings&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;org.gnome.shell&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;disable-extension-version-validation&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Then ensure the new extension is enabled in &lt;code&gt;Extesion Manager&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;systemctl&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;restart&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;systemd-logind
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Increase size of existing swapfile&lt;/h3&gt;
+&lt;p&gt;To make the swapfile larger, for example if you increase the RAM in your computer.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;swapoff&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-a
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;rm&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/swap/swapfile
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;btrfs&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;filesystem&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mkswapfile&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--size&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;20G&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/swap/swapfile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;create swapfile /swap/swapfile size 20.00GiB (21474836480)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;swapon&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/swap/swapfile
+swapon&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--show
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;NAME           TYPE SIZE USED PRIO
+/swap/swapfile file  20G   0B   -1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;btrfs&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;inspect-internal&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;map-swapfile&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-r&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/swap/swapfile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;mf&#34;&gt;9970944&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;findmnt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-no&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;UUID&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-T&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/swap/swapfile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;mf&#34;&gt;8026&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ffff&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;d1a&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f2c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;9&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;afa&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;901&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;d6d34763a&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;vi&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/etc/default/grub
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;GRUB_CMDLINE_LINUX_DEFAULT=&amp;quot;quiet splash resume=UUID=8026ffff-0d1a-4f2c-9afa-901d6d34763a resume_offset=9970944&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update-grub
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Faster programs&lt;/h3&gt;
+&lt;p&gt;If &lt;code&gt;amd64v3&lt;/code&gt; is available we can install executables that are optimized instead of being compatible for old devices.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/lib64/ld-linux-x86-64.so.2&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--help&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;grep&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;x86-64-v3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;APT::Architecture-Variants &amp;quot;amd64v3&amp;quot;;&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;tee&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/etc/apt/apt.conf.d/99enable-amd64v3
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;1346 packages can be upgraded. Run &amp;#39;apt list --upgradable&amp;#39; to see them.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo apt upgrade -y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To revert if needed.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;rm&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/etc/apt/apt.conf.d/99enable-amd64v3
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--list-cleanup
+sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;upgrade&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Nitpicks&lt;/h3&gt;
+&lt;p&gt;In the settings when you search &#39;trackpad&#39; and click the search result you don&#39;t go to the trackpad tab on the page, so you think you are changing values but they are the mouse settings.&lt;/p&gt;
+&lt;p&gt;My terminal had a green notification icon and it is not obvious that you have to click the date and time at the top of the screen to access global notifications.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://askubuntu.com/questions/1464618/do-green-numbers-on-icons-in-the-dock-mean-i-should-be-doing-something&#34; rel=&#34;nofollow&#34;&gt;https://askubuntu.com/questions/1464618/do-green-numbers-on-icons-in-the-dock-mean-i-should-be-doing-something&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Ubuntu wants to update my secure boot key but I don&#39;t want to use secure boot.
+I could update it so that it stops asking but there should be a way to ignore that update forever.&lt;/p&gt;
+&lt;p&gt;secure boot is disabled so it shouldn&#39;t even ask anyway&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mokutil&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--sb-state
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To update firmware&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;fwupdmgr&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;refresh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Metadata is up to date; use --force to refresh again.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;fwupdmgr&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;refresh&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--force
+fwupdmgr&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;When I search Python in the Software Center it doesn&#39;t show up. I didn&#39;t realize I already had Python with the &lt;code&gt;python3&lt;/code&gt; executable.&lt;/p&gt;
+&lt;p&gt;I expected that the package that is already installed would show up.&lt;/p&gt;
+&lt;p&gt;I downloaded a .deb but when I double clicked to open it in App Center it said something went wrong. I was able to install the package (Wing IDE) using &lt;code&gt;sudo dpkg -i&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The menu bar (File | Edit, etc) doesn&#39;t work for applications that have it.&lt;/p&gt;
+&lt;h3&gt;Additional setup&lt;/h3&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;wl-clipboard
+foo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;wl-copy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It would be nice if &lt;code&gt;rm&lt;/code&gt; sent files to the Trash but for now we can use a &lt;code&gt;trash&lt;/code&gt; command instead.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;trash-cli
+vi&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;~/.bashrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;alias trash=&amp;#39;trash-put&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Install fish shell and set it as the default shell.&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;fish
+chsh&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-s&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;which&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;fish&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;There was one issue, when printing in Libre Office Writer the default paper was letter but the printer had A4 paper so you add to remember to switch it everytime you printed.
+The solution was to change the locale in Libre Office to not the USA and then it would default to A4. It would have been nice if it would remember the settings when you closed the print window.&lt;/p&gt;
+&lt;h2&gt;Random things I like&lt;/h2&gt;
+&lt;p&gt;I like that &lt;code&gt;sudo reboot&lt;/code&gt; won&#39;t work when there are inhibitators which you can see with&lt;/p&gt;
+&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;systemd-inhibit
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;It should be much easier to use Btrfs with Timeshift, it would be nice if sleep and hibernate just worked on a 5 year old laptop.&lt;/p&gt;
+&lt;p&gt;Non technical users are not going to know how to fix these issues.&lt;/p&gt;
+&lt;p&gt;Ubuntu needs to be better for people to switch from Windows.&lt;/p&gt;</content>
   </entry>
 </feed>

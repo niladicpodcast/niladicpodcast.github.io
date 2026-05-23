@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+  
+    How to Setup Ubuntu 26.04 with Btrfs
+  
+ | Niladic Podcast</title>
+  
+    
+      <link rel="icon" href="/static/favicon.svg" sizes="any" type="image/svg+xml">
+    
+  
+  
+  
+    
+      <meta property="og:site_name" content="Niladic Podcast">
+    
+  
+  
+  
+
+  
+  <meta property="og:type" content="article">
+  
+    <meta property="og:url" content="https://www.niladicpodcast.com/2026/05/23/how-to-setup-ubuntu-26.04-btrfs/">
+  
+  
+    <meta property="og:title" content="How to Setup Ubuntu 26.04 with Btrfs">
+  
+  <meta property="og:description" content="">
+  
+
+  
+
+  
+  
+
+  
+    <link href="/static/htmd.css" rel="stylesheet">
+    <link href="/static/pygments.css" rel="stylesheet">
+    <!-- Fonts-->
+    <link href="/static/css/Lora.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/Open-Sans.min.css" rel="stylesheet" type="text/css">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/static/css/styles.min.css" rel="stylesheet">
+  
+  <link href="/feed.atom" rel="alternate" title="Niladic Podcast" type="application/atom+xml">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="e803c350-a646-4e6a-bfc8-8a2f99244e3d"></script>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+    <div class="container px-4 px-lg-5">
+      <a class="navbar-brand" href="/">Niladic Podcast</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ms-auto py-4 py-lg-0">
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="/blog/">
+              Blog
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="javascript:void(0)" onclick="goToRandomPost()">
+              Random
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" href="/search/">
+              Search
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('/static/img/home-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <div class="site-heading">
+            <span class="h1">Niladic Podcast</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content-->
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-10 col-xl-9">
+        
+  <article>
+    <h1>
+      
+        How to Setup Ubuntu 26.04 with Btrfs
+      
+    </h1>
+    
+    <span class="meta">
+        Posted by <a href="/author/Cody/">Cody</a> on 2026-05-23
+      </span>
+    
+
+    
+      <p>My goal is simple, install Ubuntu 26.04 on a laptop and use Btrfs with local snapshots as backups. That should be easy right? Will I need to use the terminal? Maybe for some obscure hyper optimized tweaks, but surely this should be straightforward. After all 2026 is the year of the Linux Desktop and everyone is abandoning Windows for Linux.</p>
+<p>I will be evaluating Ubuntu on my personal laptop and installing it on a desktop for my Grandmother to replace a 10 year old Windows computer.</p>
+<p>This will be better because it will be:</p>
+<ul>
+<li>Immune to windows malware</li>
+<li>Immune to phone scams</li>
+<li>Can't install three different antiviruses at the same time and make the computer slow</li>
+<li>No forced disruptive updates (ex. Copilot all the things)</li>
+<li>No long waits for Windows to update</li>
+</ul>
+<p>Ubuntu 26.04 LTS was released a month ago and it comes Linux kernel version 7.0 which was also release a month ago. <a href="https://en.wikipedia.org/wiki/Linux_kernel_version_history" rel="nofollow">https://en.wikipedia.org/wiki/Linux_kernel_version_history</a></p>
+<p>I'm installing Ubuntu 26.04 on a Dell Latitude 5520 laptop from 2021, so there shouldn't be any drivers missing or any issues for 5 year old hardware.</p>
+<h2>Installation Wizard</h2>
+<p>The installation wizard doesn't have an option for Btrfs but it does have an option for ZFS. That's okay I'll just manually create a partition with a <code>Btrfs</code> filesystem and some <code>Btrfs</code> subvolumes.</p>
+<p>The partition manager in the wizard is clunky. First I tried to create a <code>FAT32</code> boot partition but there is no <code>FAT32</code> filesystem option.</p>
+<p><img alt="Edit partition only has size, filesystem, and mount point." src="/static/img/Ubuntu-26.04-wizard-edit-boot-partition.png"></p>
+<p>Also curiously ZFS is not an option even though it was one of the filesystems you could pick if you didn't select manual partitions.</p>
+<p>I selected VFAT and <code>/boot</code> mount point.</p>
+<p>But it didn't like that:</p>
+<p><img alt="Create partition window showing error message which reads /boot is not a supported filesystem for VFAT." src="/static/img/Ubuntu-26.04-wizard-boot-partition.png"></p>
+<blockquote>
+<p>/boot is not a supported filesystem for VFAT.</p>
+</blockquote>
+<p>The partition step in the installation wizard will let you create a Btrfs partition but it won't let you create a subvolume. That's not ideal since you won't be able to use Timeshift which will automatically create snapshots (backups) that you can use to restore your filesystem. Timeshift takes snapshots of a subvolume and stores them in a subvolume.</p>
+<p>Alright I'll create two Btrfs partitions for now and I'll move the files into subvolumes later. I created a Btrfs partition for <code>/home</code> which is <code>nvme0n1p1</code> and it automatically creates a boot partition labeled <code>nvme0n1p2</code>. I would like the boot partition to be the first partition but since you can't create a FAT32 partition and you can't change the partition name of the boot partition it automatically created, the first partition can't be the first partition. I'm not a perfectionist so this isn't a big deal.</p>
+<p><img alt="Edit partition only has size, filesystem, and mount point." src="/static/img/Ubuntu-26.04-wizard-edit-boot-partition.png"></p>
+<p>I created another Btrfs partition for <code>/</code> which is <code>nvme0n1p3</code>.</p>
+<p><img alt="nvme0n1 drive with the three partitions." src="/static/img/Ubuntu-26.04-wizard-partitions.png"></p>
+<p>Curiously when I ran the installer again it to get the steps down it showed the boot partition which was previously <code>FAT32</code> as <code>VFAT</code>, which is confusing.</p>
+<p><img alt="nvme0n1 now shows boot partition as VFAT." src="/static/img/Ubuntu-26.04-wizard-vfat.png"></p>
+<p>The partition sizes are different because when I re-installed and re-created the partitions I changed the sizes and I just booted back into the live installer to get that picture.</p>
+<h2>Creating Btrfs Subvolumes</h2>
+<p>This is how I moved the files in the partition into a new <code>Btrfs</code> subvolume in the partition so I could use Timeshift. I also enabled zstd compression while I was at it.</p>
+<p>I booted back into the live environment of the installation media and ran the following commands.</p>
+<p>I opened a terminal with <code>ctrl+alt+t</code> and ran:</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/mnt/home
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/nvme0n1p1<span class="w"> </span>/mnt/home
+sudo<span class="w"> </span>btrfs<span class="w"> </span>subvolume<span class="w"> </span>create<span class="w"> </span>/mnt/home/@home
+sudo<span class="w"> </span>mv<span class="w"> </span>/mnt/home/*<span class="w"> </span>/mnt/home/@home/
+</code></pre></div>
+
+<p>Ignore this error.</p>
+<div class="codehilite"><pre><span></span><code><span class="nl">mv</span><span class="p">:</span><span class="w"> </span><span class="n">cannot</span><span class="w"> </span><span class="n">move</span><span class="w"> </span><span class="s1">&#39;/mnt/home/@home&#39;</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">subdirectory</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">itself</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;/mnt/home/@home/@home&#39;</span>
+</code></pre></div>
+
+<p>There is definitely a better command but that works.</p>
+<p>While the subvolume is mounted we can compress the files.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>btrfs<span class="w"> </span>filesystem<span class="w"> </span>defragment<span class="w"> </span>-r<span class="w"> </span>-v<span class="w"> </span>-czstd<span class="w"> </span>/mnt/home/@home
+</code></pre></div>
+
+<p>Unmount <code>/home</code> partition</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>umount<span class="w"> </span>/mnt/home
+sudo<span class="w"> </span>rmdir<span class="w"> </span>/mnt/home
+</code></pre></div>
+
+<h2>Move files in / partition to new @ Btrfs subvoume</h2>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>mount<span class="w"> </span>/dev/nvme0n1p3<span class="w"> </span>/mnt
+sudo<span class="w"> </span>btrfs<span class="w"> </span>subvolume<span class="w"> </span>create<span class="w"> </span>/mnt/@
+<span class="nb">cd</span><span class="w"> </span>/mnt/
+sudo<span class="w"> </span>mv<span class="w"> </span>boot<span class="w"> </span>dev<span class="w"> </span>lib64<span class="w"> </span>proc<span class="w"> </span>run<span class="w"> </span>snap<span class="w"> </span>sys<span class="w"> </span>usr<span class="w"> </span>bin<span class="w"> </span>cdrom<span class="w"> </span>etc<span class="w"> </span>lib<span class="w"> </span>media<span class="w"> </span>opt<span class="w"> </span>root<span class="w"> </span>sbin<span class="w"> </span>srv<span class="w"> </span>tmp<span class="w"> </span>var<span class="w"> </span>-t<span class="w"> </span>@
+sudo<span class="w"> </span>rmdir<span class="w"> </span>home<span class="w"> </span>mnt
+<span class="nb">cd</span><span class="w"> </span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>vi<span class="w"> </span>/mnt/@/etc/fstab
+</code></pre></div>
+
+<p>Find <code>defaults</code> for both of the Btrfs partitions and add the subvol and compress so future files will be compressed.</p>
+<div class="codehilite"><pre><span></span><code>defaults,subvol=@,compress=zstd:3
+defaults,subvol=@home,compress=zstd:3
+</code></pre></div>
+
+<p>Curiously the pass value which is the last value on the line is <code>1</code> when it should be <code>0</code> for Btrfs.</p>
+<p>Why wasn't it set when the filesystem was set to Btrfs?</p>
+<p>Here is what my <code>/etc/fstab</code> contains</p>
+<div class="codehilite"><pre><span></span><code># / was on /dev/nvme0n1p3 during curtin installation
+/dev/disk/by-uuid/8026ffff-0d1a-4f2c-9afa-901d6d34763a / btrfs defaults,subvol=@,compress=zstd:3 0 0
+# /home was on /dev/nvme0n1p1 during curtin installation
+/dev/disk/by-uuid/b6a801ac-fbe1-437c-bd76-107333946ef2 /home btrfs defaults,subvol=@home,compress=zstd:3 0 0
+# /boot/efi was on /dev/nvme0n1p2 during curtin installation
+/dev/disk/by-uuid/E019-C652 /boot/efi vfat defaults 0 1
+</code></pre></div>
+
+<p>Now that we modified <code>/etc/fstab</code> we an compress all of the files.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>btrfs<span class="w"> </span>filesystem<span class="w"> </span>defragment<span class="w"> </span>-r<span class="w"> </span>-v<span class="w"> </span>-czstd<span class="w"> </span>/mnt/@
+</code></pre></div>
+
+<p>Unmount</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>umount<span class="w"> </span>/mnt
+</code></pre></div>
+
+<p>Now there are two options to fix booting into Ubuntu.</p>
+<h3>Fix boot via GRUB menu</h3>
+<p>I shutdown and removed the installation media and booted, but unfortunately it didn't boot into Ubuntu, instead I ended up in the GRUB console.</p>
+<p>Since there is one drive and the <code>/</code> partition is the third partition (<code>nvme0n1p3</code>) I ran:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">set</span><span class="w"> </span><span class="nv">root</span><span class="o">=(</span>hd0,gpt3<span class="o">)</span>
+linux<span class="w"> </span>/@/boot/vmlinuz<span class="w"> </span><span class="nv">root</span><span class="o">=</span>/dev/nvme0n1p3<span class="w"> </span><span class="nv">rootflags</span><span class="o">=</span><span class="nv">subvol</span><span class="o">=</span>@<span class="w"> </span>ro
+initrd<span class="w"> </span>/@/boot/initrd.img
+boot
+</code></pre></div>
+
+<p>After logging into Ubuntu I opened a terminal and ran:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Update boot partition grub.cfg</span>
+sudo<span class="w"> </span>grub-install<span class="w"> </span>/dev/nvme0n1
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="c1"># Update Btrfs (/) partition grub.cfg</span>
+sudo<span class="w"> </span>update-grub
+</code></pre></div>
+
+<p>Then I rebooted and verified it boot into Ubuntu.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>reboot
+</code></pre></div>
+
+<h3>Fix boot by modifying partitions</h3>
+<p>If you are already able to boot into Ubuntu after moving the files into subvolumes then you don't need to do this. Do this instead of the commands in the GRUB console.</p>
+<p>In the live installer environment mount the boot partition.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/mnt/boot
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/nvme0n1p2<span class="w"> </span>/mnt/boot
+</code></pre></div>
+
+<p>I thought I would modify the <code>switch_root</code> command in <code>/init</code>, but I didn't see an <code>/init</code> or <code>initramfs</code> or <code>initrd</code>.</p>
+<div class="codehilite"><pre><span></span><code>.
+└── EFI
+    ├── BOOT
+    │   ├── BOOTX64.EFI
+    │   ├── fbx64.efi
+    │   └── mmx64.efi
+    └── ubuntu
+        ├── BOOTX64.CSV
+        ├── grub.cfg
+        ├── grubx64.efi
+        ├── mmx64.efi
+        └── shimx64.efi
+
+4 directories, 8 files
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>du<span class="w"> </span>-sh<span class="w"> </span>/mnt/boot
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="mf">6.4</span><span class="n">M</span><span class="w">    </span><span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">boot</span>
+</code></pre></div>
+
+<p>If the boot partition is so small why did Ubuntu create it with 1GB of space?
+I know if I install other OSes they will also add files to this partition for example in addition to /EFI/ubuntu/ there could be /EFI/windows.
+I wonder how big the windows folder would be?</p>
+<p>Also motherboard firmware updates are copied to the boot partition so the motherboard can use them to update</p>
+<p>1GB seems very large I guess most people don't miss 1GB.</p>
+<p>I did see a <code>grub.cfg</code> and I fixed the path in it.</p>
+<p><code>sudo vi /mnt/boot/EFI/ubuntu/grub.cfg</code></p>
+<p>Before</p>
+<div class="codehilite"><pre><span></span><code>search.fs_uuid 8026ffff-0d1a-4f2c-9afa-901d6d34763a root 
+set prefix=($root)&#39;/boot/grub&#39;
+configfile $prefix/grub.cfg
+</code></pre></div>
+
+<p>After</p>
+<div class="codehilite"><pre><span></span><code>search.fs_uuid 8026ffff-0d1a-4f2c-9afa-901d6d34763a root 
+set prefix=($root)&#39;/@/boot/grub&#39;
+configfile $prefix/grub.cfg
+</code></pre></div>
+
+<p>Since it references <code>grub.cfg</code> on the <code>/</code> partition we need to fix that.</p>
+<p>Umount boot partition</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>umount<span class="w"> </span>/mnt/boot
+sudo<span class="w"> </span>rmdir<span class="w"> </span>/mnt/boot
+</code></pre></div>
+
+<p>Remount the <code>/</code> partition.</p>
+<div class="codehilite"><pre><span></span><code>sudo mount /dev/nvme0n1p3 /mnt
+sudo vi /mnt/@/boot/grub/grub.cfg
+</code></pre></div>
+
+<p>Hmm it says not to edit this file directly.</p>
+<div class="codehilite"><pre><span></span><code>#<span class="w"> </span><span class="k">DO</span><span class="w"> </span><span class="nv">NOT</span><span class="w"> </span><span class="nv">EDIT</span><span class="w"> </span><span class="nv">THIS</span><span class="w"> </span><span class="nv">FILE</span>
+#
+#<span class="w"> </span><span class="nv">It</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">automatically</span><span class="w"> </span><span class="nv">generated</span><span class="w"> </span><span class="nv">by</span><span class="w"> </span><span class="nv">grub</span><span class="o">-</span><span class="nv">mkconfig</span><span class="w"> </span><span class="nv">using</span><span class="w"> </span><span class="nv">templates</span>
+#<span class="w"> </span><span class="nv">from</span><span class="w"> </span><span class="o">/</span><span class="nv">etc</span><span class="o">/</span><span class="nv">grub</span>.<span class="nv">d</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">settings</span><span class="w"> </span><span class="nv">from</span><span class="w"> </span><span class="o">/</span><span class="nv">etc</span><span class="o">/</span><span class="nv">default</span><span class="o">/</span><span class="nv">grub</span>
+#
+</code></pre></div>
+
+<p>Well I need to change each path to start with <code>/@</code> for example <code>font="/usr/share/grub/unicode.pf2"</code> should be <code>font="/@/usr/share/grub/unicode.pf2"</code></p>
+<p>But I won't edit the file because I don't know if the changes will persist or if they do, they won't persist for long.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>umount<span class="w"> </span>/mnt
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="c1"># Mount your new root subvolume (@)</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </span><span class="nv">subvol</span><span class="o">=</span>@<span class="w"> </span>/dev/nvme0n1p3<span class="w"> </span>/mnt
+
+<span class="c1"># Mount your EFI partition into the right spot inside it</span>
+sudo<span class="w"> </span>mount<span class="w"> </span>/dev/nvme0n1p2<span class="w"> </span>/mnt/boot/efi
+
+<span class="c1"># Bind the system hardware directories so the chroot environment can see your drive</span>
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span>/dev<span class="w"> </span>/dev/pts<span class="w"> </span>/proc<span class="w"> </span>/sys<span class="w"> </span>/run<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>sudo<span class="w"> </span>mount<span class="w"> </span>BIND<span class="w"> </span><span class="nv">$i</span><span class="w"> </span>/mnt<span class="nv">$i</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+
+<span class="c1"># Jump inside your subvolume as &quot;root&quot;</span>
+sudo<span class="w"> </span>chroot<span class="w"> </span>/mnt
+
+<span class="c1"># NOW you can run the fix commands cleanly!</span>
+grub-install<span class="w"> </span>/dev/nvme0n1
+update-grub
+
+<span class="c1"># Exit the chroot</span>
+<span class="nb">exit</span>
+</code></pre></div>
+
+<p>Shutdown remove the installation media and boot and verify it boots into Ubuntu.</p>
+<h2>Don't show GRUB menu</h2>
+<p>After verifying it is working I prevented the GRUB menu from being shown on boot by </p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>vi<span class="w"> </span>/etc/default/grub
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>GRUB_TIMEOUT_STYLE=countdown
+GRUB_TIMEOUT=0
+GRUB_RECORDFAIL_TIMEOUT=0
+GRUB_DISABLE_OS_PROBER=true
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>update-grub
+</code></pre></div>
+
+<p>After reboot I verified that the GRUB menu is not shown and it boots into Ubuntu.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>reboot
+</code></pre></div>
+
+<h3>Install Timeshift (Btrfs Backups)</h3>
+<p>Now that we have Btrfs subvolumes and we can use Timeshift!</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>timeshift
+</code></pre></div>
+
+<p>Now open Timeshift by pressing super and then type Timeshift or run <code>timeshift-gtk</code> in the terminal.</p>
+<p>Select <code>btrfs</code> and set the number of snapshots you would like to keep.</p>
+<p><img alt="Timeshift settings to keep 12 Monthly, 8 Weekly, 30 Daily, 12 Hourly, and 5 Boot." src="/static/img/Timeshift-schedule.png"></p>
+<h3>Battery drain when idle</h3>
+<p>Out of the box the battery was being drained while suspended. I had 80% battery and after 4 hours the battery was at 50%.
+So what's going on?</p>
+<p>I set the laptop to suspend when closed by</p>
+<p><code>sudo vi /etc/systemd/logind.conf.d/99-laptop-lid.conf</code></p>
+<div class="codehilite"><pre><span></span><code><span class="k">[Login]</span>
+<span class="na">HandleLidSwitch</span><span class="o">=</span><span class="s">suspend</span>
+<span class="na">HandleLidSwitchExternalPower</span><span class="o">=</span><span class="s">suspend</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo systemctl restart systemd-logind
+</code></pre></div>
+
+<p>This laptop has an Intel 11th Gen Core processor (Tiger Lake) so we can only use s2idle.</p>
+<p><code>cat /sys/power/mem_sleep</code></p>
+<div class="codehilite"><pre><span></span><code><span class="o">[</span><span class="n">s2idle</span><span class="o">]</span>
+</code></pre></div>
+
+<p>If there is a deep option without square brackets, which means not selected. Then you can add this to <code>/etc/default/grub</code></p>
+<div class="codehilite"><pre><span></span><code>GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash mem_sleep_default=deep&quot;
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>update-grub
+</code></pre></div>
+
+<p>To know if the computer is not entering a low power suspend you can suspend it and then wait a couple minutes and then check if the amount of time it spent in the different suspend states increased.</p>
+<div class="codehilite"><pre><span></span><code>systemctl<span class="w"> </span><span class="nb">suspend</span>
+</code></pre></div>
+
+<p>after waiting a couple minutes, wake it up by moving the mouse or pressing a key on the keyboard</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>cat<span class="w"> </span>/sys/kernel/debug/pmc_core/substate_residencies
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>pmc0   Substate       Residency
+         S0i2.0               0
+         S0i3.0               0
+</code></pre></div>
+
+<p>If the values are 0 then it is not entering lower power states.</p>
+<p>To check why run </p>
+<div class="codehilite"><pre><span></span><code>sudo cat /sys/kernel/debug/pmc_core/ltr_show
+</code></pre></div>
+
+<p>This is what I did to get it to actually enter low power states.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>tlp<span class="w"> </span>tlp-rdw
+sudo<span class="w"> </span>tlp<span class="w"> </span>start
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>cat<span class="w"> </span>/etc/udev/rules.d/99-fingerprint-autosuspend.rules<span class="w"> </span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>ACTION==&quot;add&quot;, SUBSYSTEM==&quot;usb&quot;, ATTR{idVendor}==&quot;0a5c&quot;, ATTR{idProduct}==&quot;5842&quot;, ATTR{power/control}=&quot;auto&quot;
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>cat<span class="w"> </span>/etc/udev/rules.d/99-pci-pm.rules<span class="w"> </span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>ACTION==&quot;add&quot;, SUBSYSTEM==&quot;pci&quot;, ATTR{vendor}==&quot;0x8086&quot;, ATTR{device}==&quot;0xa0f0&quot;, ATTR{power/control}=&quot;auto&quot;
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>cat /etc/systemd/system/disable-usb-wakeup.service
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">Disable USB XHCI wakeup triggers</span>
+
+<span class="k">[Service]</span>
+<span class="na">Type</span><span class="o">=</span><span class="s">oneshot</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/bin/sh -c &quot;echo XHCI &gt; /proc/acpi/wakeup&quot;</span>
+<span class="na">RemainAfterExit</span><span class="o">=</span><span class="s">yes</span>
+
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>cat<span class="w"> </span>/etc/systemd/system/disable-cardreader-wakeup.service
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">Disable Card Reader ACPI Wakeup to fix S0i3 sleep</span>
+
+<span class="k">[Service]</span>
+<span class="na">Type</span><span class="o">=</span><span class="s">oneshot</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/bin/sh -c &quot;grep -q &#39;RP07.*enabled&#39; /proc/acpi/wakeup &amp;&amp; echo RP07 &gt; /proc/acpi/wakeup || true&quot;</span>
+<span class="na">RemainAfterExit</span><span class="o">=</span><span class="s">yes</span>
+
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</code></pre></div>
+
+<p>Then I just decided to reboot and enter the UEFI settings and disable Bluetooth since I don't use and then it worked.</p>
+<div class="codehilite"><pre><span></span><code>systemctl<span class="w"> </span><span class="nb">suspend</span>
+sudo<span class="w"> </span>cat<span class="w"> </span>/sys/kernel/debug/pmc_core/substate_residencies
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>pmc0   Substate       Residency
+         S0i2.0           23912
+         S0i3.0       212881216
+</code></pre></div>
+
+<p>After making these changes the battery went from 80% to 73% in 6.5 hours while suspended.</p>
+<h3>Enable Hibernate</h3>
+<p>If suspend isn't actually entering low power mode you can hibernate instead.</p>
+<p>First we need to create a swap file to store everything that is in RAM when we hibernate.</p>
+<p><code>free -h</code></p>
+<div class="codehilite"><pre><span></span><code>               total        used        free      shared  buff/cache   available
+Mem:            14Gi       2.6Gi       9.2Gi       736Mi       3.8Gi        12Gi
+Swap:             0B          0B          0B
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>mount<span class="w"> </span>/dev/nvme0n1p3<span class="w"> </span>/mnt
+sudo<span class="w"> </span>btrfs<span class="w"> </span>subvolume<span class="w"> </span>create<span class="w"> </span>/mnt/@swap
+</code></pre></div>
+
+<p>Add <code>/swap</code> to /etc/fstab</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>vi<span class="w"> </span>/etc/fstab
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code># /etc/fstab: static file system information.
+#
+# Use &#39;blkid&#39; to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# &lt;file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;
+# / was on /dev/nvme0n1p3 during curtin installation
+/dev/disk/by-uuid/8026ffff-0d1a-4f2c-9afa-901d6d34763a / btrfs defaults,subvol=@,compress=zstd:3 0 0
+# /home was on /dev/nvme0n1p1 during curtin installation
+/dev/disk/by-uuid/b6a801ac-fbe1-437c-bd76-107333946ef2 /home btrfs defaults,subvol=@home,compress=zstd:3 0 0
+# /boot/efi was on /dev/nvme0n1p2 during curtin installation
+/dev/disk/by-uuid/E019-C652 /boot/efi vfat defaults 0 1
+/dev/disk/by-uuid/8026ffff-0d1a-4f2c-9afa-901d6d34763a /swap btrfs subvol=@swap,nodatacow,noatime 0 0 
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>mount<span class="w"> </span>/swap
+sudo<span class="w"> </span>btrfs<span class="w"> </span>filesystem<span class="w"> </span>mkswapfile<span class="w"> </span>--size<span class="w"> </span>16G<span class="w"> </span>/swap/swapfile
+sudo<span class="w"> </span>swapon<span class="w"> </span>/swap/swapfile
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>free<span class="w"> </span>-m
+<span class="w">               </span>total<span class="w">        </span>used<span class="w">        </span>free<span class="w">      </span>shared<span class="w">  </span>buff/cache<span class="w">   </span>available
+Mem:<span class="w">           </span><span class="m">15203</span><span class="w">        </span><span class="m">2918</span><span class="w">        </span><span class="m">8700</span><span class="w">         </span><span class="m">798</span><span class="w">        </span><span class="m">4139</span><span class="w">       </span><span class="m">12285</span>
+Swap:<span class="w">          </span><span class="m">16383</span><span class="w">           </span><span class="m">0</span><span class="w">       </span><span class="m">16383</span>
+</code></pre></div>
+
+<p><code>cat /etc/fstab</code></p>
+<div class="codehilite"><pre><span></span><code># /etc/fstab: static file system information.
+#
+# Use &#39;blkid&#39; to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# &lt;file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;
+# / was on /dev/nvme0n1p3 during curtin installation
+/dev/disk/by-uuid/8026ffff-0d1a-4f2c-9afa-901d6d34763a / btrfs defaults,subvol=@,compress=zstd:3 0 0
+# /home was on /dev/nvme0n1p1 during curtin installation
+/dev/disk/by-uuid/b6a801ac-fbe1-437c-bd76-107333946ef2 /home btrfs defaults,subvol=@home,compress=zstd:3 0 0
+# /boot/efi was on /dev/nvme0n1p2 during curtin installation
+/dev/disk/by-uuid/E019-C652 /boot/efi vfat defaults 0 1
+/dev/disk/by-uuid/8026ffff-0d1a-4f2c-9afa-901d6d34763a /swap btrfs subvol=@swap,nodatacow,noatime 0 0 
+</code></pre></div>
+
+<p>We need to grab the offset of the swapfile so it can re-populate the RAM on boot.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>btrfs<span class="w"> </span>inspect-internal<span class="w"> </span>map-swapfile<span class="w"> </span>/swap/swapfile
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Physical start:  19366150144
+Resume offset:       4728064
+</code></pre></div>
+
+<p>Add <code>resume</code> and <code>resume_offset</code> to <code>/etc/default/grub</code> and don't forget to <code>sudo update-grub</code>.</p>
+<p><code>sudo vi /etc/default/grub</code></p>
+<div class="codehilite"><pre><span></span><code>GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash resume=UUID=8026ffff-0d1a-4f2c-9afa-901d6d34763a resume_offset=4728064&quot;
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>update-grub
+</code></pre></div>
+
+<p><code>sudo vi /etc/initramfs-tools/conf.d/resume</code></p>
+<div class="codehilite"><pre><span></span><code>RESUME=UUID=8026ffff-0d1a-4f2c-9afa-901d6d34763a
+</code></pre></div>
+
+<p><code>sudo update-initramfs -u -k all</code></p>
+<div class="codehilite"><pre><span></span><code>update-initramfs: Generating /boot/initrd.img-7.0.0-15-generic
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>hibernate
+</code></pre></div>
+
+<p>Now that hibernate is working we can hibernate when we close the laptop.</p>
+<p><code>sudo vi /etc/systemd/logind.conf.d/99-laptop-lid.conf</code></p>
+<div class="codehilite"><pre><span></span><code><span class="k">[Login]</span>
+<span class="na">HandleLidSwitch</span><span class="o">=</span><span class="s">hibernate</span>
+<span class="na">HandleLidSwitchExternalPower</span><span class="o">=</span><span class="s">suspend</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>gsettings<span class="w"> </span><span class="nb">set</span><span class="w"> </span>org.gnome.settings-daemon.plugins.power<span class="w"> </span>lid-close-battery-action<span class="w"> </span><span class="s1">&#39;hibernate&#39;</span>
+</code></pre></div>
+
+<p>You might also want to use <code>suspend-then-hibernate</code> in <code>/etc/systemd/logind.conf.d/99-laptop-lid.conf</code></p>
+<div class="codehilite"><pre><span></span><code><span class="k">[Login]</span>
+<span class="na">HandleLidSwitch</span><span class="o">=</span><span class="s">suspend-then-hibernate</span>
+<span class="na">HandleLidSwitchExternalPower</span><span class="o">=</span><span class="s">suspend</span>
+</code></pre></div>
+
+<h3>Adding Hibernate to Power Off Options</h3>
+<p>That should work but you won't see hibernate in the Power Off options in the right hand corner.
+For it to show up there we need to do the following:</p>
+<p><code>sudo vi /etc/polkit-1/rules.d/10-enable-hibernate.rules</code></p>
+<div class="codehilite"><pre><span></span><code><span class="nv">polkit</span>.<span class="nv">addRule</span><span class="ss">(</span><span class="nv">function</span><span class="ss">(</span><span class="nv">action</span>,<span class="w"> </span><span class="nv">subject</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="ss">((</span><span class="nv">action</span>.<span class="nv">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;org.freedesktop.login1.hibernate&quot;</span><span class="w"> </span><span class="o">||</span>
+<span class="w">        </span><span class="nv">action</span>.<span class="nv">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;org.freedesktop.login1.hibernate-multiple-sessions&quot;</span><span class="w"> </span><span class="o">||</span>
+<span class="w">        </span><span class="nv">action</span>.<span class="nv">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;org.freedesktop.upower.hibernate&quot;</span><span class="w"> </span><span class="o">||</span>
+<span class="w">        </span><span class="nv">action</span>.<span class="nv">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;org.freedesktop.login1.handle-hibernate-key&quot;</span><span class="w"> </span><span class="o">||</span>
+<span class="w">        </span><span class="nv">action</span>.<span class="nv">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;org.freedesktop.login1.hibernate-ignore-inhibit&quot;</span><span class="ss">)</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">        </span><span class="nv">subject</span>.<span class="nv">isInGroup</span><span class="ss">(</span><span class="s2">&quot;sudo&quot;</span><span class="ss">))</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nv">polkit</span>.<span class="nb">Result</span>.<span class="nv">YES</span><span class="c1">;</span>
+<span class="w">  </span>}
+}<span class="ss">)</span><span class="c1">;</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>gnome-shell-extension-manager
+</code></pre></div>
+
+<p>Open <code>Extension Manager</code> click browse tab and search hibernate then install the one by slaclau.</p>
+<p>Currently it is not listed as supporting GNOME 50 so I had to run:</p>
+<div class="codehilite"><pre><span></span><code>gsettings<span class="w"> </span><span class="nb">set</span><span class="w"> </span>org.gnome.shell<span class="w"> </span>disable-extension-version-validation<span class="w"> </span><span class="nb">true</span>
+</code></pre></div>
+
+<p>Then ensure the new extension is enabled in <code>Extesion Manager</code>.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>systemd-logind
+</code></pre></div>
+
+<h3>Increase size of existing swapfile</h3>
+<p>To make the swapfile larger, for example if you increase the RAM in your computer.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>swapoff<span class="w"> </span>-a
+sudo<span class="w"> </span>rm<span class="w"> </span>/swap/swapfile
+sudo<span class="w"> </span>btrfs<span class="w"> </span>filesystem<span class="w"> </span>mkswapfile<span class="w"> </span>--size<span class="w"> </span>20G<span class="w"> </span>/swap/swapfile
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>create swapfile /swap/swapfile size 20.00GiB (21474836480)
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>swapon<span class="w"> </span>/swap/swapfile
+swapon<span class="w"> </span>--show
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>NAME           TYPE SIZE USED PRIO
+/swap/swapfile file  20G   0B   -1
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>btrfs<span class="w"> </span>inspect-internal<span class="w"> </span>map-swapfile<span class="w"> </span>-r<span class="w"> </span>/swap/swapfile
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="mf">9970944</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>findmnt<span class="w"> </span>-no<span class="w"> </span>UUID<span class="w"> </span>-T<span class="w"> </span>/swap/swapfile
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="mf">8026</span><span class="n">ffff</span><span class="o">-</span><span class="mf">0</span><span class="n">d1a</span><span class="o">-</span><span class="mf">4</span><span class="n">f2c</span><span class="o">-</span><span class="mf">9</span><span class="n">afa</span><span class="o">-</span><span class="mf">901</span><span class="n">d6d34763a</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>vi<span class="w"> </span>/etc/default/grub
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash resume=UUID=8026ffff-0d1a-4f2c-9afa-901d6d34763a resume_offset=9970944&quot;
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>update-grub
+</code></pre></div>
+
+<h3>Faster programs</h3>
+<p>If <code>amd64v3</code> is available we can install executables that are optimized instead of being compatible for old devices.</p>
+<div class="codehilite"><pre><span></span><code>/lib64/ld-linux-x86-64.so.2<span class="w"> </span>--help<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>x86-64-v3
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;APT::Architecture-Variants &quot;amd64v3&quot;;&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/apt.conf.d/99enable-amd64v3
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>1346 packages can be upgraded. Run &#39;apt list --upgradable&#39; to see them.
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo apt upgrade -y
+</code></pre></div>
+
+<p>To revert if needed.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>rm<span class="w"> </span>/etc/apt/apt.conf.d/99enable-amd64v3
+sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span>--list-cleanup
+sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade<span class="w"> </span>-y
+</code></pre></div>
+
+<h3>Nitpicks</h3>
+<p>In the settings when you search 'trackpad' and click the search result you don't go to the trackpad tab on the page, so you think you are changing values but they are the mouse settings.</p>
+<p>My terminal had a green notification icon and it is not obvious that you have to click the date and time at the top of the screen to access global notifications.</p>
+<p><a href="https://askubuntu.com/questions/1464618/do-green-numbers-on-icons-in-the-dock-mean-i-should-be-doing-something" rel="nofollow">https://askubuntu.com/questions/1464618/do-green-numbers-on-icons-in-the-dock-mean-i-should-be-doing-something</a></p>
+<p>Ubuntu wants to update my secure boot key but I don't want to use secure boot.
+I could update it so that it stops asking but there should be a way to ignore that update forever.</p>
+<p>secure boot is disabled so it shouldn't even ask anyway</p>
+<div class="codehilite"><pre><span></span><code>mokutil<span class="w"> </span>--sb-state
+</code></pre></div>
+
+<p>To update firmware</p>
+<div class="codehilite"><pre><span></span><code>fwupdmgr<span class="w"> </span>refresh
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Metadata is up to date; use --force to refresh again.
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>fwupdmgr<span class="w"> </span>refresh<span class="w"> </span>--force
+fwupdmgr<span class="w"> </span>update
+</code></pre></div>
+
+<p>When I search Python in the Software Center it doesn't show up. I didn't realize I already had Python with the <code>python3</code> executable.</p>
+<p>I expected that the package that is already installed would show up.</p>
+<p>I downloaded a .deb but when I double clicked to open it in App Center it said something went wrong. I was able to install the package (Wing IDE) using <code>sudo dpkg -i</code>.</p>
+<p>The menu bar (File | Edit, etc) doesn't work for applications that have it.</p>
+<h3>Additional setup</h3>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>wl-clipboard
+foo<span class="w"> </span><span class="p">|</span><span class="w"> </span>wl-copy
+</code></pre></div>
+
+<p>It would be nice if <code>rm</code> sent files to the Trash but for now we can use a <code>trash</code> command instead.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>trash-cli
+vi<span class="w"> </span>~/.bashrc
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>alias trash=&#39;trash-put&#39;
+</code></pre></div>
+
+<p>Install fish shell and set it as the default shell.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>fish
+chsh<span class="w"> </span>-s<span class="w"> </span><span class="k">$(</span>which<span class="w"> </span>fish<span class="k">)</span>
+</code></pre></div>
+
+<p>There was one issue, when printing in Libre Office Writer the default paper was letter but the printer had A4 paper so you add to remember to switch it everytime you printed.
+The solution was to change the locale in Libre Office to not the USA and then it would default to A4. It would have been nice if it would remember the settings when you closed the print window.</p>
+<h2>Random things I like</h2>
+<p>I like that <code>sudo reboot</code> won't work when there are inhibitators which you can see with</p>
+<div class="codehilite"><pre><span></span><code>systemd-inhibit
+</code></pre></div>
+
+<h2>Conclusion</h2>
+<p>It should be much easier to use Btrfs with Timeshift, it would be nice if sleep and hibernate just worked on a 5 year old laptop.</p>
+<p>Non technical users are not going to know how to fix these issues.</p>
+<p>Ubuntu needs to be better for people to switch from Windows.</p>
+    
+
+    
+
+    
+      <hr class="small">
+
+      <h2 id="comments">Comments</h2>
+
+      <div id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="6fe398cd-a881-4122-bea7-ba7f4a832aae"
+        data-page-id="how-to-setup-ubuntu-26.04-btrfs"
+        data-page-url="https://www.niladicpodcast.com/2026/05/23/how-to-setup-ubuntu-26.04-btrfs/"
+        data-page-title="How to Setup Ubuntu 26.04 with Btrfs">
+      </div>
+    
+  </article>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-top">
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <p class="text-center">
+            Created with <a href="https://github.com/Siecje/htmd" target="_blank">htmd</a>.
+          </p>
+          <p class="text-center">
+            <a href="https://startbootstrap.com/theme/clean-blog" target="_blank">Clean Blog</a> theme by
+            <a href="https://startbootstrap.com" target="_blank">Start Bootstrap</a>.
+            License <a href="https://github.com/BlackrockDigital/startbootstrap?tab=readme-ov-file#copyright-and-license" target="_blank">MIT</a>.
+          </p>
+          <p class="text-center">
+            Cover image from <a href="https://unsplash.com/" target="_blank">Unsplash</a>,
+            <a href="https://unsplash.com/license" target="_blank">license</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  
+  
+    <script src="/static/htmd.js"></script>
+    <script src="/static/js/menu.min.js"></script>
+    
+  
+  
+    <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+  
+  
+    <script>
+      markCurrentPostAsVisited();
+    </script>
+  
+
+</body>
+</html>

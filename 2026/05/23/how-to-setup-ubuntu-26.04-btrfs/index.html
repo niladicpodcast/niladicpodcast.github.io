@@ -21,6 +21,8 @@
   
   
   
+    <meta name="keywords" content="Btrfs,Linux,Ubuntu">
+  
 
   
   <meta property="og:type" content="article">
@@ -39,8 +41,8 @@
   
 
   
-    <link href="/static/htmd.css" rel="stylesheet">
-    <link href="/static/pygments.css" rel="stylesheet">
+    <link href="/static/htmd.min.css" rel="stylesheet">
+    <link href="/static/pygments.min.css" rel="stylesheet">
     <!-- Fonts-->
     <link href="/static/css/Lora.min.css" rel="stylesheet" type="text/css">
     <link href="/static/css/Open-Sans.min.css" rel="stylesheet" type="text/css">
@@ -113,23 +115,26 @@
     
 
     
-      <p>My goal is simple, install Ubuntu 26.04 on a laptop and use Btrfs with local snapshots as backups. That should be easy right? Will I need to use the terminal? Maybe for some obscure hyper optimized tweaks, but surely this should be straightforward. After all 2026 is the year of the Linux Desktop and everyone is abandoning Windows for Linux.</p>
-<p>I will be evaluating Ubuntu on my personal laptop and installing it on a desktop for my Grandmother to replace a 10 year old Windows computer.</p>
-<p>This will be better because it will be:</p>
+      <p>Ubuntu 26.04 LTS was released a month ago and it comes with Linux kernel version 7.0 which was also release a month ago. <a href="https://en.wikipedia.org/wiki/Linux_kernel_version_history" rel="nofollow">https://en.wikipedia.org/wiki/Linux_kernel_version_history</a></p>
+<p>Let's evaluate if Ubuntu is a good recommendation for someone looking for an alternative to Windows.</p>
+<p>On paper it is a great recommendation:</p>
 <ul>
-<li>Immune to windows malware</li>
+<li>Data corruption repair (Btrfs/ZFS)</li>
+<li>Immune to Windows malware</li>
 <li>Immune to phone scams</li>
 <li>Can't install three different antiviruses at the same time and make the computer slow</li>
 <li>No forced disruptive updates (ex. Copilot all the things)</li>
 <li>No long waits for Windows to update</li>
 </ul>
-<p>Ubuntu 26.04 LTS was released a month ago and it comes Linux kernel version 7.0 which was also release a month ago. <a href="https://en.wikipedia.org/wiki/Linux_kernel_version_history" rel="nofollow">https://en.wikipedia.org/wiki/Linux_kernel_version_history</a></p>
-<p>I'm installing Ubuntu 26.04 on a Dell Latitude 5520 laptop from 2021, so there shouldn't be any drivers missing or any issues for 5 year old hardware.</p>
+<p>I'm using a Dell Latitude 5520 laptop from 2021, so there shouldn't be any drivers missing or any issues for 5 year old hardware.</p>
+<p>My goal is simple, install Ubuntu 26.04 and use Btrfs with local snapshots as backups on a 5 year old laptop.</p>
+<p>Since you can't create Btrfs subvolumes in the Installer this is a guide to create Btrfs subvolumes, configure hibernate to work with them and improve the suspend battery usage.</p>
 <h2>Installation Wizard</h2>
-<p>The installation wizard doesn't have an option for Btrfs but it does have an option for ZFS. That's okay I'll just manually create a partition with a <code>Btrfs</code> filesystem and some <code>Btrfs</code> subvolumes.</p>
+<p>The installation wizard doesn't have an option for Btrfs but it does have an option for ZFS. Btrfs has been around for several years, it should be an options like ZFS.</p>
+<p>That's okay I'll just manually create a partition with a <code>Btrfs</code> filesystem and some <code>Btrfs</code> subvolumes.</p>
 <p>The partition manager in the wizard is clunky. First I tried to create a <code>FAT32</code> boot partition but there is no <code>FAT32</code> filesystem option.</p>
 <p><img alt="Edit partition only has size, filesystem, and mount point." src="/static/img/Ubuntu-26.04-wizard-edit-boot-partition.png"></p>
-<p>Also curiously ZFS is not an option even though it was one of the filesystems you could pick if you didn't select manual partitions.</p>
+<p>Curiously ZFS is not an option even though it was one of the filesystems you could pick if you didn't select manual partitions.</p>
 <p>I selected VFAT and <code>/boot</code> mount point.</p>
 <p>But it didn't like that:</p>
 <p><img alt="Create partition window showing error message which reads /boot is not a supported filesystem for VFAT." src="/static/img/Ubuntu-26.04-wizard-boot-partition.png"></p>
@@ -143,7 +148,6 @@
 <p><img alt="nvme0n1 drive with the three partitions." src="/static/img/Ubuntu-26.04-wizard-partitions.png"></p>
 <p>Curiously when I ran the installer again it to get the steps down it showed the boot partition which was previously <code>FAT32</code> as <code>VFAT</code>, which is confusing.</p>
 <p><img alt="nvme0n1 now shows boot partition as VFAT." src="/static/img/Ubuntu-26.04-wizard-vfat.png"></p>
-<p>The partition sizes are different because when I re-installed and re-created the partitions I changed the sizes and I just booted back into the live installer to get that picture.</p>
 <h2>Creating Btrfs Subvolumes</h2>
 <p>This is how I moved the files in the partition into a new <code>Btrfs</code> subvolume in the partition so I could use Timeshift. I also enabled zstd compression while I was at it.</p>
 <p>I booted back into the live environment of the installation media and ran the following commands.</p>
@@ -168,7 +172,7 @@ sudo<span class="w"> </span>mv<span class="w"> </span>/mnt/home/*<span class="w"
 sudo<span class="w"> </span>rmdir<span class="w"> </span>/mnt/home
 </code></pre></div>
 
-<h2>Move files in / partition to new @ Btrfs subvoume</h2>
+<h2>Move files in / partition to new @ Btrfs subvolume</h2>
 <div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>mount<span class="w"> </span>/dev/nvme0n1p3<span class="w"> </span>/mnt
 sudo<span class="w"> </span>btrfs<span class="w"> </span>subvolume<span class="w"> </span>create<span class="w"> </span>/mnt/@
 <span class="nb">cd</span><span class="w"> </span>/mnt/
@@ -307,7 +311,7 @@ sudo<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </sp
 sudo<span class="w"> </span>mount<span class="w"> </span>/dev/nvme0n1p2<span class="w"> </span>/mnt/boot/efi
 
 <span class="c1"># Bind the system hardware directories so the chroot environment can see your drive</span>
-<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span>/dev<span class="w"> </span>/dev/pts<span class="w"> </span>/proc<span class="w"> </span>/sys<span class="w"> </span>/run<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>sudo<span class="w"> </span>mount<span class="w"> </span>BIND<span class="w"> </span><span class="nv">$i</span><span class="w"> </span>/mnt<span class="nv">$i</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span>/dev<span class="w"> </span>/dev/pts<span class="w"> </span>/proc<span class="w"> </span>/sys<span class="w"> </span>/run<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>sudo<span class="w"> </span>mount<span class="w"> </span>--bind<span class="w"> </span><span class="nv">$i</span><span class="w"> </span>/mnt<span class="nv">$i</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
 
 <span class="c1"># Jump inside your subvolume as &quot;root&quot;</span>
 sudo<span class="w"> </span>chroot<span class="w"> </span>/mnt
@@ -437,7 +441,7 @@ sudo<span class="w"> </span>tlp<span class="w"> </span>start
 <span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
 </code></pre></div>
 
-<p>Then I just decided to reboot and enter the UEFI settings and disable Bluetooth since I don't use and then it worked.</p>
+<p>Then I just decided to reboot and enter the UEFI settings and disabled Bluetooth, and Thunderbolt since I don't use them and then suspend actually went into lower power modes.</p>
 <div class="codehilite"><pre><span></span><code>systemctl<span class="w"> </span><span class="nb">suspend</span>
 sudo<span class="w"> </span>cat<span class="w"> </span>/sys/kernel/debug/pmc_core/substate_residencies
 </code></pre></div>
@@ -577,7 +581,7 @@ sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> <
 <div class="codehilite"><pre><span></span><code>gsettings<span class="w"> </span><span class="nb">set</span><span class="w"> </span>org.gnome.shell<span class="w"> </span>disable-extension-version-validation<span class="w"> </span><span class="nb">true</span>
 </code></pre></div>
 
-<p>Then ensure the new extension is enabled in <code>Extesion Manager</code>.</p>
+<p>Then ensure the new extension is enabled in <code>Extension Manager</code>.</p>
 <div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>systemd-logind
 </code></pre></div>
 
@@ -641,62 +645,25 @@ sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </
 sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade<span class="w"> </span>-y
 </code></pre></div>
 
-<h3>Nitpicks</h3>
-<p>In the settings when you search 'trackpad' and click the search result you don't go to the trackpad tab on the page, so you think you are changing values but they are the mouse settings.</p>
-<p>My terminal had a green notification icon and it is not obvious that you have to click the date and time at the top of the screen to access global notifications.</p>
-<p><a href="https://askubuntu.com/questions/1464618/do-green-numbers-on-icons-in-the-dock-mean-i-should-be-doing-something" rel="nofollow">https://askubuntu.com/questions/1464618/do-green-numbers-on-icons-in-the-dock-mean-i-should-be-doing-something</a></p>
-<p>Ubuntu wants to update my secure boot key but I don't want to use secure boot.
-I could update it so that it stops asking but there should be a way to ignore that update forever.</p>
-<p>secure boot is disabled so it shouldn't even ask anyway</p>
-<div class="codehilite"><pre><span></span><code>mokutil<span class="w"> </span>--sb-state
-</code></pre></div>
-
-<p>To update firmware</p>
-<div class="codehilite"><pre><span></span><code>fwupdmgr<span class="w"> </span>refresh
-</code></pre></div>
-
-<div class="codehilite"><pre><span></span><code>Metadata is up to date; use --force to refresh again.
-</code></pre></div>
-
-<div class="codehilite"><pre><span></span><code>fwupdmgr<span class="w"> </span>refresh<span class="w"> </span>--force
-fwupdmgr<span class="w"> </span>update
-</code></pre></div>
-
-<p>When I search Python in the Software Center it doesn't show up. I didn't realize I already had Python with the <code>python3</code> executable.</p>
-<p>I expected that the package that is already installed would show up.</p>
-<p>I downloaded a .deb but when I double clicked to open it in App Center it said something went wrong. I was able to install the package (Wing IDE) using <code>sudo dpkg -i</code>.</p>
-<p>The menu bar (File | Edit, etc) doesn't work for applications that have it.</p>
-<h3>Additional setup</h3>
-<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>wl-clipboard
-foo<span class="w"> </span><span class="p">|</span><span class="w"> </span>wl-copy
-</code></pre></div>
-
-<p>It would be nice if <code>rm</code> sent files to the Trash but for now we can use a <code>trash</code> command instead.</p>
-<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>trash-cli
-vi<span class="w"> </span>~/.bashrc
-</code></pre></div>
-
-<div class="codehilite"><pre><span></span><code>alias trash=&#39;trash-put&#39;
-</code></pre></div>
-
-<p>Install fish shell and set it as the default shell.</p>
-<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>fish
-chsh<span class="w"> </span>-s<span class="w"> </span><span class="k">$(</span>which<span class="w"> </span>fish<span class="k">)</span>
-</code></pre></div>
-
-<p>There was one issue, when printing in Libre Office Writer the default paper was letter but the printer had A4 paper so you add to remember to switch it everytime you printed.
-The solution was to change the locale in Libre Office to not the USA and then it would default to A4. It would have been nice if it would remember the settings when you closed the print window.</p>
-<h2>Random things I like</h2>
-<p>I like that <code>sudo reboot</code> won't work when there are inhibitators which you can see with</p>
-<div class="codehilite"><pre><span></span><code>systemd-inhibit
-</code></pre></div>
-
 <h2>Conclusion</h2>
 <p>It should be much easier to use Btrfs with Timeshift, it would be nice if sleep and hibernate just worked on a 5 year old laptop.</p>
 <p>Non technical users are not going to know how to fix these issues.</p>
-<p>Ubuntu needs to be better for people to switch from Windows.</p>
+<p>Ubuntu needs to be better for non technical people to use it.</p>
+<p>The installer should be improved to make it easier to use Btrfs with subvolumes.</p>
     
 
+    
+      <hr class="small">
+
+      <h2 id="tags"><strong>Tags</strong></h2>
+
+      
+        <a class="tag" href="/tags/Btrfs/">Btrfs</a>
+      
+        <a class="tag" href="/tags/Linux/">Linux</a>
+      
+        <a class="tag" href="/tags/Ubuntu/">Ubuntu</a>
+      
     
 
     
@@ -742,7 +709,7 @@ The solution was to change the locale in Libre Office to not the USA and then it
 
   
   
-    <script src="/static/htmd.js"></script>
+    <script src="/static/htmd.min.js"></script>
     <script src="/static/js/menu.min.js"></script>
     
   

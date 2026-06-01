@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title type="text">Niladic Podcast</title>
   <id>https://www.niladicpodcast.com/feed.atom</id>
-  <updated>2026-05-23T11:51:24.606483+00:00</updated>
+  <updated>2026-06-01T11:37:41.032233+00:00</updated>
   <link href="https://www.niladicpodcast.com/blog/" />
   <link href="https://www.niladicpodcast.com/feed.atom" rel="self" />
   <subtitle type="text">A blog about software development.</subtitle>
@@ -577,29 +577,32 @@ id
   <entry xml:base="https://www.niladicpodcast.com/feed.atom">
     <title type="text">How to Setup Ubuntu 26.04 with Btrfs</title>
     <id>https://www.niladicpodcast.com/2026/05/23/how-to-setup-ubuntu-26.04-btrfs/</id>
-    <updated>2026-05-23T11:51:24.606483+00:00</updated>
+    <updated>2026-06-01T11:37:41.032233+00:00</updated>
     <published>2026-05-23T02:27:00.865470+00:00</published>
     <link href="https://www.niladicpodcast.com/2026/05/23/how-to-setup-ubuntu-26.04-btrfs/" />
     <author>
       <name>Cody</name>
     </author>
-    <content type="html">&lt;p&gt;My goal is simple, install Ubuntu 26.04 on a laptop and use Btrfs with local snapshots as backups. That should be easy right? Will I need to use the terminal? Maybe for some obscure hyper optimized tweaks, but surely this should be straightforward. After all 2026 is the year of the Linux Desktop and everyone is abandoning Windows for Linux.&lt;/p&gt;
-&lt;p&gt;I will be evaluating Ubuntu on my personal laptop and installing it on a desktop for my Grandmother to replace a 10 year old Windows computer.&lt;/p&gt;
-&lt;p&gt;This will be better because it will be:&lt;/p&gt;
+    <content type="html">&lt;p&gt;Ubuntu 26.04 LTS was released a month ago and it comes with Linux kernel version 7.0 which was also release a month ago. &lt;a href=&#34;https://en.wikipedia.org/wiki/Linux_kernel_version_history&#34; rel=&#34;nofollow&#34;&gt;https://en.wikipedia.org/wiki/Linux_kernel_version_history&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Let&#39;s evaluate if Ubuntu is a good recommendation for someone looking for an alternative to Windows.&lt;/p&gt;
+&lt;p&gt;On paper it is a great recommendation:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Immune to windows malware&lt;/li&gt;
+&lt;li&gt;Data corruption repair (Btrfs/ZFS)&lt;/li&gt;
+&lt;li&gt;Immune to Windows malware&lt;/li&gt;
 &lt;li&gt;Immune to phone scams&lt;/li&gt;
 &lt;li&gt;Can&#39;t install three different antiviruses at the same time and make the computer slow&lt;/li&gt;
 &lt;li&gt;No forced disruptive updates (ex. Copilot all the things)&lt;/li&gt;
 &lt;li&gt;No long waits for Windows to update&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Ubuntu 26.04 LTS was released a month ago and it comes Linux kernel version 7.0 which was also release a month ago. &lt;a href=&#34;https://en.wikipedia.org/wiki/Linux_kernel_version_history&#34; rel=&#34;nofollow&#34;&gt;https://en.wikipedia.org/wiki/Linux_kernel_version_history&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;I&#39;m installing Ubuntu 26.04 on a Dell Latitude 5520 laptop from 2021, so there shouldn&#39;t be any drivers missing or any issues for 5 year old hardware.&lt;/p&gt;
+&lt;p&gt;I&#39;m using a Dell Latitude 5520 laptop from 2021, so there shouldn&#39;t be any drivers missing or any issues for 5 year old hardware.&lt;/p&gt;
+&lt;p&gt;My goal is simple, install Ubuntu 26.04 and use Btrfs with local snapshots as backups on a 5 year old laptop.&lt;/p&gt;
+&lt;p&gt;Since you can&#39;t create Btrfs subvolumes in the Installer this is a guide to create Btrfs subvolumes, configure hibernate to work with them and improve the suspend battery usage.&lt;/p&gt;
 &lt;h2&gt;Installation Wizard&lt;/h2&gt;
-&lt;p&gt;The installation wizard doesn&#39;t have an option for Btrfs but it does have an option for ZFS. That&#39;s okay I&#39;ll just manually create a partition with a &lt;code&gt;Btrfs&lt;/code&gt; filesystem and some &lt;code&gt;Btrfs&lt;/code&gt; subvolumes.&lt;/p&gt;
+&lt;p&gt;The installation wizard doesn&#39;t have an option for Btrfs but it does have an option for ZFS. Btrfs has been around for several years, it should be an options like ZFS.&lt;/p&gt;
+&lt;p&gt;That&#39;s okay I&#39;ll just manually create a partition with a &lt;code&gt;Btrfs&lt;/code&gt; filesystem and some &lt;code&gt;Btrfs&lt;/code&gt; subvolumes.&lt;/p&gt;
 &lt;p&gt;The partition manager in the wizard is clunky. First I tried to create a &lt;code&gt;FAT32&lt;/code&gt; boot partition but there is no &lt;code&gt;FAT32&lt;/code&gt; filesystem option.&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;Edit partition only has size, filesystem, and mount point.&#34; src=&#34;/static/img/Ubuntu-26.04-wizard-edit-boot-partition.png&#34;&gt;&lt;/p&gt;
-&lt;p&gt;Also curiously ZFS is not an option even though it was one of the filesystems you could pick if you didn&#39;t select manual partitions.&lt;/p&gt;
+&lt;p&gt;Curiously ZFS is not an option even though it was one of the filesystems you could pick if you didn&#39;t select manual partitions.&lt;/p&gt;
 &lt;p&gt;I selected VFAT and &lt;code&gt;/boot&lt;/code&gt; mount point.&lt;/p&gt;
 &lt;p&gt;But it didn&#39;t like that:&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;Create partition window showing error message which reads /boot is not a supported filesystem for VFAT.&#34; src=&#34;/static/img/Ubuntu-26.04-wizard-boot-partition.png&#34;&gt;&lt;/p&gt;
@@ -613,7 +616,6 @@ id
 &lt;p&gt;&lt;img alt=&#34;nvme0n1 drive with the three partitions.&#34; src=&#34;/static/img/Ubuntu-26.04-wizard-partitions.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Curiously when I ran the installer again it to get the steps down it showed the boot partition which was previously &lt;code&gt;FAT32&lt;/code&gt; as &lt;code&gt;VFAT&lt;/code&gt;, which is confusing.&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;nvme0n1 now shows boot partition as VFAT.&#34; src=&#34;/static/img/Ubuntu-26.04-wizard-vfat.png&#34;&gt;&lt;/p&gt;
-&lt;p&gt;The partition sizes are different because when I re-installed and re-created the partitions I changed the sizes and I just booted back into the live installer to get that picture.&lt;/p&gt;
 &lt;h2&gt;Creating Btrfs Subvolumes&lt;/h2&gt;
 &lt;p&gt;This is how I moved the files in the partition into a new &lt;code&gt;Btrfs&lt;/code&gt; subvolume in the partition so I could use Timeshift. I also enabled zstd compression while I was at it.&lt;/p&gt;
 &lt;p&gt;I booted back into the live environment of the installation media and ran the following commands.&lt;/p&gt;
@@ -638,7 +640,7 @@ sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mv&lt;span class=&#34;w&#34;&gt;
 sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;rmdir&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/home
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2&gt;Move files in / partition to new @ Btrfs subvoume&lt;/h2&gt;
+&lt;h2&gt;Move files in / partition to new @ Btrfs subvolume&lt;/h2&gt;
 &lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mount&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/dev/nvme0n1p3&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt
 sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;btrfs&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;subvolume&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;create&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/@
 &lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/
@@ -777,7 +779,7 @@ sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mount&lt;span class=&#34;w&#34;&
 sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mount&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/dev/nvme0n1p2&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt/boot/efi
 
 &lt;span class=&#34;c1&#34;&gt;# Bind the system hardware directories so the chroot environment can see your drive&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;i&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;in&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/dev&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/dev/pts&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/proc&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/sys&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/run&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mount&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;BIND&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$i&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt&lt;span class=&#34;nv&#34;&gt;$i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;i&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;in&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/dev&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/dev/pts&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/proc&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/sys&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/run&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;mount&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--bind&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$i&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt&lt;span class=&#34;nv&#34;&gt;$i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
 
 &lt;span class=&#34;c1&#34;&gt;# Jump inside your subvolume as &amp;quot;root&amp;quot;&lt;/span&gt;
 sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;chroot&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/mnt
@@ -907,7 +909,7 @@ sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;tlp&lt;span class=&#34;w&#34;&gt
 &lt;span class=&#34;na&#34;&gt;WantedBy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;multi-user.target&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Then I just decided to reboot and enter the UEFI settings and disable Bluetooth since I don&#39;t use and then it worked.&lt;/p&gt;
+&lt;p&gt;Then I just decided to reboot and enter the UEFI settings and disabled Bluetooth, and Thunderbolt since I don&#39;t use them and then suspend actually went into lower power modes.&lt;/p&gt;
 &lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;systemctl&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;suspend&lt;/span&gt;
 sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;cat&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;/sys/kernel/debug/pmc_core/substate_residencies
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -1047,7 +1049,7 @@ sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt
 &lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;gsettings&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;org.gnome.shell&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;disable-extension-version-validation&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Then ensure the new extension is enabled in &lt;code&gt;Extesion Manager&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Then ensure the new extension is enabled in &lt;code&gt;Extension Manager&lt;/code&gt;.&lt;/p&gt;
 &lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;systemctl&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;restart&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;systemd-logind
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -1111,59 +1113,10 @@ sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt
 sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;upgrade&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-y
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Nitpicks&lt;/h3&gt;
-&lt;p&gt;In the settings when you search &#39;trackpad&#39; and click the search result you don&#39;t go to the trackpad tab on the page, so you think you are changing values but they are the mouse settings.&lt;/p&gt;
-&lt;p&gt;My terminal had a green notification icon and it is not obvious that you have to click the date and time at the top of the screen to access global notifications.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://askubuntu.com/questions/1464618/do-green-numbers-on-icons-in-the-dock-mean-i-should-be-doing-something&#34; rel=&#34;nofollow&#34;&gt;https://askubuntu.com/questions/1464618/do-green-numbers-on-icons-in-the-dock-mean-i-should-be-doing-something&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Ubuntu wants to update my secure boot key but I don&#39;t want to use secure boot.
-I could update it so that it stops asking but there should be a way to ignore that update forever.&lt;/p&gt;
-&lt;p&gt;secure boot is disabled so it shouldn&#39;t even ask anyway&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mokutil&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--sb-state
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;To update firmware&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;fwupdmgr&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;refresh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Metadata is up to date; use --force to refresh again.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;fwupdmgr&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;refresh&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;--force
-fwupdmgr&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;update
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;When I search Python in the Software Center it doesn&#39;t show up. I didn&#39;t realize I already had Python with the &lt;code&gt;python3&lt;/code&gt; executable.&lt;/p&gt;
-&lt;p&gt;I expected that the package that is already installed would show up.&lt;/p&gt;
-&lt;p&gt;I downloaded a .deb but when I double clicked to open it in App Center it said something went wrong. I was able to install the package (Wing IDE) using &lt;code&gt;sudo dpkg -i&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;The menu bar (File | Edit, etc) doesn&#39;t work for applications that have it.&lt;/p&gt;
-&lt;h3&gt;Additional setup&lt;/h3&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;wl-clipboard
-foo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;wl-copy
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;It would be nice if &lt;code&gt;rm&lt;/code&gt; sent files to the Trash but for now we can use a &lt;code&gt;trash&lt;/code&gt; command instead.&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;trash-cli
-vi&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;~/.bashrc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;alias trash=&amp;#39;trash-put&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Install fish shell and set it as the default shell.&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apt&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;install&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;fish
-chsh&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-s&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;which&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;fish&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;There was one issue, when printing in Libre Office Writer the default paper was letter but the printer had A4 paper so you add to remember to switch it everytime you printed.
-The solution was to change the locale in Libre Office to not the USA and then it would default to A4. It would have been nice if it would remember the settings when you closed the print window.&lt;/p&gt;
-&lt;h2&gt;Random things I like&lt;/h2&gt;
-&lt;p&gt;I like that &lt;code&gt;sudo reboot&lt;/code&gt; won&#39;t work when there are inhibitators which you can see with&lt;/p&gt;
-&lt;div class=&#34;codehilite&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;systemd-inhibit
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 &lt;h2&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;It should be much easier to use Btrfs with Timeshift, it would be nice if sleep and hibernate just worked on a 5 year old laptop.&lt;/p&gt;
 &lt;p&gt;Non technical users are not going to know how to fix these issues.&lt;/p&gt;
-&lt;p&gt;Ubuntu needs to be better for people to switch from Windows.&lt;/p&gt;</content>
+&lt;p&gt;Ubuntu needs to be better for non technical people to use it.&lt;/p&gt;
+&lt;p&gt;The installer should be improved to make it easier to use Btrfs with subvolumes.&lt;/p&gt;</content>
   </entry>
 </feed>
